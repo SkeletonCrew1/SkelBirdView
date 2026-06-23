@@ -1,0 +1,8 @@
+.vagrant
+.venv/
+__pycache__/
+*.pyc
+*.log
+sensitive-mysql.env
+.env
+pyvenv.cfg
