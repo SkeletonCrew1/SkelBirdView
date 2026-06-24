@@ -1,0 +1,22 @@
+<nav>
+    <a href="/">Home</a>
+    
+    <div style="float: right;">
+        {% if current_user.is_authenticated %}
+            <span>Welcome, {{ current_user.email }}</span> | 
+            <a href="/create_post">Create Post</a> | 
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a> | 
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<h1>Bird Sightings</h1>
+{% for post in posts %}
+    <div>
+        <img src="{{ post.image_url }}" width="100">
+        <a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+    </div>
+{% endfor %}
