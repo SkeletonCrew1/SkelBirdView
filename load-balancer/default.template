@@ -1,0 +1,20 @@
+upstream birdwatch {
+        server ${WEB_SERVER_1_IP};
+        server ${WEB_SERVER_2_IP};
+}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                proxy_pass http://birdwatch/;
+        }
+
+
+}

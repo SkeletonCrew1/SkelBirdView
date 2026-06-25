@@ -1,0 +1,15 @@
+upstream backend {
+{{- range service "web"}}
+    server {{.Address}}:{{.Port}};
+{{- end}}
+}
+
+server {
+    listen 80;
+    keepalive_timeout 0;
+    keepalive_requests 1;
+
+    location / {
+        proxy_pass http://backend;
+    }
+}
