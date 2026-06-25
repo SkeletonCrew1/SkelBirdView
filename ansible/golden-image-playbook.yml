@@ -12,8 +12,6 @@
       apt:
         name:
           - git
-          - wget
-          - gnupg
           - trivy
         state: present
         update_cache: true
