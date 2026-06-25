@@ -17,8 +17,7 @@ load_dotenv()
 s3 = boto3.client(
     "s3",
     aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
-    aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
-    endpoint_url=os.environ.get("S3_ENDPOINT")
+    aws_secret_access_key=os.environ.get("AWS_SECRET_KEY")
 )
 BUCKET_NAME = os.environ.get("S3_BUCKET")
 
@@ -42,8 +41,8 @@ class User(db.Model, UserMixin):
 
 class Post(db.Model):
     __tablename__ = "post"
-    likes = db.relationship("Like", backref="post", lazy=True)
     id = db.Column(db.Integer, primary_key=True)
+    likes = db.relationship("Like", backref="post", lazy=True)
     title = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(100), nullable=False)
@@ -93,12 +92,11 @@ def create_post():
     form = PostForm()
     if form.validate_on_submit():
         file = form.picture.data
-        filename = secure_filename(file.filename)
-
+        filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
         s3.upload_fileobj(file, BUCKET_NAME, filename, ExtraArgs={'ContentType': file.content_type})
 
         image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
-        new_post = Post(title=form.title.data, location=form.location.data, 
+        new_post = Post(title=form.title.data, location=form.location.data,
                         image_url=image_url, user_id=current_user.id)
         db.session.add(new_post)
         db.session.commit()
@@ -113,14 +111,13 @@ def post_detail(post_id):
 @app.route("/like/<int:post_id>")
 @login_required
 def like_post(post_id):
-    post = Post.query.get_or_404(post_id)
     existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post_id).first()
     
     if not existing_like:
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
         db.session.commit()
     
-    return redirect(url_for("index"))
+    return redirect(url_for('post_detail', post_id=post_id))
 
 if __name__ == "__main__":
     with app.app_context():
