@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "database" do |db|
     db.vm.hostname = "database"
-    db.vm.box = "bento/ubuntu-24.04"
+    db.vm.box = "golden-image"
     db.vm.synced_folder "./mysql", "/vagrant_data"
 
     db.vm.provider "virtualbox" do |vb|
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   ["web-server-1", "web-server-2"].each_with_index do |web_server, index|
     config.vm.define web_server do |web|
       web.vm.hostname = web_server
-      web.vm.box = "bento/ubuntu-24.04"
+      web.vm.box = "golden-image"
       web.vm.synced_folder "./web-servers", "/home/vagrant/web-servers/"
 
 
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "load-balancer" do |lb|
     lb.vm.hostname = "load-balancer"
-    lb.vm.box = "bento/ubuntu-24.04"
+    lb.vm.box = "golden-image"
     lb.vm.synced_folder "./load-balancer", "/vagrant_data"
 
     lb.vm.provider "virtualbox" do |vb|
