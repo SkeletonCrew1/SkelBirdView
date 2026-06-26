@@ -3,6 +3,10 @@
   become: true
 
   tasks:
+    - name: Configure timezone
+      community.general.timezone:
+        name: Europe/Kyiv
+
     - name: Add Trivy repository
       shell: |
         wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
