@@ -29,3 +29,28 @@
           - trivy
         state: present
         update_cache: true
+
+    - name: Create Trivy log directory
+      file:
+        path: /var/log/trivy
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Schedule Trivy filesystem scan
+      cron:
+        name: "Trivy filesystem scan"
+        minute: "0"
+        hour: "2"
+        user: root
+        job: >
+          trivy fs \
+            --scanners vuln,secret \
+            --severity HIGH,CRITICAL \
+            --skip-dirs /proc,/sys,/dev,/run,/boot,/tmp,/var/tmp,/vagrant \
+            --skip-dirs "**/venv,**/.venv,**/env,**/.env" \
+            --timeout 15m \
+            --format table \
+            --output "/var/log/security-summary-$(hostname)-$(date +%Y-%m-%d-%H-%M).txt" \
+            /
