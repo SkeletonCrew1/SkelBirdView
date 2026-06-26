@@ -1,6 +1,7 @@
 ---
 - name: Configure golden image
   hosts: all
+  become: true
 
   vars_files:
     - vars/public_keys.yml
