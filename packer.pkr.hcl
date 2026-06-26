@@ -16,7 +16,6 @@ source "vagrant" "golden-image" {
   communicator = "ssh"
   source_path  = "bento/ubuntu-26.04"
   provider     = "virtualbox"
-  skip_add     = true
 }
 
 build {
