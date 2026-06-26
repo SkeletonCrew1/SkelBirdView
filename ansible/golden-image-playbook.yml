@@ -20,8 +20,8 @@
 
     - name: Add Trivy repository
       shell: |
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg
-        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null
 
     - name: Install packages
       apt:
@@ -45,13 +45,4 @@
         minute: "0"
         hour: "2"
         user: root
-        job: >
-          trivy fs \
-            --scanners vuln,secret \
-            --severity HIGH,CRITICAL \
-            --skip-dirs /proc,/sys,/dev,/run,/boot,/tmp,/var/tmp,/vagrant \
-            --skip-dirs "**/venv,**/.venv,**/env,**/.env" \
-            --timeout 15m \
-            --format table \
-            --output "/var/log/security-summary-$(hostname)-$(date +%Y-%m-%d-%H-%M).txt" \
-            /
+        job: 'trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --skip-dirs /proc,/sys,/dev,/run,/boot,/tmp,/var/tmp,/vagrant --skip-dirs "**/venv,**/.venv,**/env,**/.env" --timeout 15m --format table --output "/var/log/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt" /'
