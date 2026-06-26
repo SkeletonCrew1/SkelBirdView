@@ -3,18 +3,20 @@
   hosts: all
   become: true
 
-  vars:
-    public_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHClFx+zuYSEUh/SO6Pk8ofZGM5wzwax37azfclSyniY"
-      - ""
-      - ""
-      - ""
-      - ""
+  vars_files:
+    - vars/public_keys.yml
 
   tasks:
     - name: Configure timezone
       community.general.timezone:
         name: Europe/Kyiv
+
+    - name: Add authorized SSH keys
+      authorized_key:
+        user: vagrant
+        state: present
+        key: "{{ item }}"
+      loop: "{{ public_keys }}"
 
     - name: Add Trivy repository
       shell: |
@@ -28,10 +30,3 @@
           - trivy
         state: present
         update_cache: true
-
-    - name: Add authorized SSH keys for vagrant
-      authorized_key:
-        user: vagrant
-        state: present
-        key: "{{ item }}"
-      loop: "{{ public_keys }}"
