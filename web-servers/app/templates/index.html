@@ -16,7 +16,7 @@
 <h1>Bird Sightings</h1>
 {% for post in posts %}
     <div>
-        <img src="{{ post.image_url }}" width="100">
-        <a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+        <img src="{{ post.presigned_url }}" width="100">
+        <a href="{{ url_for('app.post_detail', post_id=post.id) }}">{{ post.title }}</a>
     </div>
 {% endfor %}

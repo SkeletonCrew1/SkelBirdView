@@ -1,10 +1,10 @@
 <h2>{{ post.title }}</h2>
-<img src="{{ post.image_url }}" width="300">
+<img src="{{ image_url }}" width="300">
 <p>Location: {{ post.location }}</p>
 <p>Posted by: {{ post.author.email }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
 
 <p>Total Likes: {{ post.likes|length }}</p>
-<a href="{{ url_for('like_post', post_id=post.id) }}">Like this post</a>
+<a href="{{ url_for('app.like_post', post_id=post.id) }}">Like this post</a>
 
 <br><br>
 <a href="/">Back to Home</a>
