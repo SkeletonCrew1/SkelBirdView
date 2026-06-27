@@ -15,23 +15,6 @@
         update_cache: yes
       loop: "{{ packages }}"
       become: true
-#    - name: Update package cache and install Nginx
-#      apt:
-#        name: nginx
-#        state: present
-#        update_cache: yes
-
-#    - name: Start and enable Nginx service
-#      service:
-#        name: nginx
-#        state: started
-#        enabled: true
-#    
-#    - name: Overwrite file if it exists, the remote server has the source file bc remote_src is set below
-#      copy:
-#        src: "/home/oleh/Desktop/Task2/nginx.conf"
-#        dest: /etc/nginx/conf.d/default.conf 
-
 
     - name: Copy source code
       ansible.builtin.git:
@@ -52,7 +35,8 @@
         virtualenv: "{{ venv_path }}"
       vars:
         venv_path: "/home/vagrant/application/web-servers/venv"
-
+#source path should be replaced in the future 
+#sicne the path for the .env file is hardcoded and not dynamic, it should be changed to a variable or a more flexible path in the future.
     - name: Copy secrets
       ansible.builtin.copy:
         src: /home/oleh/Desktop/Task2/web-servers/.env
@@ -68,6 +52,7 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
+
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/.env
@@ -83,7 +68,6 @@
         group: vagrant
         mode: '0644'
 
-
     - name: Change permissions for 
       ansible.builtin.file:
         dest: "/home/vagrant/application/web-servers/"
@@ -98,25 +82,3 @@
         state: started
         enabled: yes
         daemon_reload: yes
-#    - name: Remove file (delete file)
-#      ansible.builtin.file:
-#        path: /etc/nginx/sites-enabled/default
-#        state: absent
-#    - name: Restart Nginx
-#      systemd:
-#        name: nginx
-#        state: started
-#        enabled: yes
-#        daemon_reload: yes
-
-
-
-
-
- #   - name: save output to file
-  #    copy:
-   #     content: "{{ script_output.stdout }}"
-    #    dest: /home/vagrant/application/web-servers/output.txt
-#   # - name: Launch application
-#      ansible.builtin.shell: |
-#        sudo nohup ./venv/bin/python app.py > app.log 2>&1 &
