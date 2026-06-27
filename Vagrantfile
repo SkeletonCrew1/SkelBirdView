@@ -55,4 +55,17 @@ Vagrant.configure("2") do |config|
     end
     lb.vm.network "private_network", ip: "192.168.56.106"
   end
+
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.hostname = "jenkins"
+    jenkins.vm.box = "bento/ubuntu-24.04"
+
+    jenkins.vm.provider "virtualbox" do |vb|
+      vb.name = "jenkins"
+      vb.memory = 2048
+    end
+
+    jenkins.vm.network "private_network", ip: "192.168.56.101"
+  end
+
 end
