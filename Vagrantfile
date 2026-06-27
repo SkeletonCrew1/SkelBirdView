@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
 
     db.vm.provider "virtualbox" do |vb|
         vb.name = "database"
-        vb.memory = 2048
-        vb.cpus = 2
+        vb.memory = 1024
+        vb.cpus = 1
     end
 
     db.vm.provision "shell", path: "./scripts/database.sh"
@@ -25,13 +25,22 @@ Vagrant.configure("2") do |config|
 
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
-        vb.memory = 2048
+        vb.memory = 1024
+        vb.cpus = 1
       end 
 
-      web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
-        env: { "app_dir" => "/home/vagrant/web-servers" }
 
       web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
+
+
+      web.vm.provision "shell" do |s|
+        ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_ed25519.pub").first.strip
+        s.inline = <<-SHELL
+          echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+          echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+        SHELL
+      end
+      
     end
   end
 
@@ -42,8 +51,8 @@ Vagrant.configure("2") do |config|
 
     lb.vm.provider "virtualbox" do |vb|
         vb.name = "load-balancer"
-        vb.memory = 2048
-        vb.cpus = 2
+        vb.memory = 1024
+        vb.cpus = 1
     end
 
     lb.vm.provision "shell" do |s|
