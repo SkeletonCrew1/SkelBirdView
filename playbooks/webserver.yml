@@ -59,7 +59,7 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
-
+#Should be copied from git repo in the future, but for now it is copied from the local machine since it is not in the repo yet.
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
         src: /home/oleh/Desktop/Task2/Birdwatching.service
