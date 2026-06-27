@@ -22,5 +22,23 @@
         name: jenkins
         state: present
         update_cache: yes
+    
+    - name: Creates directory for desabling initial page
+      ansible.builtin.file:
+        path: /var/lib/jenkins/init.groovy.d/
+        state: directory
 
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./templates/disable_unlock.groovy
+        dest: /var/lib/jenkins/init.groovy.d/
 
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./templates/create_user.groovy
+        dest: /var/lib/jenkins/init.groovy.d/
+
+    - name: Restart jenkins service
+      service:
+        name: jenkins
+        state: restarted
