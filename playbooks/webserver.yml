@@ -46,21 +46,21 @@
         mode: '0755'
       become: true
 
-    - name: Change file ownership, group and permissions
+    - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/app.py
         owner: vagrant
         group: vagrant
         mode: '0755'
-
-    - name: Change file ownership, group and permissions
+#same wih secrets file, the path should be changed to a variable or a more flexible path in the future.
+    - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/.env
         owner: vagrant
         group: vagrant
         mode: '0755'
 #Should be copied from git repo in the future, but for now it is copied from the local machine since it is not in the repo yet.
-    - name: Copy file with owner and permissions
+    - name: Copy file with owner and permissions for service,that start the app
       ansible.builtin.copy:
         src: /home/oleh/Desktop/Task2/Birdwatching.service
         dest: /etc/systemd/system/SkelBirdView.service
@@ -68,7 +68,7 @@
         group: vagrant
         mode: '0644'
 
-    - name: Change permissions for 
+    - name: Change permissions for web-servers folder
       ansible.builtin.file:
         dest: "/home/vagrant/application/web-servers/"
         owner: 'vagrant'
@@ -76,7 +76,7 @@
         recurse: true 
         mode: u=rwX,g=rX,o=rX
 
-    - name: Make sure 'node_exporter' service is started and enabled
+    - name: Make sure  service that starts app.py is started and enabled
       systemd:
         name: SkelBirdView.service
         state: started
