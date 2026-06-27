@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
     db.vm.hostname = "database"
     db.vm.box = "golden-image"
     db.vm.synced_folder "./mysql", "/vagrant_data"
+    db.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
     db.vm.provider "virtualbox" do |vb|
         vb.name = "database"
@@ -21,7 +22,7 @@ Vagrant.configure("2") do |config|
       web.vm.hostname = web_server
       web.vm.box = "golden-image"
       web.vm.synced_folder "./web-servers", "/home/vagrant/web-servers/"
-
+      web.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
@@ -39,6 +40,7 @@ Vagrant.configure("2") do |config|
     lb.vm.hostname = "load-balancer"
     lb.vm.box = "golden-image"
     lb.vm.synced_folder "./load-balancer", "/vagrant_data"
+    lb.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
     lb.vm.provider "virtualbox" do |vb|
         vb.name = "load-balancer"

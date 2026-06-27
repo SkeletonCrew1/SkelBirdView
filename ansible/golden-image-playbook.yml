@@ -45,4 +45,4 @@
         minute: "0"
         hour: "2"
         user: root
-        job: 'trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --skip-dirs /proc,/sys,/dev,/run,/boot,/tmp,/var/tmp,/vagrant --skip-dirs "**/venv,**/.venv,**/env,**/.env" --timeout 15m --format table --output "/var/log/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt" /'
+        job: 'trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --skip-dirs /proc,/sys,/dev,/run,/boot,/tmp,/var/tmp,/vagrant --skip-dirs "**/venv,**/.venv,**/env,**/.env" --timeout 15m --format table --output "/var/log/trivy/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt" /'
