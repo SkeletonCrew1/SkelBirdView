@@ -52,5 +52,18 @@
         src: /home/configs/database_config/mysqld.cnf
         dest: /etc/mysql/mysql.conf.d/mysqld.cnf
         remote_src: yes
+    - name: Restart MySQL service
+      ansible.builtin.systemd_service:
+        name: mysql
+        state: restarted
+        enabled: true
+      become: true
+    # Source - https://stackoverflow.com/a/75163647
+# Posted by Kevin C
+# Retrieved 2026-06-28, License - CC BY-SA 4.0
 
+    - name: ensure mysql is running
+      service:
+        name: mysql
+        state: started
 

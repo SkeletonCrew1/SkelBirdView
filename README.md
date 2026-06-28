@@ -1,1 +1,2 @@
-# SkelBirdView
+The playbook installs MySQL on the vm, configures it and checks if it is active.
+To use it you can just provision it with vagrant for now, but in the future you will be able to provoke the it via pipeline .

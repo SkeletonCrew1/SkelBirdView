@@ -11,11 +11,14 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
+    db.vm.provision "ansible" do |ansible|
+      ansible.playbook = "./playbooks/database/database.yml"
+    end
 
 
     db.vm.network "private_network", ip: "192.168.56.105"
   end
-
+  
   ["web-server-1", "web-server-2"].each_with_index do |web_server, index|
     config.vm.define web_server do |web|
       web.vm.hostname = web_server
