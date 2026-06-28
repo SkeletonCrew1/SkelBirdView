@@ -1,11 +1,11 @@
-- name: Test
+- name: Setting up Jenkins
   hosts: jenkins
-  become: true
+  become: yes
+  vars_files:
+    - vars/.env
+    - vars/main.yml
 
   tasks:
-    - name: ping
-      ansible.builtin.ping: null
-
     - name: Install java
       ansible.builtin.apt:
         name: openjdk-21-jre
@@ -28,22 +28,27 @@
         path: /var/lib/jenkins/init.groovy.d/
         state: directory
 
-    - name: Copy file with owner and permissions
+    - name: Copy the file to disable jenkins initial page
       ansible.builtin.copy:
         src: ./templates/disable_unlock.groovy
         dest: /var/lib/jenkins/init.groovy.d/
 
-    - name: Copy file with owner and permissions
-      ansible.builtin.copy:
+    - name: write hostname using jinja2
+      ansible.builtin.template:
         src: ./templates/create_user.groovy
         dest: /var/lib/jenkins/init.groovy.d/
 
-    - name: install plugin
-      jenkins_plugin:
+    - name: Restart jenkins service
+      service:
+        name: jenkins
+        state: restarted  
+
+    - name: install plugins
+      community.general.jenkins_plugin:
         name: "{{ item }}"
         state: latest
-        url_username: admin
-        url_password: admin
+        url_username: "{{ jenkins_user }}"
+        url_password: "{{ jenkins_pass }}"
       with_items: "{{ jenkins_plugins }}"
 
     - name: Restart jenkins service

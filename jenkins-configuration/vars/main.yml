@@ -1,0 +1,12 @@
+---
+ansible_connection: ssh
+ansible_user: "{{ ansible_user_var }}"
+ansible_ssh_pass: "{{ ansible_pass_var }}"
+jenkins_user: "{{ jenkins_user_var }}"
+jenkins_pass: "{{ jenkins_pass_var }}"
+jenkins_plugins:
+  - active-directory
+  - ansible
+  - ant
+  - git
+  - ssh
