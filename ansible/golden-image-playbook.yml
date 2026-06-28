@@ -12,19 +12,19 @@
         name: Europe/Kyiv
 
     - name: Add authorized SSH keys
-      authorized_key:
+      ansible.posix.authorized_key:
         user: vagrant
         state: present
         key: "{{ item }}"
       loop: "{{ public_keys }}"
 
     - name: Add Trivy repository
-      shell: |
+      ansible.builtin.shell: |
         wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
         echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null
 
     - name: Install packages
-      apt:
+      ansible.builtin.apt:
         name:
           - git
           - trivy
@@ -32,7 +32,7 @@
         update_cache: true
 
     - name: Create Trivy log directory
-      file:
+      ansible.builtin.file:
         path: /var/log/trivy
         state: directory
         owner: root
@@ -40,7 +40,7 @@
         mode: "0755"
 
     - name: Schedule Trivy filesystem scan
-      cron:
+      ansible.builtin.cron:
         name: "Trivy filesystem scan"
         minute: "0"
         hour: "2"
