@@ -38,7 +38,15 @@
         src: ./templates/create_user.groovy
         dest: /var/lib/jenkins/init.groovy.d/
 
+    - name: install plugin
+      jenkins_plugin:
+        name: "{{ item }}"
+        state: latest
+        url_username: admin
+        url_password: admin
+      with_items: "{{ jenkins_plugins }}"
+
     - name: Restart jenkins service
       service:
         name: jenkins
-        state: restarted
+        state: restarted  
