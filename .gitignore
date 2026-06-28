@@ -8,3 +8,4 @@ sensitive-mysql.env
 pyvenv.cfg
 .webservers/venv/
 .web-servers/__pycache__
+playbooks/database/group_vars/database.yml
