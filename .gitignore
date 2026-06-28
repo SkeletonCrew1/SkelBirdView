@@ -6,3 +6,5 @@ __pycache__/
 sensitive-mysql.env
 .env
 pyvenv.cfg
+.webservers/venv/
+.web-servers/__pycache__
