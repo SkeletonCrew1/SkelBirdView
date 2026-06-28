@@ -3,7 +3,7 @@
 ## What is pre-commit
 A pre-commit hook is a script that automatically runs before a git commit is finalized to inspect the snapshot of code about to be saved. If the script detects errors or fails any checks, it aborts the commit process
 
-[Here][https://pre-commit.com/] you can read more about pre-commit.
+[Here](https://pre-commit.com/) you can read more about pre-commit.
 
 ## How to use it
 ```bash
