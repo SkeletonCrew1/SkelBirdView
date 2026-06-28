@@ -60,13 +60,28 @@
         group: vagrant
         mode: '0755'
 #Should be copied from git repo in the future, but for now it is copied from the local machine since it is not in the repo yet.
-    - name: Copy file with owner and permissions for service,that start the app
+#    - name: Copy file with owner and permissions for service,that start the app
+ #     ansible.builtin.copy:
+ #       src: /home/oleh/Desktop/Task2/Birdwatching.service
+ #       dest: /etc/systemd/system/SkelBirdView.service
+  #      owner: vagrant
+  #      group: vagrant
+  #      mode: '0644'
+      
+    - name: Clone the config files 
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/configs
+        version: config_files
+
+    - name: Move MySQL config file
       ansible.builtin.copy:
-        src: /home/oleh/Desktop/Task2/Birdwatching.service
+        src: /home/configs/web_server_config/SkelBirdView.service
         dest: /etc/systemd/system/SkelBirdView.service
         owner: vagrant
         group: vagrant
         mode: '0644'
+        remote_src: yes
 
     - name: Change permissions for web-servers folder
       ansible.builtin.file:
