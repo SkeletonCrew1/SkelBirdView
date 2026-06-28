@@ -9,7 +9,8 @@
       apt:
         upgrade: yes
         update_cache: yes
-        cache_valid_time: 86400 #One day
+        cache_valid_time: 86400 
+
     - name: Installing Mysql  and dependencies
       package:
        name: "{{item}}"
@@ -30,6 +31,7 @@
         name: "{{ db_name }}"
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
+
     - name: Create the database user
       ansible.mysql.mysql_user:
         name: "{{ db_user }}"
@@ -38,3 +40,9 @@
         priv: "*.*:ALL"
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
+      
+    - name: Clone the develop branch
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/configs
+        version: config_files
