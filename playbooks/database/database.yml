@@ -41,8 +41,16 @@
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
       
-    - name: Clone the develop branch
+    - name: Clone the config files 
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/configs
         version: config_files
+
+    - name: Move MySQL config file
+      ansible.builtin.copy:
+        src: /home/configs/database_config/mysqld.cnf
+        dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+        remote_src: yes
+
+
