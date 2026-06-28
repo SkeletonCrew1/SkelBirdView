@@ -1,0 +1,40 @@
+- name: Try to ping
+  hosts: database
+  gather_facts: true
+  vars_files:
+    - ./group_vars/database.yml
+  tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+    - name: Installing Mysql  and dependencies
+      package:
+       name: "{{item}}"
+       state: present
+       update_cache: yes
+      loop:
+       - mysql-server
+       - python3-mysqldb
+      become: true
+
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    - name: Create the database
+      ansible.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+    - name: Create the database user
+      ansible.mysql.mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        host: "%"
+        priv: "*.*:ALL"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock

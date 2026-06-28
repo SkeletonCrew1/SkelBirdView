@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
-    db.vm.provision "shell", path: "./scripts/database.sh"
+
 
     db.vm.network "private_network", ip: "192.168.56.105"
   end
