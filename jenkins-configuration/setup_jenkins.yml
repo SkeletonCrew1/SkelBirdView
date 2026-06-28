@@ -23,7 +23,7 @@
         state: present
         update_cache: yes
     
-    - name: Creates directory for desabling initial page
+    - name: Creates directory for disabling initial page
       ansible.builtin.file:
         path: /var/lib/jenkins/init.groovy.d/
         state: directory
