@@ -2,8 +2,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "database" do |db|
     db.vm.hostname = "database"
-    db.vm.box = "bento/ubuntu-24.04"
+    db.vm.box = "ubuntu26-golden-image"
     db.vm.synced_folder "./mysql", "/vagrant_data"
+    db.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
     db.vm.provider "virtualbox" do |vb|
         vb.name = "database"
@@ -19,9 +20,9 @@ Vagrant.configure("2") do |config|
   ["web-server-1", "web-server-2"].each_with_index do |web_server, index|
     config.vm.define web_server do |web|
       web.vm.hostname = web_server
-      web.vm.box = "bento/ubuntu-24.04"
+      web.vm.box = "ubuntu26-golden-image"
       web.vm.synced_folder "./web-servers", "/home/vagrant/web-servers/"
-
+      web.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
@@ -37,8 +38,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "load-balancer" do |lb|
     lb.vm.hostname = "load-balancer"
-    lb.vm.box = "bento/ubuntu-24.04"
+    lb.vm.box = "ubuntu26-golden-image"
     lb.vm.synced_folder "./load-balancer", "/vagrant_data"
+    lb.vm.synced_folder "./security-reports", "/var/log/trivy/", create: true
 
     lb.vm.provider "virtualbox" do |vb|
         vb.name = "load-balancer"
@@ -58,7 +60,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.hostname = "jenkins"
-    jenkins.vm.box = "bento/ubuntu-24.04"
+    jenkins.vm.box = "ubuntu26-golden-image"
 
     jenkins.vm.provider "virtualbox" do |vb|
       vb.name = "jenkins"
@@ -69,3 +71,4 @@ Vagrant.configure("2") do |config|
   end
 
 end
+
