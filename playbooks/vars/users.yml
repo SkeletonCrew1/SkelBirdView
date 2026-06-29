@@ -5,3 +5,4 @@ users:
   - { name: "vitalii", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPR8PEc6WSE7DHWNf8d+2nxYMnAbNQGAzgRFodVCtBs8"}
   - { name: "roman", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHXE4vbal0u9BvRq/MpXEUM5qXZx0BrfTAN1extk6+Ff"}
   - { name: "denis", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMI+78+qHyE5qxg9G2J3n4ZkCoNY6D0ArptLs3ZFAAYE"}
+  - { name: "jenkins", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUe6R9T4W1bo3HAVEnJK5vnx8YK2/E7FpDrxc65De9A"}
