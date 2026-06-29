@@ -8,6 +8,17 @@
       - python3-pip
       - python3-venv
   tasks:
+    - name: Setting host facts using complex arguments
+      ansible.builtin.set_fact:
+        DB_USER: "{{ lookup('env', 'DB_USER') }}"
+        DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
+        AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+        AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+        S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        cacheable: true
+
     - name: Install dependencies and update apt
       ansible.builtin.apt:
         name: "{{ item }}"
@@ -22,6 +33,19 @@
         dest: /home/vagrant/application
         force: yes
 
+    - name: Template .env
+      ansible.builtin.template:
+        src: /home/oleh/Desktop/Task2/templates/env_template
+        dest: /home/vagrant/application/web-servers/.env
+      vars:
+        DB_USER: "{{ DB_USER }}"
+        DB_NAME: "{{ DB_NAME }}"
+        DB_PASSWORD: "{{ DB_PASSWORD }}"
+        DB_HOST: "{{ DB_HOST }}"
+        AWS_ACCESS_KEY: "{{ AWS_ACCESS_KEY }}"
+        AWS_SECRET_KEY: "{{ AWS_SECRET_KEY }}"
+        S3_BUCKET: "{{ S3_BUCKET }}"
+
     - name: Manually create the initial virtualenv
       command:
         cmd: python3 -m venv {{ venv_path }}
@@ -35,16 +59,6 @@
         virtualenv: "{{ venv_path }}"
       vars:
         venv_path: "/home/vagrant/application/web-servers/venv"
-#source path should be replaced in the future 
-#sicne the path for the .env file is hardcoded and not dynamic, it should be changed to a variable or a more flexible path in the future.
-    - name: Copy secrets
-      ansible.builtin.copy:
-        src: /home/oleh/Desktop/Task2/web-servers/.env
-        dest: /home/vagrant/application/web-servers/.env
-        owner: vagrant
-        group: vagrant
-        mode: '0755'
-      become: true
 
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
@@ -52,29 +66,15 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
-#same wih secrets file, the path should be changed to a variable or a more flexible path in the future.
+
     - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/.env
         owner: vagrant
         group: vagrant
         mode: '0755'
-#Should be copied from git repo in the future, but for now it is copied from the local machine since it is not in the repo yet.
-#    - name: Copy file with owner and permissions for service,that start the app
- #     ansible.builtin.copy:
- #       src: /home/oleh/Desktop/Task2/Birdwatching.service
- #       dest: /etc/systemd/system/SkelBirdView.service
-  #      owner: vagrant
-  #      group: vagrant
-  #      mode: '0644'
-      
-    - name: Clone the config files 
-      ansible.builtin.git:
-        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
-        dest: /home/configs
-        version: config_files
 
-    - name: Move MySQL config file
+    - name: Move service file for the app  
       ansible.builtin.copy:
         src: /home/configs/web_server_config/SkelBirdView.service
         dest: /etc/systemd/system/SkelBirdView.service
