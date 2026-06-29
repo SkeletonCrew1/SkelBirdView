@@ -1,0 +1,91 @@
+---
+- name: Try to ping
+  hosts: webservers
+  gather_facts: true
+  vars:
+    packages:
+      - python3
+      - python3-pip
+      - python3-venv
+  tasks:
+    - name: Install dependencies and update apt
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop: "{{ packages }}"
+      become: true
+
+    - name: Copy source code
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/vagrant/application
+        force: yes
+
+    - name: Manually create the initial virtualenv
+      command:
+        cmd: python3 -m venv {{ venv_path }}
+        creates: "{{ venv_path }}"
+      vars:
+        venv_path: "/home/vagrant/application/web-servers/venv" 
+      
+    - name: Install requirements
+      pip: 
+        requirements: "/home/vagrant/application/web-servers/requirements.txt"
+        virtualenv: "{{ venv_path }}"
+      vars:
+        venv_path: "/home/vagrant/application/web-servers/venv"
+#source path should be replaced in the future 
+#since the path for the .env file is hardcoded and not dynamic, it should be changed to a variable or a more flexible path in the future.
+    - name: Copy secrets
+      ansible.builtin.copy:
+        src: /home/oleh/Desktop/Task2/web-servers/.env
+        dest: /home/vagrant/application/web-servers/.env
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+      become: true
+
+    - name: Change file ownership, group and permissions app.py
+      ansible.builtin.file:
+        path: /home/vagrant/application/web-servers/app.py
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+#same wih secrets file, the path should be changed to a variable or a more flexible path in the future.
+    - name: Change file ownership, group and permissions .env
+      ansible.builtin.file:
+        path: /home/vagrant/application/web-servers/.env
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+
+    - name: Clone the config files 
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/configs
+        version: config_files
+
+    - name: Move MySQL config file
+      ansible.builtin.copy:
+        src: /home/configs/web_server_config/SkelBirdView.service
+        dest: /etc/systemd/system/SkelBirdView.service
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+        remote_src: yes
+
+    - name: Change permissions for web-servers folder
+      ansible.builtin.file:
+        dest: "/home/vagrant/application/web-servers/"
+        owner: 'vagrant'
+        group: 'vagrant'
+        recurse: true 
+        mode: u=rwX,g=rX,o=rX
+
+    - name: Make sure  service that starts app.py is started and enabled
+      systemd:
+        name: SkelBirdView.service
+        state: started
+        enabled: yes
+        daemon_reload: yes
