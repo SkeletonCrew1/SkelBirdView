@@ -15,6 +15,8 @@
       ansible.builtin.user:
         name: "{{ item.name }}"
         shell: /bin/bash
+        groups: sudo
+        append: true
         state: present
       loop: "{{ users }}"
 
@@ -24,6 +26,15 @@
         state: present
         key: "{{ item.ssh_key }}"
       loop: "{{ users }}"
+
+    - name: Allow passwordless sudo for each user
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/team
+        owner: root
+        group: root
+        mode: "0440"
+        validate: "visudo -cf %s"
+        content: "%sudo ALL=(ALL:ALL) NOPASSWD: ALL\n"
 
     - name: Add Trivy repository
       ansible.builtin.shell: |
