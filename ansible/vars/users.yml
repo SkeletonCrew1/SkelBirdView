@@ -1,7 +1,0 @@
----
-users:
-  - { name: "maksym", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHClFx+zuYSEUh/SO6Pk8ofZGM5wzwax37azfclSyniY"}
-  - { name: "oleh", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHohMxMgTps1D8g94vQUjAKP0yvFTkuDT47hdEUf5ni"}
-  - { name: "vitalii", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPR8PEc6WSE7DHWNf8d+2nxYMnAbNQGAzgRFodVCtBs8"}
-  - { name: "roman", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHXE4vbal0u9BvRq/MpXEUM5qXZx0BrfTAN1extk6+Ff"}
-  - { name: "denis", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMI+78+qHyE5qxg9G2J3n4ZkCoNY6D0ArptLs3ZFAAYE"}
