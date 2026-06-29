@@ -14,7 +14,9 @@ Then go to .github/hooks dirrectory and run
 ```bash
 pre-commit install
 ```
-### (Optional) You can run precommit in your repo
+#### Now your precommits will run automatically
+
+### (Optional) You can run precommit in your repo manualy
 
 ```bash
 pre-commit run --all-files
