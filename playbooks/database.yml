@@ -55,7 +55,7 @@
       become: true
 
     - name: ensure mysql is running
-      service:
+      ansible.builtin.service:
         name: mysql
         state: started
 
