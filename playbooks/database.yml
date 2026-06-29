@@ -1,0 +1,96 @@
+- name: Try to ping
+  hosts: database 
+  gather_facts: true
+  tasks:
+
+  #  - name: Update and upgrade apt packages
+  #    become: true
+  #    apt:
+  #      upgrade: yes
+  #      update_cache: yes
+  #      cache_valid_time: 86400 
+
+    - name: Setting host facts using complex arguments
+      ansible.builtin.set_fact:
+        DB_USER: "{{ lookup('env', 'DB_USER') }}"
+        DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        ansible_ssh_pass: "{{ lookup('env', 'ANSIBLE_SSH_PASS') }}"
+        cacheable: true
+    - name: Print a simple message
+      ansible.builtin.debug:
+        msg: "{{ DB_USER }}"
+    - name: Print a simple message
+      ansible.builtin.debug:
+        msg: "{{ DB_PASSWORD }}"
+    - name: Print a simple message
+      ansible.builtin.debug:
+        msg: "{{ DB_NAME }}"
+    - name: Print a simple message
+      ansible.builtin.debug:
+        msg: "{{ ansible_ssh_pass }}"
+
+        
+    - name: Installing Mysql  and dependencies
+      package:
+       name: "{{item}}"
+       state: present
+       update_cache: yes
+      loop:
+       - mysql-server
+       - python3-mysqldb
+      become: true
+
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+      
+    - name: Clone the config files 
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/configs
+        version: config_files
+      become: true
+
+    - name: Move MySQL config file
+      ansible.builtin.copy:
+        src: /home/configs/database_config/mysqld.cnf
+        dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+        remote_src: yes
+      become: true
+
+    - name: Restart MySQL service
+      ansible.builtin.systemd_service:
+        name: mysql
+        state: restarted
+        enabled: true
+      become: true
+
+    - name: ensure mysql is running
+      service:
+        name: mysql
+        state: started
+
+
+    - name: Create the database user
+      ansible.mysql.mysql_user:
+        name: "{{ DB_USER }}"
+        password: "{{ DB_PASSWORD }}"
+        host: "%"
+        priv: "*.*:ALL"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      become: true 
+
+    - name: Create the database
+      ansible.mysql.mysql_db:
+        name: "{{ DB_NAME }}"
+        state: present
+        login_user: "{{ DB_USER }}"
+        login_password: "{{ DB_PASSWORD }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      become: true 
+
+

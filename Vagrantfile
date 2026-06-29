@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
     end
 
     db.vm.provision "ansible" do |ansible|
-      ansible.playbook = "./playbooks/database/database.yml"
+      ansible.playbook = "./playbooks/database.yml"
+      #these vars should be provided by the jenkins
     end
 
 
