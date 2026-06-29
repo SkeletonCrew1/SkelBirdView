@@ -46,7 +46,6 @@
         name:
           - git
           - trivy
-          - ssh-agent
         state: present
         update_cache: true
 
