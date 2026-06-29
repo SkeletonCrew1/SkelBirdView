@@ -22,7 +22,13 @@
         name: jenkins
         state: present
         update_cache: yes
-    
+
+    - name: Install ansible
+      ansible.builtin.apt:
+        name: ansible
+        state: present
+        update_cache: yes
+
     - name: Creates directory for disabling initial page
       ansible.builtin.file:
         path: /var/lib/jenkins/init.groovy.d/

@@ -6,7 +6,7 @@ vagrant destroy -f
 for vm in $(VBoxManage list vms | awk -F'"' '{print $2}'); do VBoxManage unregistervm "$vm" --delete; done
 rm -rf output-golden-image
 rm -rf .vagrant
-rm -rf VirtualBox\ VMs/*
+rm -rf ~/VirtualBox\ VMs/*
 
 packer init .
 
