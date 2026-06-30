@@ -90,8 +90,8 @@
 
     - name: Move service file for the app  
       ansible.builtin.copy:
-        src: /home/vagrant/application/web-servers/SkelBirdView.service
-        dest: /etc/systemd/system/SkelBirdView.service
+        src: /home/vagrant/application/web-servers/Birdwatching.service
+        dest: /etc/systemd/system/Birdwatching.service
         owner: vagrant
         group: vagrant
         mode: '0644'
