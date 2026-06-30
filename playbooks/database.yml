@@ -71,7 +71,7 @@
 
     - name: Create the database
       ansible.mysql.mysql_db:
-        name: "{{ DB_NAME }}"
+        name: flask_stuff
         state: present
         login_user: "{{ DB_USER }}"
         login_password: "{{ DB_PASSWORD }}"
