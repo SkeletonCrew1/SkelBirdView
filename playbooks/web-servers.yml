@@ -110,7 +110,7 @@
     - name: Make sure  service that starts app.py is started and enabled
       systemd:
         name: Birdwatching.service
-        state: started
+        state: restarted
         enabled: yes
         daemon_reload: yes
       become: true
