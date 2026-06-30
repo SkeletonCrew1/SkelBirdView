@@ -32,6 +32,7 @@
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/vagrant/application
         force: yes
+      become: true
 
     - name: Template .env
       ansible.builtin.template:
