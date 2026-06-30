@@ -88,15 +88,15 @@
         mode: '0755'
       become: true
 
-    - name: Move service file for the app  
-      ansible.builtin.copy:
-        src: /home/vagrant/application/web-servers/Birdwatching.service
-        dest: /etc/systemd/system/Birdwatching.service
-        owner: vagrant
-        group: vagrant
-        mode: '0644'
-        remote_src: yes
-      become: true
+#    - name: Move service file for the app  
+#      ansible.builtin.copy:
+#        src: /home/vagrant/application/web-servers/Birdwatching.service
+#        dest: /etc/systemd/system/Birdwatching.service
+#        owner: vagrant
+#        group: vagrant
+#        mode: '0644'
+#        remote_src: yes
+#      become: true
 
     - name: Change permissions for web-servers folder
       ansible.builtin.file:
@@ -109,7 +109,7 @@
 
     - name: Make sure  service that starts app.py is started and enabled
       systemd:
-        name: SkelBirdView.service
+        name: Birdwatching.service
         state: started
         enabled: yes
         daemon_reload: yes
