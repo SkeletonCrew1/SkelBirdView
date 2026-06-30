@@ -1,1 +1,1 @@
-# SkelBirdView
+Before running, put .env in web-servers folder and export these shell vars :SERVER1,SERVER2,ANSIBLE_USER,ANSIBLE_SSH_PASSWORD 

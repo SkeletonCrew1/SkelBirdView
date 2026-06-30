@@ -1,0 +1,54 @@
+- name: Set up load-balancer
+  hosts: load-balancers
+  gather_facts: true
+
+  tasks:
+
+    - name: Setting host facts using complex arguments
+      ansible.builtin.set_fact:
+        SERVER1: "{{ lookup('env', 'SERVER1')  }}"
+        SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        cacheable: true
+
+    - name: Install dependencies and update apt
+      ansible.builtin.apt:
+        name: "nginx"
+        state: present
+        update_cache: true
+      become: true
+
+    - name: Render template for Nginx
+      ansible.builtin.template:
+        src: /home/oleh/Desktop/Task2/templates/load_balancer_template
+        dest: /etc/nginx/sites-available/default
+
+        mode: '0755'
+      vars:
+        #PORT: "{{ PORT }}"
+        SERVER1: "{{ SERVER1 }}"
+        SERVER2: "{{ SERVER2 }}"
+      become: true
+    - name: Read remote file contents
+      ansible.builtin.command: cat /etc/nginx/sites-available/default
+      register: file_contents
+
+    - name: Print file contents to terminal
+      ansible.builtin.debug:
+        var: file_contents
+
+      
+ 
+
+    - name: Restarn Nginx load balancer
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: restarted
+        enabled: true
+      become: true
+
+    - name: Make sure 'nginx' is started
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+        
