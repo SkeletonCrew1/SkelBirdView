@@ -59,18 +59,6 @@
         name: mysql
         state: started
 
-    - name: Print a simple message
-      ansible.builtin.debug:
-        msg: "{{ DB_USER }}"
-
-    - name: Print a simple message
-      ansible.builtin.debug:
-        msg: "{{ DB_PASSWORD }}"
-
-    - name: Print a simple message
-      ansible.builtin.debug:
-        msg: "{{ DB_NAME }}"
-
     - name: Create the database user
       ansible.mysql.mysql_user:
         name: "{{ DB_USER }}"
@@ -83,7 +71,7 @@
 
     - name: Create the database
       ansible.mysql.mysql_db:
-        name: flask_stuff
+        name: "{{ DB_NAME }}"
         state: present
         login_user: "{{ DB_USER }}"
         login_password: "{{ DB_PASSWORD }}"
