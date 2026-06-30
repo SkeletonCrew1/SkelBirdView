@@ -57,7 +57,7 @@
       become: true
       
     - name: Install requirements  
-      pip: 
+      ansible.builtin.pip: 
         requirements: "/home/vagrant/application/web-servers/requirements.txt"
         virtualenv: "{{ venv_path }}"
         virtualenv_python: python3.5
