@@ -68,7 +68,7 @@
         priv: "*.*:ALL"
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
-        become: true 
+      become: true 
 
     - name: Create the database
       ansible.mysql.mysql_db:
