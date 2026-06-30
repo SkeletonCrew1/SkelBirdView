@@ -50,7 +50,7 @@
 
     - name: Manually create the initial virtualenv
       command:
-        cmd: python3 -m venv {{ venv_path }}
+        cmd: virtualenv /user/home/venvs/myenv -p python3.4
         creates: "/user/home/venvs/myenv"
       vars:
         venv_path: "/home/vagrant/application/web-servers/venv" 
