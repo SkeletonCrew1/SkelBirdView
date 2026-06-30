@@ -54,6 +54,7 @@
         creates: "{{ venv_path }}"
       vars:
         venv_path: "/home/vagrant/application/web-servers/venv" 
+      become: true
       
     - name: Install requirements
       pip: 
