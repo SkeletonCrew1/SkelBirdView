@@ -46,6 +46,7 @@
         AWS_ACCESS_KEY: "{{ AWS_ACCESS_KEY }}"
         AWS_SECRET_KEY: "{{ AWS_SECRET_KEY }}"
         S3_BUCKET: "{{ S3_BUCKET }}"
+      become: true
 
     - name: Manually create the initial virtualenv
       command:
