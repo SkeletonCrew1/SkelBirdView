@@ -1,0 +1,63 @@
+- name: Setting up Jenkins
+  hosts: jenkins
+  become: yes
+  vars_files:
+    - vars/.env
+    - vars/main.yml
+
+  tasks:
+    - name: Install java
+      ansible.builtin.apt:
+        name: openjdk-21-jre
+        state: present
+        update_cache: yes
+
+    - name: Add jenkins apt repository key.
+      shell: |
+         wget -O /etc/apt/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+         echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+    - name: Install jenkins
+      ansible.builtin.apt:
+        name: jenkins
+        state: present
+        update_cache: yes
+
+    - name: Install ansible
+      ansible.builtin.apt:
+        name: ansible
+        state: present
+        update_cache: yes
+
+    - name: Creates directory for disabling initial page
+      ansible.builtin.file:
+        path: /var/lib/jenkins/init.groovy.d/
+        state: directory
+
+    - name: Copy the file to disable jenkins initial page
+      ansible.builtin.copy:
+        src: ./templates/disable_unlock.groovy
+        dest: /var/lib/jenkins/init.groovy.d/
+
+    - name: write hostname using jinja2
+      ansible.builtin.template:
+        src: ./templates/create_user.groovy
+        dest: /var/lib/jenkins/init.groovy.d/
+
+    - name: Restart jenkins service
+      service:
+        name: jenkins
+        state: restarted  
+
+    - name: install plugins
+      community.general.jenkins_plugin:
+        name: "{{ item }}"
+        state: latest
+        url_username: "{{ jenkins_user }}"
+        url_password: "{{ jenkins_pass }}"
+      with_items: "{{ jenkins_plugins }}"
+
+    - name: Restart jenkins service
+      service:
+        name: jenkins
+        state: restarted  
