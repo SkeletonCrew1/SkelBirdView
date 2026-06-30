@@ -48,13 +48,13 @@
         S3_BUCKET: "{{ S3_BUCKET }}"
       become: true
 
-#    - name: Manually create the initial virtualenv
-#      command:
-#        cmd: virtualenv /user/home/venvs/myenv -p python3.4
-#        creates: "/user/home/venvs/myenv"
-#      vars:
-#        venv_path: "/home/vagrant/application/web-servers/venv" 
-#      become: true
+    - name: Manually create the initial virtualenv
+      command:
+        cmd: python3 -m venv {{ venv_path }}
+        creates: "{{ venv_path }}"
+      vars:
+        venv_path: "/home/vagrant/application/web-servers/venv" 
+      become: true
       
     - name: Install requirements
       pip: 
