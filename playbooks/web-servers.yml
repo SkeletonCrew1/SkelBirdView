@@ -78,6 +78,7 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
+      become: true
 
     - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
@@ -85,6 +86,7 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
+      become: true
 
     - name: Move service file for the app  
       ansible.builtin.copy:
@@ -94,6 +96,7 @@
         group: vagrant
         mode: '0644'
         remote_src: yes
+      become: true
 
     - name: Change permissions for web-servers folder
       ansible.builtin.file:
@@ -102,6 +105,7 @@
         group: 'vagrant'
         recurse: true 
         mode: u=rwX,g=rX,o=rX
+      become: true
 
     - name: Make sure  service that starts app.py is started and enabled
       systemd:
