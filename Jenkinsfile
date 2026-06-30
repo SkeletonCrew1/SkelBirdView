@@ -1,13 +1,15 @@
 pipeline {
     agent any 
     stages {
-        stage('Build') { 
+        stage('Configure-database') { 
           steps{
             sshagent(credentials : ['jenkins-key']) {
-              sh 'ssh -v vitalii@192.168.56.106 -o StrictHostKeyChecking=no'
-              sh 'ansible-playbook ./playbooks/database.yml'
+              sh 'pwd'
+              sh 'ls -la'
+              sh 'echo "helllloooooo"'
             }
           }
         }
     }
 }
+    
