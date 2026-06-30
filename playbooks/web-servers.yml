@@ -61,9 +61,8 @@
         requirements: "/home/vagrant/application/web-servers/requirements.txt"
         virtualenv: "{{ venv_path }}"
         virtualenv_python: python3.5
-      environment:
-        PATH: "/home/vagrant/application/web-servers/venv/"
-
+      vars: 
+        venv_path: "/home/vagrant/application/web-servers/venv/"
 
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
