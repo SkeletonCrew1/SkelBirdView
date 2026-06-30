@@ -36,7 +36,7 @@
 
     - name: Template .env
       ansible.builtin.template:
-        src: /home/oleh/Desktop/Task2/templates/env_template
+        src: playbooks/templates/env_templates
         dest: /home/vagrant/application/web-servers/.env
       vars:
         DB_USER: "{{ DB_USER }}"
