@@ -56,12 +56,12 @@
         venv_path: "/home/vagrant/application/web-servers/venv" 
       become: true
       
-    - name: Install requirements
+    - name: Install requirements  
       pip: 
         requirements: "/home/vagrant/application/web-servers/requirements.txt"
         virtualenv: "{{ venv_path }}"
-      vars:
-        venv_path: "/home/vagrant/application/web-servers/venv"
+      vars: 
+        venv_path: "/home/vagrant/application/web-servers/venv/.local/bin"
 
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
