@@ -98,7 +98,6 @@
 
     - name: Move service file for the app  
       ansible.builtin.copy:
-             /home/jenkins/configs/web_server_config/SkelBirdView.service
         src: /home/jenkins/configs/web_server_config/SkelBirdView.service
         dest: /etc/systemd/system/SkelBirdView.service
         owner: jenkins
