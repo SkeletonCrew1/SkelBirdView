@@ -25,8 +25,11 @@ Vagrant.configure("2") do |config|
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
         vb.memory = 2048
-      end
-      
+      end 
+
+      #web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
+      #  env: { "app_dir" => "/home/vagrant/web-servers" }
+
       web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
     end
   end

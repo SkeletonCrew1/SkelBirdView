@@ -75,41 +75,41 @@
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/app.py
-        owner: vagrant
-        group: vagrant
+        owner: jenkins
+        group: jenkins
         mode: '0755'
       become: true
 
     - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
         path: /home/vagrant/application/web-servers/.env
-        owner: vagrant
-        group: vagrant
+        owner: jenkins
+        group: jenkins
         mode: '0755'
       become: true
 
-#    - name: Move service file for the app  
-#      ansible.builtin.copy:
-#        src: /home/vagrant/application/web-servers/Birdwatching.service
-#        dest: /etc/systemd/system/Birdwatching.service
-#        owner: vagrant
-#        group: vagrant
-#        mode: '0644'
-#        remote_src: yes
-#      become: true
+    - name: Move service file for the app  
+      ansible.builtin.copy:
+        src: /home/vagrant/application/web-servers/SkelBirdView.service
+        dest: /etc/systemd/system/SkelBirdView.service
+        owner: jenkins
+        group: jenkins
+        mode: '0644'
+        remote_src: yes
+      become: true
 
     - name: Change permissions for web-servers folder
       ansible.builtin.file:
         dest: "/home/vagrant/application/web-servers/"
-        owner: 'vagrant'
-        group: 'vagrant'
+        owner: 'jenkins'
+        group: 'jenkins'
         recurse: true 
         mode: u=rwX,g=rX,o=rX
       become: true
 
     - name: Make sure  service that starts app.py is started and enabled
       systemd:
-        name: Birdwatching.service
+        name: SkelBirdView.service
         state: restarted
         enabled: yes
         daemon_reload: yes
