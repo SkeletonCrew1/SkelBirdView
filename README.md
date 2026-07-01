@@ -9,3 +9,4 @@
 
 1. Add .env to `web-servers` folder
 2. Execute `run-infrastructure.sh`
+
