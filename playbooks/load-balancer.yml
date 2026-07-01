@@ -24,20 +24,10 @@
 
         mode: '0755'
       vars:
-        #PORT: "{{ PORT }}"
+        #POR
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
       become: true
-    - name: Read remote file contents
-      ansible.builtin.command: cat /etc/nginx/sites-available/default
-      register: file_contents
-
-    - name: Print file contents to terminal
-      ansible.builtin.debug:
-        var: file_contents
-
-      
- 
 
     - name: Restarn Nginx load balancer
       ansible.builtin.systemd_service:
