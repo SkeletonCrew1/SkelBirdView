@@ -1,6 +1,6 @@
 output "user_passwords" {
   value = {
-    for user_key, profile in aws_iam_user_login_profile.main :
+    for user_key, profile in aws_iam_user_login_profile.users :
     user_key => profile.password
   }
   description = "A map of usernames to their initial temporary passwords"
@@ -17,8 +17,8 @@ output "flask_user_access_key" {
 
 output "jenkins_user_access_key" {
   value = {
-    id     = aws_iam_access_key.jenkins_user.id
-    secret = aws_iam_access_key.jenkins_user.secret
+    id     = aws_iam_access_key.jenkins-user.id
+    secret = aws_iam_access_key.jenkins-user.secret
   }
   sensitive = true
 }

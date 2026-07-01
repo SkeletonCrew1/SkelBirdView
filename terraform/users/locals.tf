@@ -4,8 +4,7 @@ locals {
     "Vitalii_Oliinyk",
     "Denis_Folyush",
     "Maksym_Semehen",
-    "Oleh_Konovaliuk",
-    "jenkins_user"
+    "Oleh_Konovaliuk"
   ]
 
   policies_arns = [
