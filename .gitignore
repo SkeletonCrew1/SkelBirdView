@@ -22,7 +22,7 @@ __pycache__/
 # Editors
 .idea/
 .vscode/
-
+security-reports/
 # Vagrant
 .vagrant/
 *.log
