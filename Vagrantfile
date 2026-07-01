@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
-    db.vm.provision "shell", path: "./scripts/database.sh"
+   # db.vm.provision "shell", path: "./scripts/database.sh"
 
     db.vm.network "private_network", ip: "192.168.56.105"
   end
@@ -29,10 +29,10 @@ Vagrant.configure("2") do |config|
         vb.memory = 2048
       end 
 
-      web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
-        env: { "app_dir" => "/home/vagrant/web-servers" }
+      #web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
+      #  env: { "app_dir" => "/home/vagrant/web-servers" }
 
-      web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
+     # web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
     end
   end
 
@@ -48,13 +48,13 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
-    lb.vm.provision "shell" do |s|
-      s.path = "scripts/load-balancer.sh"
-      s.env = {
-        "WEB_SERVER_1_IP" => "192.168.56.101",
-        "WEB_SERVER_2_IP" => "192.168.56.102"
-      }
-    end
+    #lb.vm.provision "shell" do |s|
+     # s.path = "scripts/load-balancer.sh"
+     # s.env = {
+     #   "WEB_SERVER_1_IP" => "192.168.56.101",
+     #   "WEB_SERVER_2_IP" => "192.168.56.102"
+     # }
+    #end
     lb.vm.network "private_network", ip: "192.168.56.106"
   end
 
