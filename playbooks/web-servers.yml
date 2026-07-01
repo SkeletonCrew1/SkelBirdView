@@ -34,6 +34,14 @@
         force: yes
       become: true
 
+    - name: Copy source code
+      ansible.builtin.git:
+        repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
+        dest: /home/jenkins/configs
+        version: config_files
+        force: yes
+      become: true
+
     - name: Template .env
       ansible.builtin.template:
         src:  ./templates/env_templates
@@ -90,7 +98,7 @@
 
     - name: Move service file for the app  
       ansible.builtin.copy:
-        src: /home/jenkins/application/web-servers/SkelBirdView.service
+        src: /home/jenkins/configs/web_servers_config/SkelBirdView.service
         dest: /etc/systemd/system/SkelBirdView.service
         owner: jenkins
         group: jenkins
