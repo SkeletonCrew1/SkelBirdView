@@ -9,7 +9,7 @@ output "user_passwords" {
 
 output "flask_user_access_key" {
   value = {
-    id = aws_iam_access_key.flask-user.id
+    id     = aws_iam_access_key.flask-user.id
     secret = aws_iam_access_key.flask-user.secret
   }
   sensitive = true
@@ -17,7 +17,7 @@ output "flask_user_access_key" {
 
 output "jenkins_user_access_key" {
   value = {
-    id = aws_iam_access_key.jenkins_user.id
+    id     = aws_iam_access_key.jenkins_user.id
     secret = aws_iam_access_key.jenkins_user.secret
   }
   sensitive = true

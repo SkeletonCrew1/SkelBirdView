@@ -1,15 +1,5 @@
-locals {
-  user_policy_pairs = {
-    for pair in setproduct(var.users, var.policies_arns) :
-    "${pair[0]}-${pair[1]}" => {
-      user   = pair[0]
-      policy = pair[1]
-    }
-  }
-}
-
 resource "aws_iam_user" "main" {
-  for_each = toset(var.users)
+  for_each = toset(local.users)
 
   name = each.value
   path = "/"
@@ -45,7 +35,7 @@ resource "aws_iam_user" "flask-user" {
 }
 
 resource "aws_iam_user_policy_attachment" "flask-user" {
-  user = aws_iam_user.flask-user.id
+  user       = aws_iam_user.flask-user.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
