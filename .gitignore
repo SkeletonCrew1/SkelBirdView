@@ -1,8 +1,28 @@
-.vagrant
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environments
+venv/
 .venv/
-__pycache__/
-*.pyc
-*.log
-sensitive-mysql.env
+env/
+.env/
 .env
+sensitive-mysql.env
 pyvenv.cfg
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Editors
+.idea/
+.vscode/
+
+# Vagrant
+.vagrant/
+*.log
