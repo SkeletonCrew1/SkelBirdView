@@ -18,6 +18,7 @@ pyvenv.cfg
 # Python
 __pycache__/
 *.py[cod]
+.ruff_cache
 
 # Editors
 .idea/
