@@ -38,6 +38,8 @@ pipeline {
         }
         stage("Execute Ansible pipeline for monitoring") {
             steps {
+                sh "ansible-galaxy collection install datadog.dd"
+
                 ansiblePlaybook credentialsId: 'jenkins-key',
                                  disableHostKeyChecking: true,
                                  inventory: 'playbooks/vars/hosts.yml',
