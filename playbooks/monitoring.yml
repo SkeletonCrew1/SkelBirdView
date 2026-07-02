@@ -3,9 +3,6 @@
   hosts: monitoring
   gather_facts: true
 
-  vars_files:
-    - vars/secrets.yml
-
   tasks:
     - name: Import the Datadog Agent role from the Datadog collection
       import_role:
