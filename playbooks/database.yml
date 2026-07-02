@@ -54,7 +54,7 @@
     - name: Create the database user
       community.mysql.mysql_user:
         name: "{{ DB_USER }}"
-        password: "{{ DB_PASSWORD }}"
+        plugin_auth_string: "{{ DB_PASSWORD }}"
         host: "%"
         priv: "*.*:ALL"
         state: present
