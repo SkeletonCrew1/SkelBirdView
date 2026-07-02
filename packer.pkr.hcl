@@ -25,7 +25,7 @@ build {
   ]
 
   provisioner "ansible" {
-    playbook_file = "playbooks/golden-image-playbook.yml"
+    playbook_file = "playbooks/golden-image.yml"
     user          = "vagrant"
   }
 }
