@@ -35,7 +35,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install yamllint -y
-          yamllint ./.github/workflows/**
+          yamllint ./.github/workflows/
 # Just a placeholder for when we start using yaml
 
 
@@ -52,4 +52,4 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install flake8
-          flake8 --max-line-length 180 web-servers/**
+          flake8 --max-line-length 180 web-servers/
