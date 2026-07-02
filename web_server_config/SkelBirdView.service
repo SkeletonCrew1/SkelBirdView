@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=vagrant
 Group=vagrant
-Environment=PORT=8080
+Environment=PORT=80
 WorkingDirectory=/home/vagrant/application/web-servers/
 ExecStart=/home/vagrant/application/web-servers/venv/bin/python3 /home/vagrant/application/web-servers/app.py
 Restart=always
