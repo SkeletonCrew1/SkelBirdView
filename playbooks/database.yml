@@ -66,6 +66,7 @@
         host: "%"
         priv: "*.*:ALL"
         state: present
+        plugin: caching_sha2_password
         login_unix_socket: /var/run/mysqld/mysqld.sock
       become: true 
 
