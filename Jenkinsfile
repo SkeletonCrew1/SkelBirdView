@@ -8,6 +8,8 @@ pipeline {
             AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
             AWS_SECRET_KEY = credentials('AWS_SECRET_KEY')
             S3_BUCKET = credentials('S3_BUCKET')
+            SERVER1 = credentials('SERVER1')
+            SERVER2 = credentials('SERVER1')
         }
     stages {
         stage("Execute Ansible pipeline for DB") {
@@ -25,6 +27,14 @@ pipeline {
                                  inventory: 'playbooks/vars/hosts.yml',
                                  playbook: 'playbooks/web-servers.yml'
             }    
-        }    
+        }
+        stage("Execute Ansible pipeline for load-balancer") {
+            steps {
+                ansiblePlaybook credentialsId: 'jenkins-key',
+                                 disableHostKeyChecking: true,
+                                 inventory: 'playbooks/vars/hosts.yml',
+                                 playbook: 'playbooks/load-balancer.yml'
+            }    
+        }   
     }
 }
