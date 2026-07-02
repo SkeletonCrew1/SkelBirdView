@@ -6,7 +6,7 @@ from . import db, s3, BUCKET_NAME, login_manager
 from .models import User, Post, Like
 from forms import RegistrationForm, LoginForm, PostForm
 
-app = Blueprint('app', __name__)
+app = Blueprint("app", __name__)
 
 
 @login_manager.user_loader
@@ -18,9 +18,9 @@ def get_presigned_url(filename):
     """Generates a temporary URL for private S3 objects."""
     try:
         url = s3.generate_presigned_url(
-            'get_object',
-            Params={'Bucket': BUCKET_NAME, 'Key': filename},
-            ExpiresIn=3600
+            "get_object",
+            Params={"Bucket": BUCKET_NAME, "Key": filename},
+            ExpiresIn=3600,
         )
         return url
     except Exception:
@@ -31,7 +31,7 @@ def get_presigned_url(filename):
 def index():
     posts = Post.query.all()
     for post in posts:
-        filename = post.image_url.split('/')[-1]
+        filename = post.image_url.split("/")[-1]
         post.presigned_url = get_presigned_url(filename)
     return render_template("index.html", posts=posts)
 
@@ -71,11 +71,17 @@ def create_post():
     if form.validate_on_submit():
         file = form.picture.data
         filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
-        s3.upload_fileobj(file, BUCKET_NAME, filename, ExtraArgs={'ContentType': file.content_type})
+        s3.upload_fileobj(
+            file, BUCKET_NAME, filename, ExtraArgs={"ContentType": file.content_type}
+        )
 
         image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
-        new_post = Post(title=form.title.data, location=form.location.data,
-                        image_url=image_url, user_id=current_user.id)
+        new_post = Post(
+            title=form.title.data,
+            location=form.location.data,
+            image_url=image_url,
+            user_id=current_user.id,
+        )
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for("app.index"))
@@ -85,7 +91,7 @@ def create_post():
 @app.route("/post/<int:post_id>")
 def post_detail(post_id):
     post = Post.query.get_or_404(post_id)
-    filename = post.image_url.split('/')[-1]
+    filename = post.image_url.split("/")[-1]
     presigned_url = get_presigned_url(filename)
     return render_template("post.html", post=post, image_url=presigned_url)
 
@@ -93,8 +99,10 @@ def post_detail(post_id):
 @app.route("/like/<int:post_id>")
 @login_required
 def like_post(post_id):
-    existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post_id).first()
+    existing_like = Like.query.filter_by(
+        user_id=current_user.id, post_id=post_id
+    ).first()
     if not existing_like:
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
         db.session.commit()
-    return redirect(url_for('app.post_detail', post_id=post_id))
+    return redirect(url_for("app.post_detail", post_id=post_id))
