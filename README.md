@@ -21,6 +21,8 @@
     - `AWS_ACCESS_KEY`
     - `AWS_SECRET_KEY`
     - `S3_BUCKET`
+    - `SERVER1`
+    - `SERVER2`
 5. Add [new pipeline](http://192.168.56.200:8080/view/all/newJob) called `Configure VMs`
     - Definition: `Pipeline script fom SCM`
     - SCM: `Git`
