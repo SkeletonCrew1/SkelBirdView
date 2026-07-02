@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
       #web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
       #  env: { "app_dir" => "/home/vagrant/web-servers" }
 
-      web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
+      web.vm.network "private_network", ip: "192.168.56.#{111 + index}"
     end
   end
 
