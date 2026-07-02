@@ -46,10 +46,7 @@ pipeline {
                                 disableHostKeyChecking: true,
                                 inventory: 'playbooks/vars/hosts.yml',
                                 playbook: 'playbooks/monitoring.yml'
-                                extras: """
-                                -e datadog_api_key=$datadog_api_key
-                                -e datadog_site=$datadog_site
-                                """
+                                extras: "-e datadog_api_key=$DD_API_KEY -e datadog_site=$DD_SITE"
             }
         }
     }
