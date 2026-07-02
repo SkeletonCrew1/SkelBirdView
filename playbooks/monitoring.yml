@@ -2,6 +2,7 @@
 - name: Try to ping
   hosts: monitoring
   gather_facts: true
+  become: true
 
   tasks:
     - name: Import the Datadog Agent role from the Datadog collection
