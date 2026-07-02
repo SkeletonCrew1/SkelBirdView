@@ -17,25 +17,25 @@ pipeline {
         stage("Execute Ansible pipeline for DB") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/database.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/database.yml'
             }
         }
         stage("Execute Ansible pipeline for web-servers") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/web-servers.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/web-servers.yml'
             }
         }
         stage("Execute Ansible pipeline for load-balancer") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/load-balancer.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/load-balancer.yml'
             }
         }
         stage("Execute Ansible pipeline for monitoring") {
@@ -43,9 +43,13 @@ pipeline {
                 sh "ansible-galaxy collection install datadog.dd"
 
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/monitoring.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/monitoring.yml'
+                                extras: """
+                                -e datadog_api_key=$datadog_api_key
+                                -e datadog_site=$datadog_site
+                                """
             }
         }
     }
