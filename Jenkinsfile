@@ -24,7 +24,7 @@ pipeline {
                                  disableHostKeyChecking: true,
                                  inventory: 'playbooks/vars/hosts.yml',
                                  playbook: 'playbooks/web-servers.yml'
-            }    
-        }    
+            }
+        }
     }
 }
