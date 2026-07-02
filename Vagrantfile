@@ -68,6 +68,6 @@ Vagrant.configure("2") do |config|
       vb.memory = 2048
     end
 
-    monitoring.vm.network "private_network", ip: "192.168.56.200"
+    monitoring.vm.network "private_network", ip: "192.168.56.210"
   end
 end
