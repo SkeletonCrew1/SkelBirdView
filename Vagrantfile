@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
         vb.memory = 2048
-      end 
+      end
 
 
 
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.hostname = "jenkins"
     jenkins.vm.box = "ubuntu26-golden-image"
-    jenkins.vm.disk :disk, size: "4GB" , name: "disk"  # need to downgrade 
+    jenkins.vm.disk :disk, size: "4GB" , name: "disk"  # need to downgrade
 
     jenkins.vm.provider "virtualbox" do |vb|
       vb.name = "jenkins"
@@ -61,4 +61,3 @@ Vagrant.configure("2") do |config|
     jenkins.vm.network "private_network", ip: "192.168.56.200"
   end
 end
-

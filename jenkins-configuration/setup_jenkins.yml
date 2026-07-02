@@ -47,7 +47,7 @@
     - name: Restart jenkins service
       service:
         name: jenkins
-        state: restarted  
+        state: restarted
 
     - name: install plugins
       community.general.jenkins_plugin:
@@ -60,4 +60,4 @@
     - name: Restart jenkins service
       service:
         name: jenkins
-        state: restarted  
+        state: restarted

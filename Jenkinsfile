@@ -26,7 +26,7 @@ pipeline {
                                  disableHostKeyChecking: true,
                                  inventory: 'playbooks/vars/hosts.yml',
                                  playbook: 'playbooks/web-servers.yml'
-            }    
+            }
         }
         stage("Execute Ansible pipeline for load-balancer") {
             steps {
@@ -34,7 +34,7 @@ pipeline {
                                  disableHostKeyChecking: true,
                                  inventory: 'playbooks/vars/hosts.yml',
                                  playbook: 'playbooks/load-balancer.yml'
-            }    
-        }   
+            }
+        }
     }
 }
