@@ -10,6 +10,8 @@ pipeline {
             S3_BUCKET = credentials('S3_BUCKET')
             SERVER1 = credentials('SERVER1')
             SERVER2 = credentials('SERVER2')
+            datadog_api_key = credentials('datadog_api_key')
+            datadog_site = credentials('datadog_site')
         }
     stages {
         stage("Execute Ansible pipeline for DB") {
