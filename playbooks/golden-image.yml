@@ -7,6 +7,11 @@
     - vars/users.yml
 
   tasks:
+    - name: Setting host facts using complex arguments
+      ansible.builtin.set_fact:
+        datadog_api_key: "{{ lookup('env', 'datadog_api_key') }}"
+        datadog_site: "{{ lookup('env', 'datadog_site') }}"
+
     - name: Configure timezone
       community.general.timezone:
         name: Europe/Kyiv
@@ -73,3 +78,9 @@
           --format table
           --output "/var/log/trivy/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt"
           /
+
+    - name: Install Datadog role
+      community.general.ansible_galaxy_install:
+        name: datadog.dd.agent
+      import_role:
+        name: datadog.dd.agent

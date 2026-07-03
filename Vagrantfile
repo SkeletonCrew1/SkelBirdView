@@ -59,15 +59,4 @@ Vagrant.configure("2") do |config|
     jenkins.vm.network "private_network", ip: "192.168.56.200"
   end
 
-  config.vm.define "monitoring" do |monitoring|
-    monitoring.vm.hostname = "monitoring"
-    monitoring.vm.box = "ubuntu26-golden-image"
-
-    monitoring.vm.provider "virtualbox" do |vb|
-      vb.name = "monitoring"
-      vb.memory = 2048
-    end
-
-    monitoring.vm.network "private_network", ip: "192.168.56.210"
-  end
 end

@@ -38,16 +38,5 @@ pipeline {
                                 playbook: 'playbooks/load-balancer.yml'
             }
         }
-        stage("Execute Ansible pipeline for monitoring") {
-            steps {
-                sh "ansible-galaxy collection install datadog.dd"
-
-                ansiblePlaybook credentialsId: 'jenkins-key',
-                                disableHostKeyChecking: true,
-                                inventory: 'playbooks/vars/hosts.yml',
-                                playbook: 'playbooks/monitoring.yml',
-                                extras: "-e datadog_api_key=$datadog_api_key -e datadog_site=$datadog_site"
-            }
-        }
     }
 }
