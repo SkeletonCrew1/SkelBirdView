@@ -13,6 +13,10 @@ Vagrant.configure("2") do |config|
     end
 
     db.vm.network "private_network", ip: "192.168.56.105"
+
+    db.vm.provision "shell", inline: <<-SHELL
+      sudo systemctl restart datadog-agent
+    SHELL
   end
 
   ["web-server-1", "web-server-2"].each_with_index do |web_server, index|
@@ -28,6 +32,10 @@ Vagrant.configure("2") do |config|
       end
 
       web.vm.network "private_network", ip: "192.168.56.#{111 + index}"
+
+      web.vm.provision "shell", inline: <<-SHELL
+        sudo systemctl restart datadog-agent
+      SHELL
     end
   end
 
@@ -44,6 +52,10 @@ Vagrant.configure("2") do |config|
     end
 
     lb.vm.network "private_network", ip: "192.168.56.106"
+
+    lb.vm.provision "shell", inline: <<-SHELL
+      sudo systemctl restart datadog-agent
+    SHELL
   end
 
   config.vm.define "jenkins" do |jenkins|
@@ -57,6 +69,10 @@ Vagrant.configure("2") do |config|
     end
 
     jenkins.vm.network "private_network", ip: "192.168.56.200"
+
+    jenkins.vm.provision "shell", inline: <<-SHELL
+      sudo systemctl restart datadog-agent
+    SHELL
   end
 
 end
