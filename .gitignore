@@ -33,3 +33,6 @@ __pycache__/
 *.tfstate*
 passwords.json
 access_key*
+# Other
+security-reports/
+output-golden-image/
