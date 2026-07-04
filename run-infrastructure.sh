@@ -14,8 +14,8 @@ rm -rf ~/VirtualBox\ VMs/*
 ansible-galaxy collection install ansible.windows
 ansible-galaxy install datadog.datadog
 
-packer init .
-packer build .
+packer init ./packer/
+packer build ./packer/
 
 vagrant box add --force ubuntu26-golden-image ./output-golden-image/package.box
 vagrant up
