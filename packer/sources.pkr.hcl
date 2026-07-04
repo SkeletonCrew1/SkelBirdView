@@ -6,7 +6,7 @@ source "amazon-ebs" "ubuntu26-golden-image" {
   vpc_id            = "${var.vpc_id}"
   subnet_id         = "${var.subnet_id}"
   security_group_id = "${var.security_group_id}"
-  ami_name          = "${var.ami_name}"
+  ami_name          = "${var.ami_name}-${formatdate("DDMMYYYY-HHmm", timestamp())}"
   source_ami        = "${var.source_ami}"
   instance_type     = "${var.instance_type}"
 }
