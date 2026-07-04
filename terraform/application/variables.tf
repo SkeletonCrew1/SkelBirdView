@@ -22,10 +22,6 @@ variable "consul_state_key" {
   type = string
 }
 
-variable "state_region" {
-  default = "us-east-1"
-}
-
 variable "keys_state_bucket" {
   type = string
 }

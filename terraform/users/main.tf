@@ -57,7 +57,7 @@ resource "aws_iam_user" "flask-user" {
 
 resource "aws_iam_user_policy_attachment" "flask-user" {
   user       = aws_iam_user.flask-user.id
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 resource "aws_iam_access_key" "flask-user" {
