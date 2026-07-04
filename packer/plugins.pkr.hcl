@@ -1,8 +1,8 @@
 packer {
   required_plugins {
-    vagrant = {
-      source  = "github.com/hashicorp/vagrant"
-      version = ">= 1.1.7"
+    amazon = {
+      source  = "github.com/hashicorp/amazon"
+      version = ">= 1.8.1"
     }
 
     ansible = {

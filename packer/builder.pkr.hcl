@@ -1,15 +1,17 @@
 build {
+  name = "golden-image-builder"
+
   sources = [
-    "source.vagrant.golden-image"
+    "source.amazon-ebs.ubuntu26-golden-image"
   ]
 
   provisioner "ansible" {
     playbook_file = "playbooks/golden-image.yml"
-    user          = "vagrant"
+    user          = "ubuntu"
 
     ansible_env_vars = [
-      "DATADOG_API_KEY=${var.DATADOG_API_KEY}",
-      "DATADOG_SITE=${var.DATADOG_SITE}"
+      "datadog_api_key=${var.datadog_api_key}",
+      "datadog_site=${var.datadog_site}"
     ]
   }
 }

@@ -37,3 +37,5 @@
 - `web-server-1`: `192.168.56.111`
 - `web-server-2`: `192.168.56.112`
 - `load-balancer`: `192.168.56.106`
+
+> This document is outdated, we are in the middle of migration from local development to AWS.
