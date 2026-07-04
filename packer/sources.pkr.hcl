@@ -1,5 +1,5 @@
 source "amazon-ebs" "ubuntu26-golden-image" {
-  tags {
+  tags = {
     Name = "Golden Image"
   }
   access_key        = "${var.access_key}"
