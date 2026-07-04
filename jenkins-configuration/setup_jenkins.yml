@@ -1,10 +1,10 @@
+---
 - name: Setting up Jenkins
-  hosts: jenkins
+  hosts: all
   become: yes
   vars_files:
-    - vars/.env
     - vars/main.yml
-
+    - vars/.env
   tasks:
     - name: Install java
       ansible.builtin.apt:
@@ -39,8 +39,8 @@
         src: ./templates/disable_unlock.groovy
         dest: /var/lib/jenkins/init.groovy.d/
 
-    - name: write hostname using jinja2
-      ansible.builtin.template:
+    - name: Copy the file for creating user
+      ansible.builtin.copy:
         src: ./templates/create_user.groovy
         dest: /var/lib/jenkins/init.groovy.d/
 
