@@ -16,7 +16,9 @@ def create_app():
     load_dotenv()
 
     app.config["SECRET_KEY"] = "dev-key-123"
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}/{os.environ.get('DB_NAME')}"
+    app.config[
+        "SQLALCHEMY_DATABASE_URI"
+    ] = f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}/{os.environ.get('DB_NAME')}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
@@ -26,11 +28,12 @@ def create_app():
     s3 = boto3.client(
         "s3",
         aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
-        aws_secret_access_key=os.environ.get("AWS_SECRET_KEY")
+        aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
     )
     BUCKET_NAME = os.environ.get("S3_BUCKET")
 
     from .routes import app as app_blueprint
+
     app.register_blueprint(app_blueprint)
 
     return app
