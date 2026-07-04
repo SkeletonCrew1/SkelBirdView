@@ -1,6 +1,8 @@
 build {
+  name = "golden-image-builder"
+
   sources = [
-    "source.vagrant.golden-image"
+    "source.amazon-ebs.ubuntu26-golden-image"
   ]
 
   provisioner "ansible" {
