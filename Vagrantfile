@@ -12,8 +12,6 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
-    db.vm.provision "shell", path: "./scripts/database.sh"
-
     db.vm.network "private_network", ip: "192.168.56.105"
   end
 
@@ -27,12 +25,11 @@ Vagrant.configure("2") do |config|
       web.vm.provider "virtualbox" do |vb|
         vb.name = web_server
         vb.memory = 2048
-      end 
+      end
 
-      web.vm.provision "shell", path: "./scripts/web-server-configuration.sh",
-        env: { "app_dir" => "/home/vagrant/web-servers" }
 
-      web.vm.network "private_network", ip: "192.168.56.#{101 + index}"
+
+      web.vm.network "private_network", ip: "192.168.56.#{111 + index}"
     end
   end
 
@@ -48,13 +45,19 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
-    lb.vm.provision "shell" do |s|
-      s.path = "scripts/load-balancer.sh"
-      s.env = {
-        "WEB_SERVER_1_IP" => "192.168.56.101",
-        "WEB_SERVER_2_IP" => "192.168.56.102"
-      }
-    end
     lb.vm.network "private_network", ip: "192.168.56.106"
+  end
+
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.hostname = "jenkins"
+    jenkins.vm.box = "ubuntu26-golden-image"
+    jenkins.vm.disk :disk, size: "4GB" , name: "disk"  # need to downgrade
+
+    jenkins.vm.provider "virtualbox" do |vb|
+      vb.name = "jenkins"
+      vb.memory = 2048
+    end
+
+    jenkins.vm.network "private_network", ip: "192.168.56.200"
   end
 end
