@@ -2,6 +2,9 @@ source "amazon-ebs" "ubuntu26-golden-image" {
   tags = {
     Name = "Golden Image"
   }
+  run_tags = {
+    Name = "Packer Builder"
+  }
   access_key        = "${var.access_key}"
   secret_key        = "${var.secret_key}"
   ssh_username      = "${var.ssh_username}"
