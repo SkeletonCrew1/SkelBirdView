@@ -5,19 +5,21 @@ from wtforms.validators import DataRequired, Email, Length
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
-    submit = SubmitField('Register')
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
+    submit = SubmitField("Register")
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 
 class PostForm(FlaskForm):
-    title = StringField('Bird Name', validators=[DataRequired()])
-    location = StringField('Location', validators=[DataRequired()])
-    picture = FileField('Upload Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
-    submit = SubmitField('Post')
+    title = StringField("Bird Name", validators=[DataRequired()])
+    location = StringField("Location", validators=[DataRequired()])
+    picture = FileField(
+        "Upload Picture", validators=[FileAllowed(["jpg", "png", "jpeg"])]
+    )
+    submit = SubmitField("Post")
