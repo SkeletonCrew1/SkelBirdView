@@ -4,7 +4,7 @@ variable "datadog_api_key" {
   default   = env("datadog_api_key")
 }
 
-variable "DATADOG_SITE" {
+variable "datadog_site" {
   type      = string
   sensitive = true
   default   = env("datadog_site")
