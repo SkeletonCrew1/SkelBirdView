@@ -18,5 +18,5 @@ pipeline {
                                  playbook: 'playbooks/database.yml'
             }
         }
-
+    }
 }
