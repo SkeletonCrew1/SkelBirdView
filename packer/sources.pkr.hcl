@@ -1,10 +1,10 @@
 source "amazon-ebs" "ubuntu26-golden-image" {
   tags = {
-    Name = "Golden Image"
+    Name = "Golden-Image"
   }
 
   run_tags = {
-    Name = "Packer Builder"
+    Name = "Packer-Builder"
   }
 
   access_key        = "${var.access_key}"
