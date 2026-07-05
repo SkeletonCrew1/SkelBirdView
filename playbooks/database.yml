@@ -7,6 +7,8 @@
         DB_USER: "{{ lookup('env', 'DB_USER') }}"
         DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
         DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        datadog_api_key: "{{ lookup('env', 'datadog_api_key') }}"
+        datadog_site: "{{ lookup('env', 'datadog_site') }}"
         cacheable: true
 
     - name: Installing Mysql and dependencies
