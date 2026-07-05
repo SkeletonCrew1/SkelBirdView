@@ -18,13 +18,5 @@ pipeline {
                                  playbook: 'playbooks/database.yml'
             }
         }
-        stage("Execute Ansible pipeline for web-servers") {
-            steps {
-                ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/web-servers.yml'
-            }    
-        }    
-    }
+
 }
