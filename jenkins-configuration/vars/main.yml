@@ -7,4 +7,3 @@ jenkins_plugins:
   - ant
   - git
   - ssh
-  - workflow-aggregator
