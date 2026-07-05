@@ -19,7 +19,7 @@ data "aws_ami" "golden-image" {
     name = "name"
 
     values = [
-      "ubuntu26-golden-image-0407260325"
+      "ubuntu26-golden-image-*"
     ]
   }
 
