@@ -1,3 +1,0 @@
-output "key_name" {
-  value = aws_key_pair.deployer["vitalii-key"].key_name
-}

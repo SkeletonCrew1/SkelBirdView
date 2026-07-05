@@ -10,6 +10,6 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "key_name" {
-  default = "vitalii-key"
+variable "vpc_state_region" {
+  type = string
 }

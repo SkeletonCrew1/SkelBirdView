@@ -8,18 +8,18 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-data "aws_ami" "ubuntu" {
+data "aws_ami" "golden-image" {
   most_recent = true
 
   owners = [
-    "099720109477"
+    "self"
   ]
 
   filter {
     name = "name"
 
     values = [
-      "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+      "ubuntu26-golden-image-0407260325"
     ]
   }
 

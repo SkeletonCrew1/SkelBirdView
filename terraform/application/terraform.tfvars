@@ -7,5 +7,4 @@ jenkins_state_key = "state/jenkins/terraform.tfstate"
 consul_state_bucket = "skeleton-crew-terraform-state-s3-bucket"
 consul_state_key = "state/consul/terraform.tfstate"
 
-keys_state_bucket = "skeleton-crew-terraform-state-s3-bucket"
-keys_state_key    = "state/keys/terraform.tfstate"
+state_region = "us-east-1"

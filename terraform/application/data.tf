@@ -28,32 +28,26 @@ data "terraform_remote_state" "consul" {
   }
 }
 
-data "terraform_remote_state" "keys" {
-  backend = "s3"
-
-  config = {
-    bucket = var.keys_state_bucket
-    key    = var.keys_state_key
-    region = var.state_region
-  }
-}
-
-data "aws_ami" "ubuntu" {
+data "aws_ami" "golden-image" {
   most_recent = true
 
-  owners = ["099720109477"]
+  owners = [
+    "self"
+  ]
 
   filter {
     name = "name"
 
     values = [
-      "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+      "ubuntu26-golden-image-0407260325"
     ]
   }
 
   filter {
     name = "virtualization-type"
 
-    values = ["hvm"]
+    values = [
+      "hvm"
+    ]
   }
 }

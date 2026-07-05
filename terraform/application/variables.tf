@@ -22,10 +22,6 @@ variable "consul_state_key" {
   type = string
 }
 
-variable "keys_state_bucket" {
-  type = string
-}
-
-variable "keys_state_key" {
+variable "state_region" {
   type = string
 }
