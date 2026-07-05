@@ -9,11 +9,20 @@ pipeline {
             }
         }
 
+
+        stage('Terraform Format Check') {
+            steps {
+                sh 'terraform fmt -check -recursive'
+            }
+        }
+
+
         stage('Terraform Init') {
             steps {
                 sh 'terraform init'
             }
         }
+
 
         stage('Terraform Validate') {
             steps {
@@ -21,16 +30,38 @@ pipeline {
             }
         }
 
+
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                sh 'terraform plan -out=tfplan'
             }
         }
 
+
+        stage('Approval') {
+            steps {
+                input message: 'Review the plan output above. Proceed with apply?', ok: 'Apply'
+            }
+        }
+
+
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply'
+                sh 'terraform apply tfplan'
             }
+        }
+    }
+
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Terraform workflow completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed. Check the console output above for details.'
         }
     }
 }
