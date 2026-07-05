@@ -8,6 +8,7 @@ variable "DATADOG_SITE" {
   type      = string
   sensitive = true
   default   = env("datadog_site")
+}
 
 variable "access_key" {
   type      = string
