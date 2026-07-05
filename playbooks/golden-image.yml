@@ -74,5 +74,23 @@
           --output "/var/log/trivy/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt"
           /
 
+    - name: Datadog Base Config
+      copy:
+        dest: /etc/datadog-agent/datadog.yaml
+        content: |
+          api_key: "{{ datadog_api_key }}"
+          site: "{{ datadog_site }}"
+
+          logs_enabled: true
+
+          process_config:
+            enabled: "true"
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true
+
   roles:
     - datadog.datadog
