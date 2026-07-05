@@ -71,6 +71,29 @@
         login_unix_socket: /var/run/mysqld/mysqld.sock
       become: true
 
+    - name: Datadog Base Config
+      copy:
+        dest: /etc/datadog-agent/datadog.yaml
+        content: |
+          api_key: "{{ datadog_api_key }}"
+          site: "{{ datadog_site }}"
+
+          logs_enabled: true
+
+          process_config:
+            enabled: "true"
+
+    - name: Enable Process Monitoring
+      copy:
+        dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
+        content: |
+          init_config:
+
+          instances:
+            - name: database_processes
+              search_string:
+                - "mysql"
+
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
         name: datadog-agent
