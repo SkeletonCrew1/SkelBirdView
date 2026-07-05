@@ -27,6 +27,12 @@ __pycache__/
 .vagrant/
 *.log
 
+# Terraform
+.Terraform*
+# Considering that we store tfstate on S3, next ignore is redundant, but just in case
+*.tfstate*
+passwords.json
+access_key*
 # Other
 security-reports/
 output-golden-image/
