@@ -70,3 +70,10 @@
         login_password: "{{ DB_PASSWORD }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
       become: true
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true
+      become: true
