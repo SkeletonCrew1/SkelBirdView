@@ -8,4 +8,5 @@ pipeline {
                 git branch: 'SKEL-50-Implementation-Jenkins-configuration-to-AWS', credentialsId: 'jenkins-key', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
             }
         }
+    }
 }
