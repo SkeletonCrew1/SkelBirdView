@@ -13,8 +13,6 @@
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
-        update_cache: true
-        force_apt_get: true
       loop:
         - mysql-server
         - python3-pymysql
