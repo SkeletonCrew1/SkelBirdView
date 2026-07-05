@@ -102,3 +102,6 @@
         state: restarted
         enabled: true
       become: true
+
+  roles:
+    - datadog.datadog
