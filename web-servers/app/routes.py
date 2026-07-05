@@ -1,12 +1,12 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from . import db, s3, BUCKET_NAME, login_manager
 from .models import User, Post, Like
-from forms import RegistrationForm, LoginForm, PostForm
+from forms import RegistrationForm, LoginForm, PostForm, UnlockForm
 
-app = Blueprint('app', __name__)
+app = Blueprint("app", __name__)
 
 
 @login_manager.user_loader
@@ -18,9 +18,9 @@ def get_presigned_url(filename):
     """Generates a temporary URL for private S3 objects."""
     try:
         url = s3.generate_presigned_url(
-            'get_object',
-            Params={'Bucket': BUCKET_NAME, 'Key': filename},
-            ExpiresIn=3600
+            "get_object",
+            Params={"Bucket": BUCKET_NAME, "Key": filename},
+            ExpiresIn=3600,
         )
         return url
     except Exception:
@@ -31,7 +31,7 @@ def get_presigned_url(filename):
 def index():
     posts = Post.query.all()
     for post in posts:
-        filename = post.image_url.split('/')[-1]
+        filename = post.image_url.split("/")[-1]
         post.presigned_url = get_presigned_url(filename)
     return render_template("index.html", posts=posts)
 
@@ -69,32 +69,62 @@ def logout():
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
-        file = form.picture.data
-        filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
-        s3.upload_fileobj(file, BUCKET_NAME, filename, ExtraArgs={'ContentType': file.content_type})
+        hashed_post_pw = None
 
+        if form.hide_photo.data and form.post_password.data:
+            hashed_post_pw = generate_password_hash(form.post_password.data)
+
+        file = form.picture.data
+        image_url = None
+        filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
+        s3.upload_fileobj(
+            file, BUCKET_NAME, filename, ExtraArgs={"ContentType": file.content_type}
+        )
         image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
-        new_post = Post(title=form.title.data, location=form.location.data,
-                        image_url=image_url, user_id=current_user.id)
+
+        new_post = Post(
+            title=form.title.data,
+            location=form.location.data,
+            image_url=image_url,
+            user_id=current_user.id,
+            hide_location=form.hide_location.data,
+            hide_photo=form.hide_photo.data,
+            post_password=hashed_post_pw,
+        )
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for("app.index"))
     return render_template("create_post.html", form=form)
 
 
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def post_detail(post_id):
     post = Post.query.get_or_404(post_id)
-    filename = post.image_url.split('/')[-1]
-    presigned_url = get_presigned_url(filename)
-    return render_template("post.html", post=post, image_url=presigned_url)
+    filename = post.image_url.split("/")[-1]
+    secure_url = get_presigned_url(filename)
+
+    if post.post_password:
+        form = UnlockForm()
+        if form.validate_on_submit():
+            if check_password_hash(post.post_password, form.password.data):
+                return render_template(
+                    "post.html", post=post, image_url=secure_url, unlocked=True
+                )
+            else:
+                flash("Incorrect password", "danger")
+
+        return render_template("unlock.html", form=form)
+
+    return render_template("post.html", post=post, image_url=secure_url, unlocked=True)
 
 
 @app.route("/like/<int:post_id>")
 @login_required
 def like_post(post_id):
-    existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post_id).first()
+    existing_like = Like.query.filter_by(
+        user_id=current_user.id, post_id=post_id
+    ).first()
     if not existing_like:
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
         db.session.commit()
-    return redirect(url_for('app.post_detail', post_id=post_id))
+    return redirect(url_for("app.post_detail", post_id=post_id))

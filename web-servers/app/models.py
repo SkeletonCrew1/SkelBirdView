@@ -20,6 +20,9 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     likes = db.relationship("Like", backref="post", lazy=True)
+    hide_location = db.Column(db.Boolean, default=False)
+    hide_photo = db.Column(db.Boolean, default=False)
+    post_password = db.Column(db.String(255), nullable=True)
 
 
 class Like(db.Model):
@@ -27,4 +30,4 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey("post.id"), nullable=False)
-    __table_args__ = (db.UniqueConstraint('user_id', 'post_id', name='_user_post_uc'),)
+    __table_args__ = (db.UniqueConstraint("user_id", "post_id", name="_user_post_uc"),)

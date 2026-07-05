@@ -1,6 +1,13 @@
 <h2>{{ post.title }}</h2>
-<img src="{{ image_url }}" width="300">
-<p>Location: {{ post.location }}</p>
+
+<img src="{{ image_url }}" width="100">
+
+{% if not post.hide_location or unlocked %}
+    <p>Location: {{ post.location }}</p>
+{% else %}
+    <p><i>Location hidden.</i></p>
+{% endif %}
+
 <p>Posted by: {{ post.author.email }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
 
 <p>Total Likes: {{ post.likes|length }}</p>
