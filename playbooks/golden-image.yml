@@ -5,9 +5,14 @@
 
   vars_files:
     - vars/users.yml
-    - vars/datadog.yml
 
   tasks:
+    - name: Look Up Secrets
+      ansible.builtin.set_fact:
+        datadog_api_key: "{{ lookup('env', 'DATADOG_API_KEY') }}"
+        datadog_site: "{{ lookup('env', 'DATADOG_SITE') }}"
+        cacheable: true
+
     - name: Configure timezone
       community.general.timezone:
         name: Europe/Kyiv
