@@ -28,7 +28,7 @@
       become: true
 
     - name: Get logs for the specific systemd service
-      ansible.builtin.command: journalctl -u nginx.service --no-pager -n 50
+      ansible.builtin.command: journalctl -xeu nginx.service
       register: service_logs
       changed_when: false
 
