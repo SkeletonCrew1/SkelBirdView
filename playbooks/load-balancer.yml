@@ -46,6 +46,7 @@
             - name: load-balancer
               search_string:
                 - "nginx"
+                - "consul"
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:

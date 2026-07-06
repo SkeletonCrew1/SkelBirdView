@@ -79,6 +79,7 @@
             - name: database
               search_string:
                 - "mysql"
+                - "consul"
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:

@@ -124,6 +124,7 @@
               search_string:
                 - "nginx"
                 - "gunicorn"
+                - "consul"
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
