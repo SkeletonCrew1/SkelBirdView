@@ -12,7 +12,7 @@ pipeline {
         stage('change directory') {
             steps {
                 sh "pwd"
-                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                dir('/var/lib/jenkins/workspace/Configure-VMs/terraform/application') {
                 sh "pwd"
                 }
             } 
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                dir('/var/lib/jenkins/workspace/Configure-VMs/terraform/application') {
                 sh 'terraform init'
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                dir('/var/lib/jenkins/workspace/Configure-VMs/terraform/application') {
                 sh 'terraform plan'
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                dir('/var/lib/jenkins/workspace/Configure-VMs/terraform/application') {
                 sh 'terraform apply'
                 }
             }
