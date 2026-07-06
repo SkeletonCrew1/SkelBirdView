@@ -17,13 +17,10 @@
         update_cache: true
       become: true
 
-    - name: Echo variable value
-      ansible.builtin.debug:
-      var: SERVER1
-
-    - name: Echo variable value
-      ansible.builtin.debug:
-      var: SERVER2
+    - name: Debug echo
+      ansible.builtin.shell: |
+        echo $SERVER1
+        echo $SERVER2
 
     - name: Render template for Nginx
       ansible.builtin.template:
