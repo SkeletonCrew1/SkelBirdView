@@ -17,19 +17,14 @@
         update_cache: true
       become: true
 
-    - name: Debug echo
-      ansible.builtin.shell: |
-        echo $SERVER1
-        echo $SERVER2
-
     - name: Render template for Nginx
       ansible.builtin.template:
         src: /var/lib/jenkins/workspace/setting-up-EC2s/playbooks/templates/load_balancer.j2
         dest: /etc/nginx/sites-available/default
         mode: '0755'
       vars:
-        SERVER1: "{{ SERVER1 }}"
-        SERVER2: "{{ SERVER2 }}"
+        SERVER1: "10.0.11.105"
+        SERVER2: "10.0.12.163"
       become: true
 
     - ansible.builtin.debug:
