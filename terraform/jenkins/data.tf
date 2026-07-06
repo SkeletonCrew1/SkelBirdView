@@ -4,7 +4,17 @@ data "terraform_remote_state" "vpc" {
   config = {
     bucket = var.vpc_state_bucket
     key    = var.vpc_state_key
-    region = var.vpc_state_region
+    region = var.region
+  }
+}
+
+data "terraform_remote_state" "roles" {
+  backend = "s3"
+
+  config = {
+    bucket = var.roles_state_bucket
+    key = var.roles_state_key
+    region = var.region
   }
 }
 
