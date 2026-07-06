@@ -1,14 +1,16 @@
 ---
 - name: Try to ping
   hosts: webservers
-  gather_facts: true
+  become: true
+
   vars:
     packages:
       - python3
       - python3-pip
       - python3-venv
+
   tasks:
-    - name: Setting host facts using complex arguments
+    - name: Look Up Secrets
       ansible.builtin.set_fact:
         DB_USER: "{{ lookup('env', 'DB_USER') }}"
         DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
@@ -25,14 +27,12 @@
         state: present
         update_cache: yes
       loop: "{{ packages }}"
-      become: true
 
     - name: Copy source code
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/application
         force: yes
-      become: true
 
     - name: Copy source code
       ansible.builtin.git:
@@ -40,7 +40,6 @@
         dest: /home/jenkins/configs
         version: config_files
         force: yes
-      become: true
 
     - name: Template .env
       ansible.builtin.template:
@@ -54,7 +53,6 @@
         AWS_ACCESS_KEY: "{{ AWS_ACCESS_KEY }}"
         AWS_SECRET_KEY: "{{ AWS_SECRET_KEY }}"
         S3_BUCKET: "{{ S3_BUCKET }}"
-      become: true
 
     - name: Manually create the initial virtualenv
       command:
@@ -62,14 +60,12 @@
         creates: "{{ venv_path }}"
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
-      become: true
 
     - name: Install system virtualenv
       ansible.builtin.apt:
         name: python3-virtualenv
         state: present
         update_cache: true
-      become: true
 
     - name: Install requirements
       ansible.builtin.pip:
@@ -78,7 +74,6 @@
         virtualenv_python: python3.5
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
-      become: true
 
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
@@ -86,7 +81,6 @@
         owner: jenkins
         group: jenkins
         mode: '0755'
-      become: true
 
     - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
@@ -94,7 +88,6 @@
         owner: jenkins
         group: jenkins
         mode: '0755'
-      become: true
 
     - name: Move service file for the app
       ansible.builtin.copy:
@@ -104,7 +97,6 @@
         group: jenkins
         mode: '0644'
         remote_src: yes
-      become: true
 
     - name: Change permissions for web-servers folder
       ansible.builtin.file:
@@ -113,7 +105,6 @@
         group: 'jenkins'
         recurse: true
         mode: u=rwX,g=rX,o=rX
-      become: true
 
     - name: Make sure  service that starts app.py is started and enabled
       systemd:
@@ -121,11 +112,21 @@
         state: restarted
         enabled: yes
         daemon_reload: yes
-      become: true
+
+    - name: Enable Process Monitoring
+      copy:
+        dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
+        content: |
+          init_config:
+
+          instances:
+            - name: database_processes
+              search_string:
+                - "nginx"
+                - "gunicorn"
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
         name: datadog-agent
         state: restarted
         enabled: true
-      become: true
