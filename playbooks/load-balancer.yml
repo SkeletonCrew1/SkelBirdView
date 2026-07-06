@@ -19,11 +19,11 @@
 
     - name: Echo variable value
       ansible.builtin.debug:
-        var: "{{ SERVER1 }}"
+      var: "{{ SERVER1 }}"
 
     - name: Echo variable value
       ansible.builtin.debug:
-        var: "{{ SERVER2 }}"
+      var: "{{ SERVER2 }}"
 
     - name: Render template for Nginx
       ansible.builtin.template:
