@@ -27,7 +27,9 @@
         SERVER2: "10.0.12.163"
       become: true
 
-    - ansible.builtin.debug:
+
+    - name: Check the value of foo.txt
+      ansible.builtin.debug:
         msg: "the value of foo.txt is {{ lookup('ansible.builtin.file', '/etc/nginx/sites-available/default') }}"
 
     - name: Restarn Nginx load balancer
