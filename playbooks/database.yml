@@ -4,7 +4,7 @@
   become: true
 
   tasks:
-    - name: Setting host facts using complex arguments
+    - name: Look Up Secrets
       ansible.builtin.set_fact:
         DB_USER: "{{ lookup('env', 'DB_USER') }}"
         DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
@@ -69,18 +69,6 @@
         login_password: "{{ DB_PASSWORD }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
-    - name: Datadog Base Config
-      copy:
-        dest: /etc/datadog-agent/datadog.yaml
-        content: |
-          api_key: "{{ datadog_api_key }}"
-          site: "{{ datadog_site }}"
-
-          logs_enabled: true
-
-          process_config:
-            enabled: "true"
-
     - name: Enable Process Monitoring
       copy:
         dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
@@ -97,6 +85,3 @@
         name: datadog-agent
         state: restarted
         enabled: true
-
-  roles:
-    - datadog.datadog
