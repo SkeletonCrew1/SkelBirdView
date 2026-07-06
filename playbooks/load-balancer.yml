@@ -6,8 +6,8 @@
 
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        SERVER1: "{{ lookup('amazon.aws.secretsmanager_secret', 'SERVER1', region='us-east-1') }}"
-        SERVER2: "{{ lookup('amazon.aws.secretsmanager_secret', 'SERVER2', region='us-east-1') }}"
+        SERVER1: "{{ lookup('env', 'SERVER1')  }}"
+        SERVER2: "{{ lookup('env', 'SERVER2')  }}"
         cacheable: true
 
     - name: Install dependencies and update apt
@@ -23,8 +23,8 @@
         dest: /etc/nginx/sites-available/default
         mode: '0755'
       vars:
-        SERVER1: "10.0.11.105"
-        SERVER2: "10.0.12.163"
+        SERVER1: "{{ SERVER1 }}"
+        SERVER2: "{{ SERVER2 }}"
       become: true
 
     - name: Restarn Nginx load balancer
