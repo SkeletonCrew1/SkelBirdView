@@ -43,10 +43,9 @@
           init_config:
 
           instances:
-            - name: database_processes
+            - name: load-balancer
               search_string:
                 - "nginx"
-                - "gunicorn"
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
