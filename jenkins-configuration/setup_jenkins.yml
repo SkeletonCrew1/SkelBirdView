@@ -61,3 +61,21 @@
       service:
         name: jenkins
         state: restarted
+
+    - name: Enable Process Monitoring
+      copy:
+        dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
+        content: |
+          init_config:
+
+          instances:
+            - name: jenkins
+              search_string:
+                - "java"
+                - "jenkins.war"
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true
