@@ -34,6 +34,12 @@ pipeline {
             }
         }
 
+        stage('Approval') {
+            steps {
+                input message: 'Review the plan output above. Proceed with apply?', ok: 'Apply'
+            }
+        }
+
         stage('Terraform Apply') {
             steps {
                 dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
