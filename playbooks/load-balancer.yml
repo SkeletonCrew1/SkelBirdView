@@ -17,6 +17,14 @@
         update_cache: true
       become: true
 
+    - name: Echo variable value
+      ansible.builtin.debug:
+        var: "{{ SERVER1 }}"
+
+    - name: Echo variable value
+      ansible.builtin.debug:
+        var: "{{ SERVER2 }}"
+
     - name: Render template for Nginx
       ansible.builtin.template:
         src: /var/lib/jenkins/workspace/setting-up-EC2s/playbooks/templates/load_balancer.j2
