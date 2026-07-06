@@ -61,22 +61,17 @@
         cmd: python3 -m venv {{ venv_path }}
         creates: "{{ venv_path }}"
       vars:
-        venv_path: "/home/jenkins/application/web-servers/venv" 
+        venv_path: "/home/jenkins/application/web-servers/venv"
       become: true
 
-    - name: Install system virtualenv
-      ansible.builtin.apt:
-        name: python3-virtualenv
-        state: present
-        update_cache: true
-      become: true
-      
-    - name: Install requirements  
-      ansible.builtin.pip: 
+
+
+    - name: Install requirements
+      ansible.builtin.pip:
         requirements: "/home/jenkins/application/web-servers/requirements.txt"
         virtualenv: "{{ venv_path }}"
         virtualenv_python: python3.5
-      vars: 
+      vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
       become: true
 
@@ -96,7 +91,7 @@
         mode: '0755'
       become: true
 
-    - name: Move service file for the app  
+    - name: Move service file for the app
       ansible.builtin.copy:
         src: /home/jenkins/configs/web_server_config/SkelBirdView.service
         dest: /etc/systemd/system/SkelBirdView.service
@@ -111,7 +106,7 @@
         dest: "/home/jenkins/application/web-servers/"
         owner: 'jenkins'
         group: 'jenkins'
-        recurse: true 
+        recurse: true
         mode: u=rwX,g=rX,o=rX
       become: true
 

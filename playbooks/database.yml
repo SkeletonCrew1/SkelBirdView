@@ -63,7 +63,7 @@
 
     - name: Create the database
       community.mysql.mysql_db:
-        name: flask_stuff
+        name: "{{ DB_NAME }}"
         state: present
         login_user: "{{ DB_USER }}"
         login_password: "{{ DB_PASSWORD }}"
