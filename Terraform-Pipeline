@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'SKEL-50-Implementation-Jenkins-configuration-to-AWS', credentialsId: 'jenkins-key', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
+            }
+        }
+
+        stage('change directory') {
+            steps {
+                sh "pwd"
+                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                sh "pwd"
+                }
+            } 
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Terraform_setup/terraform/application') {
+                sh 'terraform apply'
+                }
+            }
+        }
+    }
+}
