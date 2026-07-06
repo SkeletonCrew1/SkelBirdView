@@ -7,6 +7,8 @@ resource "aws_instance" "jenkins" {
 
   associate_public_ip_address = true
 
+  iam_instance_profile = data.terraform_remote_state.roles.outputs.jenkins-profile-name
+
   vpc_security_group_ids = [
     aws_security_group.jenkins-sg.id
   ]

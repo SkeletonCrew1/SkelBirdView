@@ -16,7 +16,8 @@ locals {
     "arn:aws:iam::aws:policy/IAMUserChangePassword",             # IAM user change password, required as users have to change their password on the first login
     "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess",          # CloudWatch read only access
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",          # AWS billing read only access
-    "arn:aws:iam::aws:policy/AWSAccountManagementReadOnlyAccess" # AWS account management read only access
+    "arn:aws:iam::aws:policy/AWSAccountManagementReadOnlyAccess", # AWS account management read only access
+    "arn:aws:iam::aws:policy/SecretsManagerReadWrite" # AWS read-write access
   ]
 
   user_policy_pairs = {
