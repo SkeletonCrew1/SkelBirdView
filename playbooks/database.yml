@@ -76,7 +76,7 @@
           init_config:
 
           instances:
-            - name: database_processes
+            - name: database
               search_string:
                 - "mysql"
 

@@ -120,7 +120,7 @@
           init_config:
 
           instances:
-            - name: database_processes
+            - name: web-server
               search_string:
                 - "nginx"
                 - "gunicorn"
