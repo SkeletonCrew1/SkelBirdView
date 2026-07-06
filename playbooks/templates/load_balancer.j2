@@ -1,6 +1,7 @@
 upstream birdwatch {
-        server ${WEB_SERVER_1_IP};
-        server ${WEB_SERVER_2_IP};
+
+        server {{ SERVER1 }};
+        server {{ SERVER2 }};
 }
 
 server {
