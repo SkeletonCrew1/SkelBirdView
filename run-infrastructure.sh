@@ -8,12 +8,11 @@ rm -rf output-golden-image
 rm -rf .vagrant
 rm -rf ~/VirtualBox\ VMs/*
 
-packer init .
-
-packer build .
+packer init ./packer/
+packer build ./packer/
 
 vagrant box add --force ubuntu26-golden-image ./output-golden-image/package.box
 
 vagrant up
 
-ansible-playbook ./jenkins-configuration/setup_jenkins.yml
+ansible-playbook -i ./jenkins-configuration/hosts.yml ./jenkins-configuration/setup_jenkins.yml
