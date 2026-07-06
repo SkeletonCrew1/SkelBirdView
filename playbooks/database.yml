@@ -4,9 +4,10 @@
   tasks:
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        DB_USER: "{{ lookup('env', 'DB_USER') }}"
-        DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
-        DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+
+        DB_USER: "{{ lookup('amazon.aws.secretsmanager_secret', 'DB_USER', region='us-east-1') }}"
+        DB_NAME: "{{ lookup('amazon.aws.secretsmanager_secret', 'DB_NAME', region='us-east-1') }}"
+        DB_PASSWORD: "{{ lookup('amazon.aws.secretsmanager_secret', 'DB_PASSWORD', region='us-east-1') }}"
         cacheable: true
 
     - name: Installing Mysql and dependencies

@@ -6,8 +6,8 @@
 
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        SERVER1: "{{ lookup('env', 'SERVER1')  }}"
-        SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        SERVER1: "{{ lookup('amazon.aws.secretsmanager_secret', 'SERVER1', region='us-east-1') }}"
+        SERVER2: "{{ lookup('amazon.aws.secretsmanager_secret', 'SERVER2', region='us-east-1') }}"
         cacheable: true
 
     - name: Install dependencies and update apt
