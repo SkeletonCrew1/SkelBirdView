@@ -1,38 +1,49 @@
+<!DOCTYPE html>
+<html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Bird Sightings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<nav>
-    <a href="/">Home</a>
+<body>
+<div class="container mt-4">
+    <nav class="mb-4">
+        <a href="/" class="btn btn-light">Home</a>
+        <div class="float-end">
+            {% if current_user.is_authenticated %}
+                <span>Welcome, {{ current_user.email }}</span> |
+                <a href="/create_post" class="btn btn-sm btn-success">Create Post</a> |
+                <a href="/logout" class="btn btn-sm btn-danger">Logout</a> |
+                <a href="/hunter/report" class="btn btn-sm btn-warning">Report hunter</a>
+            {% else %}
+                <a href="/login" class="btn btn-sm btn-primary">Login</a> |
+                <a href="/register" class="btn btn-sm btn-secondary">Register</a>
+            {% endif %}
+        </div>
+    </nav>
 
-    <div style="float: right;">
-        {% if current_user.is_authenticated %}
-            <span>Welcome, {{ current_user.email }}</span> |
-            <a href="/create_post">Create Post</a> |
-            <a href="/logout">Logout</a> |
-            <a href="/hunter/report">Report hunter</a>
+    <h1>Bird Sightings</h1>
+    <hr>
 
-        {% else %}
-            <a href="/login">Login</a> |
-            <a href="/register">Register</a>
-
-        {% endif %}
-
+    <div class="row">
+    {% for post in posts %}
+        <div class="col-md-4 mb-3">
+            <div class="p-3 border rounded">
+                {% if post.post_password %}
+                    <div class="d-flex align-items-center justify-content-center bg-light border rounded mb-2" style="height: 200px;">
+                        <p class="text-danger mb-0"><i>Locked Post</i></p>
+                    </div>
+                {% elif post.hide_photo %}
+                    <div class="d-flex align-items-center justify-content-center bg-light border rounded mb-2" style="height: 200px;">
+                        <p class="text-muted mb-0"><i>Image hidden</i></p>
+                    </div>
+                {% else %}
+                    <img src="{{ post.presigned_url }}" class="img-fluid rounded mb-2" style="width: 100%; height: 200px; object-fit: cover;">
+                {% endif %}
+                <a href="{{ url_for('app.post_detail', post_id=post.id) }}">{{ post.title }}</a>
+            </div>
+        </div>
+    {% endfor %}
     </div>
-</nav>
-
-<h1>Bird Sightings</h1>
-<div class="post-grid">
-{% for post in posts %}
-    <div class="post-card">
-        {% if post.post_password %}
-            <p><i>Locked Post</i></p>
-        {% elif post.hide_photo %}
-            <p><i>Image hidden by author</i></p>
-        {% else %}
-            <img src="{{ post.presigned_url }}" width="100">
-        {% endif %}
-
-        <a href="{{ url_for('app.post_detail', post_id=post.id) }}">{{ post.title }}</a>
-    </div>
-{% endfor %}
 </div>
+</body>
+</html>
