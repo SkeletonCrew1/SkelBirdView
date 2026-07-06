@@ -17,7 +17,7 @@
         DB_HOST: "{{ lookup('amazon.aws.secretsmanager_secret', 'DB_HOST', region='us-east-1') }}"
         AWS_ACCESS_KEY: "{{ lookup('amazon.aws.secretsmanager_secret', 'AWS_ACCESS_KEY', region='us-east-1') }}"
         AWS_SECRET_KEY: "{{ lookup('amazon.aws.secretsmanager_secret', 'AWS_SECRET_KEY', region='us-east-1') }}"
-        S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        S3_BUCKET: "{{ lookup('amazon.aws.secretsmanager_secret', 'S3_BUCKET', region='us-east-1') }}"
         cacheable: true
 
     - name: Install dependencies and update apt
