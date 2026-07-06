@@ -17,7 +17,7 @@ locals {
     "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess",          # CloudWatch read only access
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",          # AWS billing read only access
     "arn:aws:iam::aws:policy/AWSAccountManagementReadOnlyAccess", # AWS account management read only access
-    "arn:aws:iam::aws:policy/SecretsManagerReadWrite" # AWS read-write access
+    "arn:aws:iam::aws:policy/SecretsManagerReadWrite" # AWS secret manager read-write access
   ]
 
   user_policy_pairs = {
