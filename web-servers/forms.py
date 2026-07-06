@@ -35,3 +35,8 @@ class PostForm(FlaskForm):
 class UnlockForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Unlock")
+
+
+class ReportIpForm(FlaskForm):
+    ip_address = StringField("Target IP Address", validators=[DataRequired()])
+    submit = SubmitField("Ban IP")

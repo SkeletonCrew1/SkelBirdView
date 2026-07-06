@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<div class="post-card">
+    <h2>Hunter Control: Target an IP</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.ip_address.label }}<br>
+            {{ form.ip_address(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <br>
+    <a href="/">Back to Home</a>
+</div>

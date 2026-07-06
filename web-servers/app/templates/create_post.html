@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bird Sightings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 <form method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.title.label }} {{ form.title() }}
@@ -10,3 +17,5 @@
     {{ form.submit() }}
 
 </form>
+</body>
+</html>

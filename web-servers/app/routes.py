@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from . import db, s3, BUCKET_NAME, login_manager
-from .models import User, Post, Like
-from forms import RegistrationForm, LoginForm, PostForm, UnlockForm
+from .models import User, Post, Like, ReportedIp
+from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
 
 app = Blueprint("app", __name__)
 
@@ -113,8 +113,7 @@ def post_detail(post_id):
             else:
                 flash("Incorrect password", "danger")
 
-        return render_template("unlock.html", form=form)
-
+        return render_template("unlock.html", form=form, post=post)
     return render_template("post.html", post=post, image_url=secure_url, unlocked=True)
 
 
@@ -128,3 +127,31 @@ def like_post(post_id):
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
         db.session.commit()
     return redirect(url_for("app.post_detail", post_id=post_id))
+
+
+@app.route("/hunter/report", methods=["GET", "POST"])
+@login_required
+def hunter_report():
+    form = ReportIpForm()
+    if form.validate_on_submit():
+        target_ip = form.ip_address.data
+
+        existing_record = ReportedIp.query.filter_by(ip=target_ip).first()
+        if existing_record:
+            existing_record.is_reported = True
+        else:
+            new_ban = ReportedIp(ip=target_ip, is_reported=True)
+            db.session.add(new_ban)
+        db.session.commit()
+        return redirect(url_for("app.index"))
+
+    return render_template("report_user.html", form=form)
+
+
+@app.before_request
+def block_reported_ips():
+    visitor_ip = request.remote_addr
+    ip_record = ReportedIp.query.filter_by(ip=visitor_ip).first()
+
+    if ip_record and ip_record.is_reported:
+        return redirect("https://zakon.rada.gov.ua/laws/show/3325-17")
