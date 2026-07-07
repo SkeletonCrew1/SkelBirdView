@@ -1,0 +1,7 @@
+- name: Try to ping
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Basic usage
+      ansible.builtin.debug:
+        msg: "'{{ lookup('ansible.builtin.env', 'DB_USER') }}' is the DB_USER environment variable."
