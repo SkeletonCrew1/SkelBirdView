@@ -19,6 +19,17 @@
         S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
         cacheable: true
 
+
+    - name: Parse the database variables
+      ansible.builtin.set_fact:
+        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
+        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
+        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
+        DB_HOST: "{{ JSON_DB_HOST | ansible.builtin.from_json | community.general.json_query('DB_HOST') }}"
+        AWS_ACCESS_KEY: "{{ JSON_AWS_ACCESS_KEY | ansible.builtin.from_json | community.general.json_query('AWS_ACCESS_KEY') }}"
+        AWS_SECRET_KEY: "{{ JSON_AWS_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('AWS_SECRET_KEY') }}"
+        S3_BUCKET: "{{ JSON_S3_BUCKET | ansible.builtin.from_json | community.general.json_query('S3_BUCKET') }}"
+
     - name: Install dependencies and update apt
       ansible.builtin.apt:
         name: "{{ item }}"
