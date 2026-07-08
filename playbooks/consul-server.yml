@@ -9,7 +9,7 @@
         name: "{{ item }}"
         state: present
         update_cache: yes
-        loop:
+        with_items:
           - gnupg
           - software-properties-common
           - unzip
