@@ -50,6 +50,7 @@
       ansible.builtin.apt:
         name:
           - trivy
+          - consul
         state: present
         update_cache: true
 
