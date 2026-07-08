@@ -5,8 +5,8 @@
 
   tasks:
     - name: install dependencies
-      ansible.builtin.apt:
-        name: {{ item }}
+      ansible.builtin.package:
+        name: "{{ item }}"
         state: present
         update_cache: yes
         loops:
