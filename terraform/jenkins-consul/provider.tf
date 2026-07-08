@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket       = "skeleton-crew-terraform-state-s3-bucket"
-    key          = "state/consul/terraform.tfstate"
+    key          = "state/jenkins-consul/terraform.tfstate"
     use_lockfile = true
     region       = "us-east-1"
     encrypt      = true

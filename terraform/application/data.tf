@@ -8,22 +8,22 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-data "terraform_remote_state" "jenkins" {
+data "terraform_remote_state" "jenkins-consul" {
   backend = "s3"
 
   config = {
-    bucket = var.jenkins_state_bucket
-    key    = var.jenkins_state_key
+    bucket = var.jenkins_consul_state_bucket
+    key    = var.jenkins_consul_state_key
     region = var.state_region
   }
 }
 
-data "terraform_remote_state" "consul" {
+data "terraform_remote_state" "roles" {
   backend = "s3"
 
   config = {
-    bucket = var.consul_state_bucket
-    key    = var.consul_state_key
+    bucket = var.roles_state_bucket
+    key = var.roles_state_key
     region = var.state_region
   }
 }
