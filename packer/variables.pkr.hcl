@@ -1,15 +1,3 @@
-variable "datadog_api_key" {
-  type      = string
-  sensitive = true
-  default   = env("datadog_api_key")
-}
-
-variable "datadog_site" {
-  type      = string
-  sensitive = true
-  default   = env("datadog_site")
-}
-
 variable "access_key" {
   type      = string
   sensitive = true

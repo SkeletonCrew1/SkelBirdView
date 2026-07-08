@@ -7,12 +7,6 @@
     - vars/users.yml
 
   tasks:
-    - name: Look Up Secrets
-      ansible.builtin.set_fact:
-        datadog_api_key: "{{ lookup('env', 'datadog_api_key') }}"
-        datadog_site: "{{ lookup('env', 'datadog_site') }}"
-        cacheable: true
-
     - name: Configure timezone
       community.general.timezone:
         name: Europe/Kyiv
@@ -94,11 +88,16 @@
           /
 
     - name: Datadog Base Config
-      copy:
+      ansible.builtin.copy:
         dest: /etc/datadog-agent/datadog.yaml
         content: |
-          api_key: "{{ datadog_api_key }}"
-          site: "{{ datadog_site }}"
+          secret_backend_type: aws.secrets
+          secret_backend_config:
+            aws_session:
+              aws_region: us-east-1
+
+          api_key: ENC[DatadogAgent/Production;api_key]
+          site: "datadoghq.eu"
 
           logs_enabled: true
 
