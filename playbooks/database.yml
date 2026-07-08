@@ -16,13 +16,6 @@
         DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
         DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
 
-    - name: Print the database variables
-      ansible.builtin.debug:
-        msg:
-          - "DB_USER: {{ DB_USER }}"
-          - "DB_NAME: {{ DB_NAME }}"
-          - "DB_PASSWORD: {{ DB_PASSWORD }}"
-
     - name: Installing Mysql and dependencies
       ansible.builtin.package:
         name: "{{ item }}"
