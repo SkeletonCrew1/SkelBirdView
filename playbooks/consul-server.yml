@@ -6,15 +6,29 @@
   tasks:
     - name: install dependencies
       ansible.builtin.package:
-        name: "{{ item }}"
+        name: gnupg
         state: present
         update_cache: yes
-        loop:
-          - gnupg
-          - software-properties-common
-          - unzip
-          - wget
-          
+
+    - name: install dependencies
+      ansible.builtin.package:
+        name: software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: install dependencies
+      ansible.builtin.package:
+        name: unzip
+        state: present
+        update_cache: yes       
+
+
+    - name: install dependencies
+      ansible.builtin.package:
+        name: wget
+        state: present
+        update_cache: yes
+
     - name: consul installation
       ansible.builtin.get_url:
         url: "https://releases.hashicorp.com/consul/1.15.0/consul_1.15.0_linux_amd64.zip"
