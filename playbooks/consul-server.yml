@@ -9,12 +9,12 @@
         name: "{{ item }}"
         state: present
         update_cache: yes
-        loops:
+        loop:
           - gnupg
           - software-properties-common
           - unzip
           - wget
-
+          
     - name: consul installation
       ansible.builtin.get_url:
         url: "https://releases.hashicorp.com/consul/1.15.0/consul_1.15.0_linux_amd64.zip"
