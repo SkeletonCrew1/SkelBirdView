@@ -1,6 +1,6 @@
 ---
 - name: Setting up Consul server
-  hosts: consul_server
+  hosts: consul_agents
   become: true
 
   tasks:
