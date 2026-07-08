@@ -6,10 +6,10 @@
   tasks:
     - name: install dependencies
       ansible.builtin.apt:
-        name: "{{ item }}"
+        name: {{ item }}
         state: present
         update_cache: yes
-        with_items:
+        loops:
           - gnupg
           - software-properties-common
           - unzip
