@@ -9,8 +9,8 @@
   tasks:
     - name: Look Up Secrets
       ansible.builtin.set_fact:
-        datadog_api_key: "{{ lookup('env', 'DATADOG_API_KEY') }}"
-        datadog_site: "{{ lookup('env', 'DATADOG_SITE') }}"
+        datadog_api_key: "{{ lookup('env', 'datadog_api_key') }}"
+        datadog_site: "{{ lookup('env', 'datadog_site') }}"
         cacheable: true
 
     - name: Configure timezone
@@ -43,14 +43,28 @@
         content: "%sudo ALL=(ALL:ALL) NOPASSWD: ALL\n"
 
     - name: Add Trivy repository
-      ansible.builtin.shell: |
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null
+      ansible.builtin.deb822_repository:
+        name: trivy
+        uris: https://aquasecurity.github.io/trivy-repo/deb
+        suites: generic
+        components: "main"
+        signed_by: https://aquasecurity.github.io/trivy-repo/deb/public.key
+        state: present
+
+    - name: Add Datadog repository
+      ansible.builtin.deb822_repository:
+        name: datadog
+        uris: https://apt.datadoghq.com/
+        suites: stable
+        components: "7"
+        signed_by: https://keys.datadoghq.com/DATADOG_APT_KEY_CURRENT.public
+        state: present
 
     - name: Install packages
       ansible.builtin.apt:
         name:
           - trivy
+          - datadog-agent
         state: present
         update_cache: true
 
@@ -96,6 +110,3 @@
         name: datadog-agent
         state: restarted
         enabled: true
-
-  roles:
-    - datadog.datadog
