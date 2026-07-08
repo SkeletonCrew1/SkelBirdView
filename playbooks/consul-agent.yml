@@ -1,0 +1,81 @@
+---
+- name: Setting up Consul server
+  hosts: consul_server
+  become: true
+
+  tasks:
+    - name: install gnunpg
+      ansible.builtin.package:
+        name: gnupg
+        state: present
+        update_cache: yes
+
+    - name: install software-properties-common
+      ansible.builtin.package:
+        name: software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: install unzip
+      ansible.builtin.package:
+        name: unzip
+        state: present
+        update_cache: yes       
+
+
+    - name: install wget
+      ansible.builtin.package:
+        name: wget
+        state: present
+        update_cache: yes
+
+    - name: consul installation
+      ansible.builtin.get_url:
+        url: "https://releases.hashicorp.com/consul/1.15.0/consul_1.15.0_linux_amd64.zip"
+        dest: "/tmp/consul.zip"
+
+    - name: unzip consul
+      ansible.builtin.unarchive:
+        src: "/tmp/consul.zip"
+        dest: "/usr/local/bin/"
+        remote_src: yes
+        extra_opts: "-o"
+
+    - name: create consul user
+      ansible.builtin.user:
+        name: consul
+        shell: /bin/false
+
+    - name: create consul directories 
+      ansible.builtin.file:
+        path: "/opt/consul"
+        state: directory
+        owner: consul
+        group: consul
+
+    - name: create consul directories 
+      ansible.builtin.file:
+        path: "/etc/consul.d"
+        state: directory
+        owner: consul
+        group: consul
+
+    - name: copy consul config file
+      ansible.builtin.copy:
+        src: "./configs/consul.hcl"
+        dest: "/etc/consul.d/consul.hcl"  
+
+    - name: copy systemd service file for consul
+      ansible.builtin.copy:
+        src: "./configs/consul.service"
+        dest: "/etc/systemd/system/consul.service" 
+
+    - name: reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: yes   
+
+    - name: start and enable consul service
+      ansible.builtin.systemd:
+        name: consul
+        state: started
+        enabled: yes       
