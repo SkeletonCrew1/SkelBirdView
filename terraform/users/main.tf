@@ -19,10 +19,10 @@ resource "aws_iam_user_login_profile" "users" {
 }
 
 resource "aws_iam_user_policy_attachment" "users" {
-  for_each = local.user_policy_pairs
+  for_each = toset(local.users)
 
-  user       = aws_iam_user.users[each.value.user].name
-  policy_arn = each.value.policy
+  user       = aws_iam_user.users[each.value].name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 resource "aws_iam_user" "jenkins-user" {
@@ -35,10 +35,10 @@ resource "aws_iam_user" "jenkins-user" {
 }
 
 resource "aws_iam_user_policy_attachment" "jenkins-user" {
-  for_each = local.user_policy_pairs
+  for_each = toset(local.jenkins_policies_arns)
 
   user = aws_iam_user.jenkins-user.id
-  policy_arn = each.value.policy
+  policy_arn = each.value
 }
 
 
