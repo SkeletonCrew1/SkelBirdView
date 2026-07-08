@@ -10,13 +10,13 @@
   tasks:
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        DB_USER: "{{ lookup('env', 'DB_USER') }}"
-        DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
-        DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
-        DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
-        AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
-        AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
-        S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
+        JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        JSON_DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
+        JSON_AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+        JSON_AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+        JSON_S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
         cacheable: true
 
 
