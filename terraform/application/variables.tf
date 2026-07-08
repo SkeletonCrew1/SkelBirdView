@@ -6,19 +6,19 @@ variable "vpc_state_key" {
   type = string
 }
 
-variable "jenkins_state_bucket" {
+variable "jenkins_consul_state_bucket" {
   type = string
 }
 
-variable "jenkins_state_key" {
+variable "jenkins_consul_state_key" {
   type = string
 }
 
-variable "consul_state_bucket" {
+variable "roles_state_bucket" {
   type = string
 }
 
-variable "consul_state_key" {
+variable "roles_state_key" {
   type = string
 }
 
