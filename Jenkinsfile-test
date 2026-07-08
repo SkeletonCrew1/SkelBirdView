@@ -5,9 +5,9 @@ pipeline {
         stage("Test consul configuration") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/consul-server.yml'
+                    disableHostKeyChecking: true,
+                    inventory: 'playbooks/vars/hosts.yml',
+                    playbook: 'playbooks/consul-server.yml'
             }
         }
     }
