@@ -2,12 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage("Test consul configuration") {
+        stage("Test consul-server configuration") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
                     disableHostKeyChecking: true,
                     inventory: 'playbooks/vars/hosts.yml',
                     playbook: 'playbooks/consul-server.yml'
+            }
+        }
+        stage("Test consul-agents configuration") {
+            steps {
+                ansiblePlaybook credentialsId: 'jenkins-key',
+                    disableHostKeyChecking: true,
+                    inventory: 'playbooks/vars/hosts.yml',
+                    playbook: 'playbooks/consul-agent.yml'
             }
         }
     }
