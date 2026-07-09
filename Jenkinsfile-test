@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage("print working directory") {
+            steps {
+                sh 'pwd'
+            }
+        }
         stage("Test consul-server configuration") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
