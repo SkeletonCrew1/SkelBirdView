@@ -1,10 +1,9 @@
 - name: Set up load-balancer
   hosts: load_balancers
-  gather_facts: true
+  become: true
 
   tasks:
-
-    - name: Setting host facts using complex arguments
+    - name: Look Up Secrets
       ansible.builtin.set_fact:
         JSON_SERVER1: "{{ lookup('env', 'SERVER1')  }}"
         JSON_SERVER2: "{{ lookup('env', 'SERVER2')  }}"
@@ -20,7 +19,6 @@
         name: "nginx"
         state: present
         update_cache: true
-      become: true
 
     - name: Render template for Nginx
       ansible.builtin.template:
@@ -30,17 +28,21 @@
       vars:
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
-      become: true
 
     - name: Restarn Nginx load balancer
       ansible.builtin.systemd_service:
         name: nginx
         state: restarted
         enabled: true
-      become: true
 
     - name: Make sure 'nginx' is started
       systemd:
         name: nginx
         state: started
         enabled: yes
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true

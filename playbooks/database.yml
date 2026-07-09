@@ -1,14 +1,15 @@
-- name: Try to ping
+---
+- name: Configure database
   hosts: databases
-  gather_facts: true
+  become: true
+
   tasks:
-    - name: Setting host facts using complex arguments
+    - name: Look Up Secrets
       ansible.builtin.set_fact:
         JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
         JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
-
 
     - name: Parse the database variables
       ansible.builtin.set_fact:
@@ -23,7 +24,6 @@
       loop:
         - mysql-server
         - python3-pymysql
-      become: true
 
     - name: start and enable mysql service
       ansible.builtin.service:
@@ -36,21 +36,18 @@
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/configs
         version: config_files
-      become: true
 
     - name: Move MySQL config file
       ansible.builtin.copy:
         src: /home/configs/database_config/mysqld.cnf
         dest: /etc/mysql/mysql.conf.d/mysqld.cnf
         remote_src: yes
-      become: true
 
     - name: Restart MySQL service
       ansible.builtin.systemd_service:
         name: mysql
         state: restarted
         enabled: true
-      become: true
 
     - name: ensure mysql is running
       ansible.builtin.service:
@@ -66,7 +63,6 @@
         state: present
         plugin: caching_sha2_password
         login_unix_socket: /var/run/mysqld/mysqld.sock
-      become: true
 
     - name: Create the database
       community.mysql.mysql_db:
@@ -75,4 +71,9 @@
         login_user: "{{ DB_USER }}"
         login_password: "{{ DB_PASSWORD }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
-      become: true
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true

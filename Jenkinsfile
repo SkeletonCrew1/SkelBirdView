@@ -11,30 +11,32 @@ pipeline {
             SERVER1 = credentials('SERVER1')
             SERVER2 = credentials('SERVER2')
         }
+
     stages {
         stage("Execute Ansible pipeline for DB") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/database.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/database.yml'
             }
         }
 
         stage("Execute Ansible pipeline for web-servers") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/web-servers.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/web-servers.yml'
             }
         }
+
         stage("Execute Ansible pipeline for load-balancer") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
-                                 disableHostKeyChecking: true,
-                                 inventory: 'playbooks/vars/hosts.yml',
-                                 playbook: 'playbooks/load-balancer.yml'
+                                disableHostKeyChecking: true,
+                                inventory: 'playbooks/vars/hosts.yml',
+                                playbook: 'playbooks/load-balancer.yml'
             }
         }
     }
