@@ -99,8 +99,6 @@
           api_key: ENC[DatadogAgent/Production;api_key]
           site: "datadoghq.eu"
 
-          logs_enabled: true
-
           process_config:
             enabled: "true"
 
