@@ -4,26 +4,26 @@
   become: true
 
   tasks:
-    - name: install dependencies
+    - name: install gnupg
       ansible.builtin.package:
         name: gnupg
         state: present
         update_cache: yes
 
-    - name: install dependencies
+    - name: install software-properties-common
       ansible.builtin.package:
         name: software-properties-common
         state: present
         update_cache: yes
 
-    - name: install dependencies
+    - name: install unzip
       ansible.builtin.package:
         name: unzip
         state: present
         update_cache: yes       
 
 
-    - name: install dependencies
+    - name: install wget
       ansible.builtin.package:
         name: wget
         state: present
@@ -62,12 +62,12 @@
 
     - name: copy consul config file
       ansible.builtin.copy:
-        src: "./configs/consul.hcl"
+        src: "./config-consul-server/consul.hcl"
         dest: "/etc/consul.d/consul.hcl"  
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
-        src: "./configs/consul.service"
+        src: "./config-consul-server/consul.service"
         dest: "/etc/systemd/system/consul.service" 
 
     - name: reload systemd

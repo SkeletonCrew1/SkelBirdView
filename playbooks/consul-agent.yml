@@ -1,5 +1,5 @@
 ---
-- name: Setting up Consul server
+- name: Setting up Consul agents
   hosts: consul_agents
   become: true
 
@@ -62,13 +62,12 @@
 
     - name: copy consul config file
       ansible.builtin.copy:
-        src: "./configs/consul.hcl"
+        src: "./config-consul-agent/consul.hcl"
         dest: "/etc/consul.d/consul.hcl"  
-      become: true
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
-        src: "configs/consul.service"
+        src: "./config-consul-agent/consul.service"
         dest: "/etc/systemd/system/consul.service" 
       become: true
 
