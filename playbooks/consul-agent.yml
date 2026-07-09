@@ -68,7 +68,7 @@
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
-        src: "./configs/consul.service"
+        src: "configs/consul.service"
         dest: "/etc/systemd/system/consul.service" 
       become: true
 
