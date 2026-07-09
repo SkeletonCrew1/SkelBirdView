@@ -63,7 +63,8 @@
     - name: copy consul config file
       ansible.builtin.copy:
         src: "./config-consul-agent/consul.hcl"
-        dest: "/etc/consul.d/consul.hcl"  
+        dest: "/etc/consul.d/consul.hcl" 
+      become: true
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
