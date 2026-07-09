@@ -64,11 +64,13 @@
       ansible.builtin.copy:
         src: "./configs/consul.hcl"
         dest: "/etc/consul.d/consul.hcl"  
+      become: true
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
         src: "./configs/consul.service"
         dest: "/etc/systemd/system/consul.service" 
+      become: true
 
     - name: reload systemd
       ansible.builtin.systemd:
