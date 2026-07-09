@@ -27,12 +27,51 @@
         SERVER2: "{{ SERVER2 }}"
       become: true
 
-    - name: Restarn Nginx load balancer
+    - name: Restart Nginx load balancer
       ansible.builtin.systemd_service:
         name: nginx
         state: restarted
         enabled: true
       become: true
+
+    - name: Install certbot
+      ansible.builtin.pip:
+        name:
+          - certbot
+          - certbot-nginx
+        executable: pip3
+      tags:
+        - nginx
+        - certbot
+
+    - name: Register certbot
+      shell: |
+        certbot -n register --agree-tos --email me@domain.example
+        touch /etc/letsencrypt/.registered
+      args:
+        creates: /etc/letsencrypt/.registered
+      tags:
+        - nginx
+        - certbot
+
+    - name: Setup cronjob for renewal
+      cron:
+        name: certbot-renewal
+        job: "/bin/bash -lc '/usr/local/bin/certbot -q renew'"
+        minute: "0"
+        hour: "14"
+      tags:
+        - nginx
+        - certbot
+
+    - name: 'Get certificate'
+      command: '/usr/local/bin/certbot -n --nginx certonly -d {{ hostname }}'
+      args:
+        creates: '/etc/letsencrypt/live/{{ hostname }}'
+      ignore_errors: true
+      tags:
+        - nginx
+        - certbot
 
     - name: Make sure 'nginx' is started
       systemd:
