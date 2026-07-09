@@ -18,10 +18,32 @@ resource "aws_vpc_security_group_ingress_rule" "lb-http" {
 resource "aws_vpc_security_group_ingress_rule" "lb-ssh" {
   security_group_id = aws_security_group.lb-sg.id
 
-  referenced_security_group_id = data.terraform_remote_state.jenkins.outputs.jenkins_security_group_id
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.jenkins_security_group_id
 
   from_port = 22
   to_port   = 22
+
+  ip_protocol = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "lb-consul" {
+  security_group_id = aws_security_group.lb-sg.id
+
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
+
+  from_port = 8500
+  to_port   = 8500
+
+  ip_protocol = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "lb-consul-port" {
+  security_group_id = aws_security_group.lb-sg.id
+
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
+
+  from_port = 8301
+  to_port   = 8301
 
   ip_protocol = "tcp"
 }
@@ -54,7 +76,7 @@ resource "aws_vpc_security_group_ingress_rule" "web-http" {
 resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
   security_group_id = aws_security_group.web-sg.id
 
-  referenced_security_group_id = data.terraform_remote_state.jenkins.outputs.jenkins_security_group_id
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.jenkins_security_group_id
 
   from_port = 22
   to_port   = 22
@@ -62,14 +84,24 @@ resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
   ip_protocol = "tcp"
 }
 
-# Consul communication
 resource "aws_vpc_security_group_ingress_rule" "web-consul" {
   security_group_id = aws_security_group.web-sg.id
 
-  referenced_security_group_id = data.terraform_remote_state.consul.outputs.consul_security_group_id
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
 
   from_port = 8500
   to_port   = 8500
+
+  ip_protocol = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "web-consul-port" {
+  security_group_id = aws_security_group.web-sg.id
+
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
+
+  from_port = 8301
+  to_port   = 8301
 
   ip_protocol = "tcp"
 }
@@ -88,6 +120,28 @@ resource "aws_security_group" "database-sg" {
   vpc_id = data.terraform_remote_state.vpc.outputs.vpc_id
 }
 
+resource "aws_vpc_security_group_ingress_rule" "db-consul" {
+  security_group_id = aws_security_group.database-sg.id
+
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
+
+  from_port = 8500
+  to_port   = 8500
+
+  ip_protocol = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "database-consul-port" {
+  security_group_id = aws_security_group.database-sg.id
+
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.consul_security_group_id
+
+  from_port = 8301
+  to_port   = 8301
+
+  ip_protocol = "tcp"
+}
+
 resource "aws_vpc_security_group_ingress_rule" "database-mysql" {
   security_group_id = aws_security_group.database-sg.id
 
@@ -102,7 +156,7 @@ resource "aws_vpc_security_group_ingress_rule" "database-mysql" {
 resource "aws_vpc_security_group_ingress_rule" "database-ssh" {
   security_group_id = aws_security_group.database-sg.id
 
-  referenced_security_group_id = data.terraform_remote_state.jenkins.outputs.jenkins_security_group_id
+  referenced_security_group_id = data.terraform_remote_state.jenkins-consul.outputs.jenkins_security_group_id
 
   from_port = 22
   to_port   = 22

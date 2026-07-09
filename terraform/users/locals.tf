@@ -7,7 +7,7 @@ locals {
     "Oleh_Konovaliuk"
   ]
 
-  policies_arns = [
+  jenkins_policies_arns = [
     "arn:aws:iam::aws:policy/AmazonEC2FullAccess",               # EC2 full access
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",                # S3 full access
     "arn:aws:iam::aws:policy/AmazonVPCFullAccess",               # VPC full access
@@ -19,12 +19,4 @@ locals {
     "arn:aws:iam::aws:policy/AWSAccountManagementReadOnlyAccess", # AWS account management read only access
     "arn:aws:iam::aws:policy/SecretsManagerReadWrite" # AWS secret manager read-write access
   ]
-
-  user_policy_pairs = {
-    for pair in setproduct(local.users, local.policies_arns) :
-    "${pair[0]}-${pair[1]}" => {
-      user   = pair[0]
-      policy = pair[1]
-    }
-  }
 }
