@@ -100,7 +100,8 @@
           site: "datadoghq.eu"
 
           process_config:
-            enabled: "true"
+            process_collection:
+              enabled: true
 
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
