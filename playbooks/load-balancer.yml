@@ -6,9 +6,14 @@
 
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        SERVER1: "{{ lookup('env', 'SERVER1')  }}"
-        SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        JSON_SERVER1: "{{ lookup('env', 'SERVER1')  }}"
+        JSON_SERVER2: "{{ lookup('env', 'SERVER2')  }}"
         cacheable: true
+
+    - name : Parse the load balancer variables
+      ansible.builtin.set_fact:
+        SERVER1: "{{ JSON_SERVER1 | ansible.builtin.from_json | community.general.json_query('SERVER1') }}"
+        SERVER2: "{{ JSON_SERVER2 | ansible.builtin.from_json | community.general.json_query('SERVER2') }}"
 
     - name: Install dependencies and update apt
       ansible.builtin.apt:

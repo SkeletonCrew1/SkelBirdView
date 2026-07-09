@@ -10,14 +10,25 @@
   tasks:
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        DB_USER: "{{ lookup('env', 'DB_USER') }}"
-        DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
-        DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
-        DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
-        AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
-        AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
-        S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
+        JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        JSON_DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
+        JSON_AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+        JSON_AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
+        JSON_S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
         cacheable: true
+
+
+    - name: Parse the database variables
+      ansible.builtin.set_fact:
+        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
+        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
+        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
+        DB_HOST: "{{ JSON_DB_HOST | ansible.builtin.from_json | community.general.json_query('DB_HOST') }}"
+        AWS_ACCESS_KEY: "{{ JSON_AWS_ACCESS_KEY | ansible.builtin.from_json | community.general.json_query('AWS_ACCESS_KEY') }}"
+        AWS_SECRET_KEY: "{{ JSON_AWS_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('AWS_SECRET_KEY') }}"
+        S3_BUCKET: "{{ JSON_S3_BUCKET | ansible.builtin.from_json | community.general.json_query('S3_BUCKET') }}"
 
     - name: Install dependencies and update apt
       ansible.builtin.apt:
@@ -62,13 +73,6 @@
         creates: "{{ venv_path }}"
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
-      become: true
-
-    - name: Install system virtualenv
-      ansible.builtin.apt:
-        name: python3-virtualenv
-        state: present
-        update_cache: true
       become: true
 
     - name: Install requirements

@@ -9,7 +9,7 @@ pipeline {
             AWS_SECRET_KEY = credentials('AWS_SECRET_KEY')
             S3_BUCKET = credentials('S3_BUCKET')
             SERVER1 = credentials('SERVER1')
-            SERVER2 = credentials('SERVER1')
+            SERVER2 = credentials('SERVER2')
         }
     stages {
         stage("Execute Ansible pipeline for DB") {
@@ -20,6 +20,7 @@ pipeline {
                                  playbook: 'playbooks/database.yml'
             }
         }
+
         stage("Execute Ansible pipeline for web-servers") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
