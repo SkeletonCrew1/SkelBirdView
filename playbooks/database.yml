@@ -69,18 +69,6 @@
         login_password: "{{ DB_PASSWORD }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
-    - name: Enable Process Monitoring
-      copy:
-        dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
-        content: |
-          init_config:
-
-          instances:
-            - name: database
-              search_string:
-                - "mysql"
-                - "consul"
-
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
         name: datadog-agent

@@ -113,19 +113,6 @@
         enabled: yes
         daemon_reload: yes
 
-    - name: Enable Process Monitoring
-      copy:
-        dest: /etc/datadog-agent/conf.d/process.d/conf.yaml
-        content: |
-          init_config:
-
-          instances:
-            - name: web-server
-              search_string:
-                - "nginx"
-                - "gunicorn"
-                - "consul"
-
     - name: Restart Datadog Agent
       ansible.builtin.systemd_service:
         name: datadog-agent
