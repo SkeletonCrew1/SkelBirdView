@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-            stage("Execute Ansible pipeline for web-servers") {
+        stage("Execute Ansible pipeline for web-servers") {
             steps {
                 ansiblePlaybook credentialsId: 'jenkins-key',
                                  disableHostKeyChecking: true,
