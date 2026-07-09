@@ -76,7 +76,6 @@
       become: true
 
 
-
     - name: Install requirements
       ansible.builtin.pip:
         requirements: "/home/jenkins/application/web-servers/requirements.txt"

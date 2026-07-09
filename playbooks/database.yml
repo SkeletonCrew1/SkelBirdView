@@ -1,5 +1,5 @@
 - name: Try to ping
-  hosts: database
+  hosts: databases
   gather_facts: true
   tasks:
     - name: Setting host facts using complex arguments

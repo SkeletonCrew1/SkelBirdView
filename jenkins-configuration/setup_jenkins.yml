@@ -1,11 +1,45 @@
+---
 - name: Setting up Jenkins
-  hosts: jenkins
+  hosts: all
   become: yes
   vars_files:
     - vars/.env
     - vars/main.yml
+  vars:
+    terraform_version: "1.15.7"
+    terraform_install_dir: "/usr/local/bin"
+    terraform_download_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
 
   tasks:
+
+    - name: Install unzip
+      ansible.builtin.package:
+        name: unzip
+        state: present
+
+    - name: Download Terraform binary
+      ansible.builtin.get_url:
+        url: "{{ terraform_download_url }}"
+        dest: "/tmp/terraform_latest.zip"
+
+    - name: Extract Terraform binary
+      ansible.builtin.unarchive:
+        src: "/tmp/terraform_latest.zip"
+        dest: "{{ terraform_install_dir }}"
+        remote_src: yes
+        extra_opts: "-o"
+
+    - name: Set Terraform permissions
+      ansible.builtin.file:
+        path: "{{ terraform_install_dir }}/terraform"
+        mode: "0755"
+        state: touch
+    - name: Install java
+      ansible.builtin.apt:
+        name: openjdk-21-jre
+        state: present
+        update_cache: yes
+
     - name: Install java
       ansible.builtin.apt:
         name: openjdk-21-jre
@@ -47,7 +81,7 @@
     - name: Restart jenkins service
       service:
         name: jenkins
-        state: restarted  
+        state: restarted
 
     - name: install plugins
       community.general.jenkins_plugin:
@@ -60,4 +94,4 @@
     - name: Restart jenkins service
       service:
         name: jenkins
-        state: restarted  
+        state: restarted

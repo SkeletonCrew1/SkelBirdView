@@ -21,6 +21,8 @@
     - `AWS_ACCESS_KEY`
     - `AWS_SECRET_KEY`
     - `S3_BUCKET`
+    - `SERVER1`
+    - `SERVER2`
 5. Add [new pipeline](http://192.168.56.200:8080/view/all/newJob) called `Configure VMs`
     - Definition: `Pipeline script fom SCM`
     - SCM: `Git`
@@ -35,3 +37,5 @@
 - `web-server-1`: `192.168.56.111`
 - `web-server-2`: `192.168.56.112`
 - `load-balancer`: `192.168.56.106`
+
+> This document is outdated, we are in the middle of migration from local development to AWS.
