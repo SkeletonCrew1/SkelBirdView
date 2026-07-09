@@ -62,12 +62,12 @@
 
     - name: copy consul config file
       ansible.builtin.copy:
-        src: "config-consul-server/consul.hcl"
+        src: "/var/lib/jenkins/workspace/vitalii_test_consul-server/playbooks/files/config-consul-server/consul.hcl"
         dest: "/etc/consul.d/consul.hcl"  
 
     - name: copy systemd service file for consul
       ansible.builtin.copy:
-        src: "config-consul-server/consul.service"
+        src: "/var/lib/jenkins/workspace/vitalii_test_consul-server/playbooks/files/config-consul-server/consul.service"
         dest: "/etc/systemd/system/consul.service" 
 
     - name: reload systemd
