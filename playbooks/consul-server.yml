@@ -62,7 +62,7 @@
 
     - name: copy consul config file
       ansible.builtin.copy:
-        src: "./config-consul-server/consul.hcl"
+        src: "/var/lib/jenkins/workspace/vitalii_test_consul-server/playbooks/config-consul-server/consul.hcl"
         dest: "/etc/consul.d/consul.hcl" 
       become: true
 
@@ -71,7 +71,7 @@
         src: "./config-consul-server/consul.service"
         dest: "/etc/systemd/system/consul.service" 
       become: true
-      
+
     - name: reload systemd
       ansible.builtin.systemd:
         daemon_reload: yes   
