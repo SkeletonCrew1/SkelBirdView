@@ -4,6 +4,7 @@
   tasks:
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
+
         DB_USER: "{{ lookup('env', 'DB_USER') }}"
         DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
         DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
@@ -70,3 +71,17 @@
         login_password: "{{ DB_PASSWORD }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
       become: true
+
+    - name: Add consul config file for mysql service
+      ansible.builtin.copy:
+        src: ./configs/mysql.hcl
+        dest: /etc/consul.d/mysql.hcl
+        owner: consul
+        group: consul
+        mode: '0644'
+      become: true  
+
+    - name: add consul config to consul register list
+      shell: |
+        consul services register /etc/consul.d/mysql.hcl
+        consul reload

@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'SKEL-69-Implementation-pipeline-for-Terraform-Configurations', credentialsId: 'jenkins-key', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
+            }
+        }
+
+        stage('change directory') {
+            steps {
+                sh "pwd"
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/application') {
+                sh "pwd"
+                }
+            } 
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/application') {
+                sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/application') {
+                sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                input message: 'Review the plan output above. Proceed with apply?', ok: 'Apply'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/application') {
+                sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+    }
+}
