@@ -130,6 +130,11 @@ resource "aws_iam_role_policy" "jenkins-sec-man-policy" {
             "Effect": "Allow",
             "Action": "secretsmanager:GetSecretValue",
             "Resource": "arn:aws:secretsmanager:us-east-1:134553439278:secret:DatadogAgent/Production-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
         }
     ]
   })
@@ -194,6 +199,11 @@ resource "aws_iam_role_policy" "consul-ec2-policy" {
             "Effect": "Allow",
             "Action": "secretsmanager:GetSecretValue",
             "Resource": "arn:aws:secretsmanager:us-east-1:134553439278:secret:DatadogAgent/Production-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
         }
     ]
   })

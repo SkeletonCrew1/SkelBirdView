@@ -74,7 +74,7 @@ resource "aws_security_group" "web-sg" {
 resource "aws_vpc_security_group_ingress_rule" "web-http" {
   security_group_id = aws_security_group.web-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  referenced_security_group_id = aws_security_group.lb-sg.id
 
   from_port = 80
   to_port   = 80
