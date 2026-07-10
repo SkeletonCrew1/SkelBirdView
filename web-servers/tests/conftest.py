@@ -23,9 +23,9 @@ def test_app():
 #     return app.test_client()
 
 
-# @pytest.fixture()
-# def client(test_app):
-#     return test_app.test_client()
+@pytest.fixture()
+def client(test_app):
+    return test_app.test_client()
 
 
 # @pytest.fixture()
