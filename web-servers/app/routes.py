@@ -125,7 +125,10 @@ def like_post(post_id):
     ).first()
     if not existing_like:
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
-        db.session.commit()
+    else:
+        db.session.delete(existing_like)
+    db.session.commit()
+
     return redirect(url_for("app.post_detail", post_id=post_id))
 
 
@@ -135,10 +138,16 @@ def hunter_report():
     form = ReportIpForm()
     if form.validate_on_submit():
         target_ip = form.ip_address.data
+        protected_ip = ("0.0.0.0", "127.0.0.1")
+        if target_ip in protected_ip:
+            flash("Incorrect ip", "danger")
+            return render_template("report_user.html", form=form)
 
         existing_record = ReportedIp.query.filter_by(ip=target_ip).first()
         if existing_record:
+            flash("ip is already added", "danger")
             existing_record.is_reported = True
+
         else:
             new_ban = ReportedIp(ip=target_ip, is_reported=True)
             db.session.add(new_ban)
