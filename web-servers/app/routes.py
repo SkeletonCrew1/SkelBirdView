@@ -41,9 +41,14 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_pw = generate_password_hash(form.password.data)
-        db.session.add(User(email=form.email.data, password=hashed_pw))
-        db.session.commit()
-        return redirect(url_for("app.login"))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash("This email already registered", "danger")
+
+        else:
+            db.session.add(User(email=form.email.data, password=hashed_pw))
+            db.session.commit()
+            return redirect(url_for("app.login"))
     return render_template("register.html", form=form)
 
 
@@ -55,6 +60,9 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             return redirect(url_for("app.index"))
+        else:
+            flash("Incorrect password", "danger")
+
     return render_template("login.html", form=form)
 
 
