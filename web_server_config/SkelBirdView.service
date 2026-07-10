@@ -7,7 +7,7 @@ User=jenkins
 Group=jenkins
 Environment=PORT=80
 WorkingDirectory=/home/jenkins/application/web-servers/
-ExecStart=/home/jenkins/application/web-servers/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:80 run:app
+ExecStart=./venv/bin/gunicorn --workers 2 --bind 127.0.0.1:80 run:app
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
