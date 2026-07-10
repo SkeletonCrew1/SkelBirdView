@@ -3,14 +3,10 @@ Description=Birdwatching
 After=network.target
 
 [Service]
-User=jenkins
-Group=jenkins
-Environment=PORT=80
-WorkingDirectory=/home/jenkins/application/web-servers/
-ExecStart=./venv/bin/gunicorn --workers 2 --bind 127.0.0.1:80 run:app
+ExecStart=/home/jenkins/application/web-servers/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:80 run:app
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
-AmbientCapabilities=CAP_NET_BIND_SERVICE
+
 [Install]
 WantedBy=multi-user.target
