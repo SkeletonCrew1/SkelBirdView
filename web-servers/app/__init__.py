@@ -20,7 +20,7 @@ def create_app():
         "SQLALCHEMY_DATABASE_URI"
     ] = f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}/{os.environ.get('DB_NAME')}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
+    app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "app.login"
