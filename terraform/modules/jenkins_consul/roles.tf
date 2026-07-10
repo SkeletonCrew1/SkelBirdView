@@ -122,7 +122,7 @@ resource "aws_iam_role_policy" "jenkins-sec-man-policy" {
         {
             "Effect": "Allow",
             "Action": [
-                "iam:PassRole"
+                "iam:*"
             ],
             "Resource": "*"
         },

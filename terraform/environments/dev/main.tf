@@ -72,6 +72,8 @@ module "vpc_peering" {
   application_vpc_cidr = var.vpc_cidr
   application_vpc_rt = module.networking.application_rt
   main_vpc_id = data.terraform_remote_state.dev_infra.outputs.vpc_id
+  public_application_rt = module.networking.public_application_rt
+  public_application_vpc_cidr = var.public_subnet_cidr
 
 }
 

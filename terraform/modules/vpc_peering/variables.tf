@@ -25,3 +25,11 @@ variable "application_vpc_rt" {
 variable "main_vpc_cidr" {
   type = string
 }
+
+variable "public_application_rt" {
+  type = string
+}
+
+variable "public_application_vpc_cidr" {
+  type = string
+}

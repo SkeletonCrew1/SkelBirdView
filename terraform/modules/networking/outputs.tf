@@ -13,3 +13,7 @@ output "private_subnet" {
 output "application_rt" {
   value = aws_route_table.private.id
 }
+
+output "public_application_rt" {
+  value = aws_route_table.public.id
+}
