@@ -9,8 +9,18 @@ jobs:
     strategy:
       matrix:
         tffolders: [terraform/application,
-                    terraform/jenkins-consul]
+                    terraform/jenkins-consul,
+                    terraform/roles,
+                    terraform/s3-for-application,
+                    terraform/s3-for-state,
+                    terraform/tmp-users,
+                    terraform/vpc]
     runs-on: ubuntu-latest
+
+    env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,10 +30,10 @@ jobs:
         with:
             terraform_version: "1.15"
 
-      - name: Run python script with gihub secrets
+      - name: Run tf init
         working-directory: ${{ matrix.tffolders }}
         run: terraform init
 
-      - name: Run python script with gihub secrets
+      - name: Run tf validate
         working-directory: ${{ matrix.tffolders }}
-        run: terraform plan
+        run: terraform validate
