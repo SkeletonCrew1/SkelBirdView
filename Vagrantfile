@@ -1,5 +1,17 @@
 Vagrant.configure("2") do |config|
 
+  config.vm.define "consul" do |consul|
+    consul.vm.hostname = "consul-server"
+    consul.vm.box = "bento/ubuntu-24.04"
+
+    consul.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.name = "consul-server"
+    
+    end
+    consul.vm.network "private_network", ip: "192.168.56.100"
+  end
+
   config.vm.define "database" do |db|
     db.vm.hostname = "database"
     db.vm.box = "ubuntu26-golden-image"
