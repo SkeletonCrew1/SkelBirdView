@@ -11,11 +11,11 @@ def test_app():
         {"TESTING": True, "WTF_CSRF_ENABLED": False, "SECRET_KEY": "test_secret"}
     )
     with app.app_context():
-        db.create_all()
+        # db.create_all()
 
         yield app
 
-        db.drop_all()
+        # db.drop_all()
 
 
 # @pytest.fixture()
@@ -23,17 +23,17 @@ def test_app():
 #     return app.test_client()
 
 
-@pytest.fixture()
-def client(test_app):
-    return test_app.test_client()
+# @pytest.fixture()
+# def client(test_app):
+#     return test_app.test_client()
 
 
-@pytest.fixture()
-def test_user(app):
-    with app.app_context():
-        user = User(email="exemple@gmail.com", password="pnpnpnpnppnpnpn")
-        db.session.add(user)
-        db.session.commit()
-        db.session.refresh(user)
+# @pytest.fixture()
+# def test_user(app):
+#     with app.app_context():
+#         user = User(email="exemple@gmail.com", password="pnpnpnpnppnpnpn")
+#         db.session.add(user)
+#         db.session.commit()
+#         db.session.refresh(user)
 
-        return user
+#         return user
