@@ -1,10 +1,10 @@
 source "amazon-ebs" "ubuntu26-golden-image" {
   tags = {
-    Name = "Golden Image"
+    Name = "Golden-Image"
   }
 
   run_tags = {
-    Name = "Packer Builder"
+    Name = "Packer-Builder"
   }
 
   access_key        = "${var.access_key}"
@@ -16,7 +16,7 @@ source "amazon-ebs" "ubuntu26-golden-image" {
   security_group_id = "${var.security_group_id}"
 
   ami_name          = "ubuntu26-golden-image-${formatdate("DDMMYYHHmm", timestamp())}"
-  instance_type     = "t3.micro"
+  instance_type     = "t3.small"
 
   source_ami_filter {
     filters = {

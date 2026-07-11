@@ -37,14 +37,28 @@
         content: "%sudo ALL=(ALL:ALL) NOPASSWD: ALL\n"
 
     - name: Add Trivy repository
-      ansible.builtin.shell: |
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null
+      ansible.builtin.deb822_repository:
+        name: trivy
+        uris: https://aquasecurity.github.io/trivy-repo/deb
+        suites: generic
+        components: "main"
+        signed_by: https://aquasecurity.github.io/trivy-repo/deb/public.key
+        state: present
+
+    - name: Add Datadog repository
+      ansible.builtin.deb822_repository:
+        name: datadog
+        uris: https://apt.datadoghq.com/
+        suites: stable
+        components: "7"
+        signed_by: https://keys.datadoghq.com/DATADOG_APT_KEY_CURRENT.public
+        state: present
 
     - name: Install packages
       ansible.builtin.apt:
         name:
           - trivy
+          - datadog-agent
         state: present
         update_cache: true
 
@@ -72,3 +86,25 @@
           --format table
           --output "/var/log/trivy/security-summary-$(hostname)-$(date +\%Y-\%m-\%d-\%H-\%M).txt"
           /
+
+    - name: Datadog Base Config
+      ansible.builtin.copy:
+        dest: /etc/datadog-agent/datadog.yaml
+        content: |
+          secret_backend_type: aws.secrets
+          secret_backend_config:
+            aws_session:
+              aws_region: us-east-1
+
+          api_key: ENC[DatadogAgent/Production;api_key]
+          site: "datadoghq.eu"
+
+          process_config:
+            process_collection:
+              enabled: true
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd_service:
+        name: datadog-agent
+        state: restarted
+        enabled: true
