@@ -8,3 +8,5 @@ wtforms
 email-validator
 flask_login
 boto3
+gunicorn
+ddtrace
