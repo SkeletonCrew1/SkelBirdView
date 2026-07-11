@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'test-updated-app', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                input message: 'Review the plan output above. Proceed with apply?', ok: 'Apply'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+    }
+}
