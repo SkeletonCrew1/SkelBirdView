@@ -6,10 +6,15 @@
 
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
-        SERVER1: "{{ lookup('env', 'SERVER1')  }}"
-        SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        JSON_SERVER1: "{{ lookup('env', 'SERVER1')  }}"
+        JSON_SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        JSON_CERTBOT_CERTIFICATE: "{{ lookup('env', 'CERTBOT_CERTIFICATE')  }}"
         cacheable: true
-
+    - name : Parse the load balancer variables
+      ansible.builtin.set_fact:
+        SERVER1: "{{ JSON_SERVER1 | ansible.builtin.from_json | community.general.json_query('SERVER1') }}"
+        SERVER2: "{{ JSON_SERVER2 | ansible.builtin.from_json | community.general.json_query('SERVER2') }}"
+        CERTBOT_CERTIFICATE: "{{ JSON_CERTBOT_CERTIFICATE | ansible.builtin.from_json | community.general.json_query('CERTBOT_CERTIFICATE') }}"
     - name: Install dependencies and update apt
       ansible.builtin.apt:
         name: "nginx"
@@ -33,45 +38,6 @@
         state: restarted
         enabled: true
       become: true
-
-    - name: Install certbot
-      ansible.builtin.pip:
-        name:
-          - certbot
-          - certbot-nginx
-        executable: pip3
-      tags:
-        - nginx
-        - certbot
-
-    - name: Register certbot
-      shell: |
-        certbot -n register --agree-tos --email me@domain.example
-        touch /etc/letsencrypt/.registered
-      args:
-        creates: /etc/letsencrypt/.registered
-      tags:
-        - nginx
-        - certbot
-
-    - name: Setup cronjob for renewal
-      cron:
-        name: certbot-renewal
-        job: "/bin/bash -lc '/usr/local/bin/certbot -q renew'"
-        minute: "0"
-        hour: "14"
-      tags:
-        - nginx
-        - certbot
-
-    - name: 'Get certificate'
-      command: '/usr/local/bin/certbot -n --nginx certonly -d {{ hostname }}'
-      args:
-        creates: '/etc/letsencrypt/live/{{ hostname }}'
-      ignore_errors: true
-      tags:
-        - nginx
-        - certbot
 
     - name: Make sure 'nginx' is started
       systemd:
