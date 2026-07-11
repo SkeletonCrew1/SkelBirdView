@@ -80,9 +80,9 @@
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
 
-    - name: Change file ownership, group and permissions app.py
+    - name: Change file ownership, group and permissions run.py
       ansible.builtin.file:
-        path: /home/jenkins/application/web-servers/app.py
+        path: /home/jenkins/application/web-servers/run.py
         owner: jenkins
         group: jenkins
         mode: '0755'
@@ -111,7 +111,7 @@
         recurse: true
         mode: u=rwX,g=rX,o=rX
 
-    - name: Make sure service that starts app.py is started and enabled
+    - name: Make sure service that starts run.py is started and enabled
       systemd:
         name: SkelBirdView.service
         state: restarted
