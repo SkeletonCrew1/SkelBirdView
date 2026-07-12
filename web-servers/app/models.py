@@ -23,7 +23,7 @@ class Post(db.Model):
     likes = db.relationship("Like", backref="post", lazy=True)
     hide_location = db.Column(db.Boolean, default=False)
     hide_photo = db.Column(db.Boolean, default=False)
-    post_password = db.Column(db.String(255), nullable=True)
+    post_password = db.Column(db.CHAR(64), nullable=True)
 
 
 class Like(db.Model):
