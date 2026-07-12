@@ -15,6 +15,17 @@ resource "aws_vpc_security_group_ingress_rule" "lb-http" {
   ip_protocol = "tcp"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "lb-https" {
+  security_group_id = aws_security_group.lb-sg.id
+
+  cidr_ipv4 = "0.0.0.0/0"
+
+  from_port = 443
+  to_port = 443
+
+  ip_protocol = "tcp"
+}
+
 resource "aws_vpc_security_group_ingress_rule" "lb-icmp" {
   security_group_id = aws_security_group.lb-sg.id
 
