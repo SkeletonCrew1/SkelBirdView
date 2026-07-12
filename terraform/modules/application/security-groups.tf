@@ -82,6 +82,17 @@ resource "aws_vpc_security_group_ingress_rule" "web-http" {
   ip_protocol = "tcp"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "web-https" {
+  security_group_id = aws_security_group.web-sg.id
+
+  referenced_security_group_id = aws_security_group.lb-sg.id
+
+  from_port = 8000
+  to_port = 8000
+
+  ip_protocol = "tcp"
+}
+
 resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
   security_group_id = aws_security_group.web-sg.id
 
@@ -96,7 +107,8 @@ resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
 resource "aws_vpc_security_group_ingress_rule" "web-icmp" {
   security_group_id = aws_security_group.web-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  # cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = "-1"
   to_port = "-1"
   ip_protocol = "icmp"
@@ -141,7 +153,8 @@ resource "aws_security_group" "database-sg" {
 resource "aws_vpc_security_group_ingress_rule" "db-icmp" {
   security_group_id = aws_security_group.database-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  # cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = "-1"
   to_port = "-1"
   ip_protocol = "icmp"
