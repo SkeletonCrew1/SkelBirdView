@@ -107,7 +107,6 @@ resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
 resource "aws_vpc_security_group_ingress_rule" "web-icmp" {
   security_group_id = aws_security_group.web-sg.id
 
-  # cidr_ipv4 = var.developers_vpc_cidr
   cidr_ipv4 = "0.0.0.0/0"
   from_port = "-1"
   to_port = "-1"
@@ -150,10 +149,9 @@ resource "aws_security_group" "database-sg" {
   vpc_id = var.custom_vpc_id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "db-icmp" {
+resource "aws_vpc_security_group_ingress_rule" "database-icmp" {
   security_group_id = aws_security_group.database-sg.id
 
-  # cidr_ipv4 = var.developers_vpc_cidr
   cidr_ipv4 = "0.0.0.0/0"
   from_port = "-1"
   to_port = "-1"
