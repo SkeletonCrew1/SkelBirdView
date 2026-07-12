@@ -152,7 +152,7 @@ resource "aws_security_group" "database-sg" {
 resource "aws_vpc_security_group_ingress_rule" "db-icmp" {
   security_group_id = aws_security_group.database-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
   from_port = "-1"
   to_port = "-1"
   ip_protocol = "icmp"
@@ -161,7 +161,7 @@ resource "aws_vpc_security_group_ingress_rule" "db-icmp" {
 resource "aws_vpc_security_group_ingress_rule" "db-consul" {
   security_group_id = aws_security_group.database-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 8500
   to_port   = 8500
@@ -172,7 +172,7 @@ resource "aws_vpc_security_group_ingress_rule" "db-consul" {
 resource "aws_vpc_security_group_ingress_rule" "database-consul-port" {
   security_group_id = aws_security_group.database-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 8301
   to_port   = 8301
