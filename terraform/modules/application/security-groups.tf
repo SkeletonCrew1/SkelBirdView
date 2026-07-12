@@ -74,7 +74,7 @@ resource "aws_security_group" "web-sg" {
 resource "aws_vpc_security_group_ingress_rule" "web-http" {
   security_group_id = aws_security_group.web-sg.id
 
-  referenced_security_group_id = aws_security_group.lb-sg.id
+  referenced_security_group_id = "0.0.0.0/0"
 
   from_port = 80
   to_port   = 80
@@ -85,7 +85,7 @@ resource "aws_vpc_security_group_ingress_rule" "web-http" {
 resource "aws_vpc_security_group_ingress_rule" "web-ssh" {
   security_group_id = aws_security_group.web-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 22
   to_port   = 22
@@ -105,7 +105,7 @@ resource "aws_vpc_security_group_ingress_rule" "web-icmp" {
 resource "aws_vpc_security_group_ingress_rule" "web-consul" {
   security_group_id = aws_security_group.web-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 8500
   to_port   = 8500
@@ -116,10 +116,21 @@ resource "aws_vpc_security_group_ingress_rule" "web-consul" {
 resource "aws_vpc_security_group_ingress_rule" "web-consul-port" {
   security_group_id = aws_security_group.web-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 8301
   to_port   = 8301
+
+  ip_protocol = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "web-consul-port" {
+  security_group_id = aws_security_group.web-sg.id
+
+  cidr_ipv4 = "0.0.0.0/0"
+
+  from_port = 8000
+  to_port   = 8000
 
   ip_protocol = "tcp"
 }
@@ -172,7 +183,7 @@ resource "aws_vpc_security_group_ingress_rule" "database-consul-port" {
 resource "aws_vpc_security_group_ingress_rule" "database-mysql" {
   security_group_id = aws_security_group.database-sg.id
 
-  referenced_security_group_id = aws_security_group.web-sg.id
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 3306
   to_port   = 3306
@@ -183,7 +194,7 @@ resource "aws_vpc_security_group_ingress_rule" "database-mysql" {
 resource "aws_vpc_security_group_ingress_rule" "database-ssh" {
   security_group_id = aws_security_group.database-sg.id
 
-  cidr_ipv4 = var.developers_vpc_cidr
+  cidr_ipv4 = "0.0.0.0/0"
 
   from_port = 22
   to_port   = 22
