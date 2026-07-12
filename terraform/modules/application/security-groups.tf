@@ -71,17 +71,6 @@ resource "aws_security_group" "web-sg" {
   vpc_id = var.custom_vpc_id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "web-http" {
-  security_group_id = aws_security_group.web-sg.id
-
-  referenced_security_group_id = aws_security_group.lb-sg.id
-
-  from_port = 80
-  to_port   = 80
-
-  ip_protocol = "tcp"
-}
-
 resource "aws_vpc_security_group_ingress_rule" "web-https" {
   security_group_id = aws_security_group.web-sg.id
 
@@ -149,7 +138,7 @@ resource "aws_security_group" "database-sg" {
   vpc_id = var.custom_vpc_id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "database-icmp" {
+resource "aws_vpc_security_group_ingress_rule" "db-icmp" {
   security_group_id = aws_security_group.database-sg.id
 
   cidr_ipv4 = "0.0.0.0/0"
