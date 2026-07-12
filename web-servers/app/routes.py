@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from . import db, s3, BUCKET_NAME, login_manager
 from .models import User, Post, Like, ReportedIp
 from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
+import hashlib
 
 app = Blueprint("app", __name__)
 
@@ -41,9 +42,20 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_pw = generate_password_hash(form.password.data)
-        db.session.add(User(email=form.email.data, password=hashed_pw))
-        db.session.commit()
-        return redirect(url_for("app.login"))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash("This email already registered", "danger")
+
+        else:
+            db.session.add(
+                User(
+                    email=form.email.data,
+                    username=form.username.data,
+                    password=hashed_pw,
+                )
+            )
+            db.session.commit()
+            return redirect(url_for("app.login"))
     return render_template("register.html", form=form)
 
 
@@ -55,6 +67,9 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             return redirect(url_for("app.index"))
+        else:
+            flash("Incorrect password", "danger")
+
     return render_template("login.html", form=form)
 
 
@@ -125,7 +140,10 @@ def like_post(post_id):
     ).first()
     if not existing_like:
         db.session.add(Like(user_id=current_user.id, post_id=post_id))
-        db.session.commit()
+    else:
+        db.session.delete(existing_like)
+    db.session.commit()
+
     return redirect(url_for("app.post_detail", post_id=post_id))
 
 
@@ -135,12 +153,21 @@ def hunter_report():
     form = ReportIpForm()
     if form.validate_on_submit():
         target_ip = form.ip_address.data
+        protected_ip = ("0.0.0.0", "127.0.0.1")
+        if target_ip in protected_ip:
+            flash("Incorrect ip", "danger")
+            return render_template("report_user.html", form=form)
 
-        existing_record = ReportedIp.query.filter_by(ip=target_ip).first()
+        hashed_ip = hashlib.sha256(target_ip.encode("utf-8")).hexdigest()
+
+        existing_record = ReportedIp.query.filter_by(ip=hashed_ip).first()
         if existing_record:
+            flash("ip is already added", "danger")
             existing_record.is_reported = True
+            return render_template("report_user.html", form=form)
+
         else:
-            new_ban = ReportedIp(ip=target_ip, is_reported=True)
+            new_ban = ReportedIp(ip=hashed_ip, is_reported=True)
             db.session.add(new_ban)
         db.session.commit()
         return redirect(url_for("app.index"))

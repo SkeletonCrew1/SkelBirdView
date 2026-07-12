@@ -7,6 +7,7 @@ class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(512))
     posts = db.relationship("Post", backref="author", lazy=True)
 
@@ -22,7 +23,7 @@ class Post(db.Model):
     likes = db.relationship("Like", backref="post", lazy=True)
     hide_location = db.Column(db.Boolean, default=False)
     hide_photo = db.Column(db.Boolean, default=False)
-    post_password = db.Column(db.String(255), nullable=True)
+    post_password = db.Column(db.CHAR(64), nullable=True)
 
 
 class Like(db.Model):
@@ -34,7 +35,7 @@ class Like(db.Model):
 
 
 class ReportedIp(db.Model):
-    __tablename__ = "ips"
+    __tablename__ = "reported_ips"
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(100), nullable=False)
     is_reported = db.Column(db.Boolean, default=False)
