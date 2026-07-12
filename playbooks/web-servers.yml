@@ -42,7 +42,7 @@
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/application
-        version: test-application
+        version: SKEL-91-update-security-groups
         force: yes
 
     - name: Copy source code
