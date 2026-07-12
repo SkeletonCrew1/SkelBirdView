@@ -23,7 +23,7 @@ class PostForm(FlaskForm):
     picture = FileField(
         "Upload Picture",
         validators=[
-            FileRequired(message="You must upload a picture!"),
+            FileRequired(message="Please upload a picture! (jpg or png)"),
             FileAllowed(["jpg", "png", "jpeg"]),
         ],
     )
