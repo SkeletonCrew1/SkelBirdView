@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  run-terraform-plan:
+  run-terraform-validate:
     strategy:
       fail-fast: false
       matrix:
@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v4
