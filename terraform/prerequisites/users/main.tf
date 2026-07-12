@@ -63,3 +63,21 @@ resource "aws_iam_user_policy_attachment" "flask-user" {
 resource "aws_iam_access_key" "flask-user" {
   user = aws_iam_user.flask-user.id
 }
+
+resource "aws_iam_user" "github-actions-user" {
+  name = "github-actions"
+  path = "/"
+
+  tags = {
+    ManagedBy = "Terraform"
+  }
+}
+
+resource "aws_iam_user_policy_attachment" "github-actions-user" {
+  user = aws_iam_user.github-actions-user.id
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+
+resource "aws_iam_access_key" "github-actions-key" {
+  user = aws_iam_user.github-actions-user.id
+}

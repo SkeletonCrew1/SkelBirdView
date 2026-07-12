@@ -23,7 +23,16 @@ output "jenkins_user_access_key" {
   sensitive = true
 }
 
+output "github_user_access_key" {
+  value = {
+    id = aws_iam_access_key.github-actions-key.id
+    secret = aws_iam_access_key.github-actions-key.secret
+  }
+  sensitive = true
+}
+
 # Command to output credentials to a json file
 # terraform output -json user_passwords > passwords.json
 # terraform output -json flask_user_access_key > access_key_flask.json
 # terraform output -json jenkins_user_access_key > access_key_jenkins.json
+# terraform output -json github_user_access_key > access_key_github.json
