@@ -15,7 +15,7 @@ def create_app():
     app = Flask(__name__)
     load_dotenv()
 
-    app.config["SECRET_KEY"] = "dev-key-123"
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
     app.config[
         "SQLALCHEMY_DATABASE_URI"
     ] = f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}/{os.environ.get('DB_NAME')}"
