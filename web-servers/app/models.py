@@ -7,6 +7,7 @@ class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(512))
     posts = db.relationship("Post", backref="author", lazy=True)
 
@@ -34,7 +35,7 @@ class Like(db.Model):
 
 
 class ReportedIp(db.Model):
-    __tablename__ = "ips"
+    __tablename__ = "reported_ips"
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(100), nullable=False)
     is_reported = db.Column(db.Boolean, default=False)
