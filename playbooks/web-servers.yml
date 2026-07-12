@@ -137,8 +137,3 @@
         group: consul
         mode: '0644'
       become: true  
-
-    - name: add consul config to consul register list
-      shell: |
-        consul services register /etc/consul.d/web-server.hcl
-        consul reload
