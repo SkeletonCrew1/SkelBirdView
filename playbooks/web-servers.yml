@@ -8,6 +8,11 @@
       - python3-pip
       - python3-venv
   tasks:
+    - name: Change the network interface configuration for eth1
+      community.general.interfaces_file:
+        dest: /etc/network/interfaces.d/eth1.cfg
+        iface: eth1
+  
     - name: Setting host facts using complex arguments
       ansible.builtin.set_fact:
 
