@@ -14,11 +14,11 @@ def test_app():
         "WTF_CSRF_ENABLED": False,
         "SECRET_KEY": "test_secret"
     })
-    with app.app_context():
+    # with app.app_context():
 
-        db.create_all()    
-        yield app
-        db.drop_all()
+    #     db.create_all()    
+    #     yield app
+    #     db.drop_all()
 
 
 @pytest.fixture()
