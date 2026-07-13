@@ -1,4 +1,5 @@
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import boto3
@@ -13,6 +14,9 @@ def create_app():
     global s3, BUCKET_NAME
 
     app = Flask(__name__)
+
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
     load_dotenv()
 
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
