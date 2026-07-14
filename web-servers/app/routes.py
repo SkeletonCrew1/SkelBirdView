@@ -178,7 +178,8 @@ def hunter_report():
 @app.before_request
 def block_reported_ips():
     visitor_ip = request.remote_addr
-    ip_record = ReportedIp.query.filter_by(ip=visitor_ip).first()
+    hashed_visitor_ip = hashlib.sha256(visitor_ip.encode("utf-8")).hexdigest()
+    ip_record = ReportedIp.query.filter_by(ip=hashed_visitor_ip).first()
 
     if ip_record and ip_record.is_reported:
         return redirect("https://zakon.rada.gov.ua/laws/show/3325-17")

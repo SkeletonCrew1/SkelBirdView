@@ -8,3 +8,4 @@ wtforms
 email-validator
 flask_login
 boto3
+pytest
