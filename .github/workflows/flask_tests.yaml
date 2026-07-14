@@ -23,6 +23,6 @@ jobs:
         with:
           path: "web-servers/requirements.txt"
 
-      - name: Run python script with gihub secrets
+      - name: Run flask tests
         working-directory: ./web-servers
         run: python -m pytest
