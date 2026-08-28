@@ -2,10 +2,14 @@
 .DS_Store
 .DS_Store?
 ._*
+session-manager-plugin.deb
+golden.*
+golden*
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-
+*.terraform
+*.terraform.lock.hcl
 # Environments
 venv/
 .venv/

@@ -1,8 +1,8 @@
 ---
 users:
-  - { name: "maksym", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHClFx+zuYSEUh/SO6Pk8ofZGM5wzwax37azfclSyniY"}
-  - { name: "oleh", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHohMxMgTps1D8g94vQUjAKP0yvFTkuDT47hdEUf5ni"}
-  - { name: "vitalii", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPR8PEc6WSE7DHWNf8d+2nxYMnAbNQGAzgRFodVCtBs8"}
+  - { name: "maksym", ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDepwrXsJSGx6ao25m3RKHU6JmhlsXshqN7Gyf8UX1XIBhFXsihqrBv5mKjeH8UGtAeu4sLXKkdnWkE6eHo7GK+q8F5NW4wX4D4fdGN9erRC1N/i20VFDHXkn/s/RBprL9DWSwoV+CTDmM+SNOhKwkGkmA36NbCzPl8tD/AV/eH0BaDnVbntIe7H/H9kWVGMCLPWLllemZsroyG7aoM6Qm0FMjJ9sirWxvRHx5dqN/cgE4LFD+9D+pvwwB2/j/se2ZQP/BpM3XOjMgZBdVQGgsVKc8Pmf7rwWBoCT2zLgjr0x0nG6gFcGdk0rHQLTvmWhDVbkiA5ZgueUf2XSVWRIyvc4rSU4EwHwNHL/flF67tGHt7Fp4MYScRiw3cV+Mru+H9f0cJftam+t7rDW9U4F7MDi2ZWZreCGgR5wh20g5lJO8KOgQFu/mcpfHgB79lbKJYiHB0ENfHq+qOL6kXEO2yZnDwzRH5oO+Vdf+WDgGPeTGABO/aa8Ubr2dIsv0UlEfteUolQQNxz+IdROBhNpEmyfmWJXNMLBAszDa1Kg/m047SAIMIFlYHmiKZKkZKLiC3Ert7s5KD0W1Q9+t8r9QeWRbMCG1+7BagcBfRdXm0WUEs+KwQlWMVio6k3K+QwULTxakyr0YENu+q68q8pOuxmFVWq8/39htFFrO1KgCbEw=="}
+  - { name: "oleh", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGcxoT/0pual4v9RaZK/V5FuSZwd+8r7Ke/iE45NY/HE"}
+  - { name: "bohdan", ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCW/15jZtlw398a637dtvmsx2K9kJOmA3hB6whk9ILfS2on5qJF8rqxGUQjLHRDwmLaVL+dNi8Qzi4aB1p9oug4nROj/0Mcz5mi2nUsZK6WYKfoL2SIdX2j6J+wgVGAjQx41t6c/ekeXO2egzpACTtmxheO1uZCy0iTEbKNGodyO+SO7sxG6LZk8J4pT7HTfrveejeZn09Pu4ZQYGiW9vH3jf0AriFsEwDP0Fb6XXA5PHetU25w7KmZdRD9CZwhgxxyPCtgJ8KWWPCYEOEe0bMAhg5AAzfWtludMF5DNTftFxu7Qr+k43zRFAGLuFW7Mg4DqbNeh/g2PAO+RjjkyEY4kBjNkbtSdEdBb64izQXGROuG4VbfCxkVGj0VyzfsI98Wh/4Ht3ESoxBx04EpvtepdyVzU720/800NzPPmnV+FlyRJI7Pwhaw+3LagjviF6QIWmQ2wJqxgFw0IBqux8tdI0r6HR/uMPO/kzvJvUAGoQA6gntNhQQnJDzMu8FySJqMFY68hqwNscxp9Qy4CLjyJcfDpmdaj7fwe2jr6NyABujBveTQLKVeQG/3gq82Kn23kLna3nnDQb8LN97dpKt5yMypwdjeuPD+jP0zKVi+oAf0yyyotDVpCZ106k64IBzhaS/p/2yGp7Ddro/QBvVvJHjyc7oV14fCsDnbD8P/5w=="}
   - { name: "roman", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHXE4vbal0u9BvRq/MpXEUM5qXZx0BrfTAN1extk6+Ff"}
   - { name: "denis", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMI+78+qHyE5qxg9G2J3n4ZkCoNY6D0ArptLs3ZFAAYE"}
-  - { name: "jenkins", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUe6R9T4W1bo3HAVEnJK5vnx8YK2/E7FpDrxc65De9A"}
+  - { name: "jenkins", ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGztmLFxFYfEbcHYDj5CPcjGgczbxXy3J3dd4fl9M1uo"}
