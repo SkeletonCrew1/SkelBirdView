@@ -75,7 +75,7 @@ resource "aws_iam_role_policy" "general-ec2-policy" {
         {
             "Effect": "Allow",
             "Action": "secretsmanager:GetSecretValue",
-            "Resource": "arn:aws:secretsmanager:us-east-1:134553439278:secret:DatadogAgent/Production-*"
+            "Resource": "arn:aws:secretsmanager:eu-north-1:134553439278:secret:DatadogAgent/Production-*"
         }
     ]
     })
