@@ -8,8 +8,7 @@
 6. Then run `cd SkelBirdView/jenkins-configuration/vars`
 7. Create . env `nano .env`
 8. Add these secrets(They are strored in AWS Secret manager and starts with):
-    ```
-    ansible_user_var: ""
+    ```ansible_user_var: ""
     ansible_ssh_pass_var: ""
     jenkins_user_var  ""
     jenkins_pass_var: ""```
