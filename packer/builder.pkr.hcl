@@ -6,7 +6,7 @@ build {
   ]
 
   provisioner "ansible" {
-    playbook_file = "playbooks/golden-image.yml"
+    playbook_file = "/home/oleh/Desktop/BirdWatching/playbooks/golden-image.yml"
     user          = "ubuntu"
   }
 }

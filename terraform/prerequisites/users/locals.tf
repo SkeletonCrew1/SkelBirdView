@@ -1,9 +1,9 @@
 locals {
   users = [
     "Roman_Misiuryn",
-    "Vitalii_Oliinyk",
+    "Bohdan_Holovchak",
     "Denis_Folyush",
-    "Maksym_Semehen",
+    "Maksym_Klimukh",
     "Oleh_Konovaliuk"
   ]
 

@@ -7,14 +7,14 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "skeleton-crew-terraform-state-s3-bucket"
+    bucket       = "birdwatching-terraform-state-s3-bucket"
     key          = "state/users/terraform.tfstate"
     use_lockfile = true
-    region       = "us-east-1"
+    region       = "eu-north-1"
     encrypt      = true
   }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-north-1"
 }

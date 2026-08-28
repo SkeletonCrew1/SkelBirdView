@@ -10,7 +10,7 @@ source "amazon-ebs" "ubuntu26-golden-image" {
   access_key        = "${var.access_key}"
   secret_key        = "${var.secret_key}"
   ssh_username      = "ubuntu"
-  region            = "us-east-1"
+  region            = "eu-north-1"
   vpc_id            = "${var.vpc_id}"
   subnet_id         = "${var.subnet_id}"
   security_group_id = "${var.security_group_id}"
