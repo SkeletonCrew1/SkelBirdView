@@ -54,7 +54,7 @@
     - name: Template .env
       ansible.builtin.template:
         src:  ./templates/env_templates
-        dest: /home/jenkins/application/SkelBirdView/web-servers/.env
+        dest: /home/jenkins/application/web-servers/.env
       vars:
         DB_USER: "{{ DB_USER }}"
         DB_NAME: "{{ DB_NAME }}"
@@ -69,26 +69,26 @@
         cmd: python3 -m venv {{ venv_path }}
         creates: "{{ venv_path }}"
       vars:
-        venv_path: "/home/jenkins/application/SkelBirdView/web-servers/venv"
+        venv_path: "/home/jenkins/application/web-servers/venv"
 
     - name: Install requirements
       ansible.builtin.pip:
-        requirements: "/home/jenkins/application/SkelBirdView/web-servers/requirements.txt"
+        requirements: "/home/jenkins/application/web-servers/requirements.txt"
         virtualenv: "{{ venv_path }}"
         virtualenv_python: python3.5
       vars:
-        venv_path: "/home/jenkins/application/SkelBirdView/web-servers/venv"
+        venv_path: "/home/jenkins/application/web-servers/venv"
 
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
-        path: /home/jenkins/application/SkelBirdView/web-servers/app.py
+        path: /home/jenkins/application/web-servers/run.py
         owner: jenkins
         group: jenkins
         mode: '0755'
 
     - name: Change file ownership, group and permissions .env
       ansible.builtin.file:
-        path: /home/jenkins/application/SkelBirdView/web-servers/.env
+        path: /home/jenkins/application/web-servers/.env
         owner: jenkins
         group: jenkins
         mode: '0755'
