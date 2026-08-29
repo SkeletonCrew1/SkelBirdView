@@ -1,3 +1,41 @@
-*.log
-web-servers/
-.vagrant/
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+session-manager-plugin.deb
+golden.*
+golden*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.terraform
+*.terraform.lock.hcl
+# Environments
+venv/
+.venv/
+env/
+.env/
+.env
+sensitive-mysql.env
+pyvenv.cfg
+
+# Python
+__pycache__/
+*.py[cod]
+.ruff_cache
+
+# Editors
+.idea/
+.vscode/
+
+# Terraform
+.Terraform*
+
+# Considering that we store tfstate on S3, next ignore is redundant, but just in case
+*.tfstate*
+passwords.json
+access_key*
+
+# Other
+security-reports/
+output-golden-image/
