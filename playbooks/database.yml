@@ -10,19 +10,13 @@
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
 
-    - name: Get secret from Secrets Manager
-      ansible.builtin.set_fact:
-        db_credentials: "{{ lookup('amazon.aws.secretsmanager_secret', 'JSON_DB_NAME', region='eu-north-1') | from_json }}"
 
-    - name: Print version
-      debug:
-        msg: "Ansible Version: {{ db_credentials }}"
         
     - name: Parse the database variables
       ansible.builtin.set_fact:
-        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
-        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
-        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
+        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_USER') }}"
+        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_NAME') }}"
+        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_PASSWORD') }}"
 
     - name: Print version
       debug:
