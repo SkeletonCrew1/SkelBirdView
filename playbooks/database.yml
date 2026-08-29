@@ -10,7 +10,9 @@
         JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
-
+    - name: Print version
+      debug:
+        msg: "Ansible Version: {{ JSON_DB_NAME }}"
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
