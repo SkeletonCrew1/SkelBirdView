@@ -1,6 +1,6 @@
 upstream birdwatch {
-        server {{ SERVER1 }};
-        server {{ SERVER2 }};
+        server {{ SERVER1 }}:8000;
+        server {{ SERVER2 }}:8000;
 }
 
 server {
