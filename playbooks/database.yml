@@ -9,10 +9,15 @@
         JSON_DB_NAME: " {{ lookup('env', 'DB_NAME') }}"
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
+
+    - name: Get secret from Secrets Manager
+      ansible.builtin.set_fact:
+        db_credentials: "{{ lookup('amazon.aws.secretsmanager_secret', 'JSON_DB_NAME', region='eu-north-1') | from_json }}"
+
     - name: Print version
       debug:
-        msg: "Ansible Version: {{ JSON_DB_NAME }}"
-
+        msg: "Ansible Version: {{ db_credentials }}"
+        
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
