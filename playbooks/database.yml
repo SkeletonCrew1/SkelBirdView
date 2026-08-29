@@ -6,7 +6,7 @@
     - name: Look Up Secrets
       ansible.builtin.set_fact:
         JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
-        JSON_DB_NAME: " {{ lookup('amazon.aws.aws_secret', 'BIRDWATCHING_DB_NAME', region='eu-north-1', nested=True)}} "
+        JSON_DB_NAME: " {{ lookup('amazon.aws.BIRDWATCHING_DB_NAME', '', region='eu-north-1', nested=True)}} "
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
     # - name: Lookup secretsmanager secret in the current region
