@@ -10,8 +10,9 @@ pipeline {
             S3_BUCKET = credentials('BIRDWATCHING_S3_BUCKET')
             SERVER1 = credentials('SERVER1')
             SERVER2 = credentials('SERVER2')
+            SECRET_KEY = credentials('BIRDWATCHING_SECRET_KEY')
         }
-
+// 
     stages {
         stage("Execute Ansible pipeline for DB") {
             steps {

@@ -19,6 +19,7 @@
         JSON_AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         JSON_AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
         JSON_S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        JSON_SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
         cacheable: true
 
     - name: Parse the database variables
@@ -30,6 +31,7 @@
         AWS_ACCESS_KEY: "{{ JSON_AWS_ACCESS_KEY | ansible.builtin.from_json | community.general.json_query('AWS_ACCESS_KEY') }}"
         AWS_SECRET_KEY: "{{ JSON_AWS_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('AWS_SECRET_KEY') }}"
         S3_BUCKET: "{{ JSON_S3_BUCKET | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_S3_BUCKET') }}"
+        SECRET_KEY: "{{ JSON_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_SECRET_KEY') }}"
 
     - name: Install dependencies and update apt
       ansible.builtin.apt:
@@ -64,6 +66,7 @@
         AWS_ACCESS_KEY: "{{ AWS_ACCESS_KEY }}"
         AWS_SECRET_KEY: "{{ AWS_SECRET_KEY }}"
         S3_BUCKET: "{{ S3_BUCKET }}"
+        SECRET_KEY: "{{ SECRET_KEY }}"
 
     - name: Manually create the initial virtualenv
       command:
