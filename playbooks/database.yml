@@ -10,7 +10,8 @@
         JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
-
+    - name: Lookup secretsmanager secret in the current region
+      ansible.builtin.debug: msg="{{ lookup('amazon.aws.aws_secret', 'BIRDWATCHING_DB_NAME', bypath=true) }}"
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
