@@ -12,13 +12,13 @@
   tasks:
     - name: Look Up Secrets
       ansible.builtin.set_fact:
-        JSON_DB_USER: "{{ lookup('env', 'BIRDWATCHING_DB_USER') }}"
-        JSON_DB_NAME: "{{ lookup('env', 'BIRDWATCHING_DB_NAME') }}"
-        JSON_DB_PASSWORD: "{{ lookup('env', 'BIRDWATCHING_DB_PASSWORD') }}"
-        JSON_DB_HOST: "{{ lookup('env', 'BIRDWATCHING_DB_HOST') }}"
+        JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
+        JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
+        JSON_DB_HOST: "{{ lookup('env', 'DB_HOST') }}"
         JSON_AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         JSON_AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
-        JSON_S3_BUCKET: "{{ lookup('env', 'BIRDWATCHING_S3_BUCKET') }}"
+        JSON_S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
         cacheable: true
 
     - name: Parse the database variables

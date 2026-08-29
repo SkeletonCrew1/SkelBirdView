@@ -18,9 +18,7 @@
         DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_NAME') }}"
         DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_PASSWORD') }}"
 
-    - name: Print version
-      debug:
-        msg: "Ansible Version: {{ DB_NAME }}"
+
     - name: Installing Mysql and dependencies
       ansible.builtin.package:
         name: "{{ item }}"
