@@ -6,16 +6,18 @@
     - name: Look Up Secrets
       ansible.builtin.set_fact:
         JSON_DB_USER: "{{ lookup('env', 'DB_USER') }}"
-        JSON_DB_NAME: "{{ lookup('env', 'DB_NAME') }}"
+        JSON_DB_NAME: " {{ lookup('amazon.aws.aws_secret', 'DB_NAME', region='eu-north-1', nested=True)}} "
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
-    - name: Lookup secretsmanager secret in the current region
-      ansible.builtin.debug: msg="{{ lookup('amazon.aws.aws_secret', 'BIRDWATCHING_DB_NAME', bypath=true,region='eu-north-1') }}"
+    # - name: Lookup secretsmanager secret in the current region
+    #   ansible.builtin.debug: msg="{{ lookup('amazon.aws.aws_secret', 'BIRDWATCHING_DB_NAME', bypath=true,region='eu-north-1') }}"
+#{{ lookup('env', 'DB_NAME') }}
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
         DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
         DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
+
     - name: Print version
       debug:
         msg: "Ansible Version: {{ DB_NAME }}"
