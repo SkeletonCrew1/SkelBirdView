@@ -29,7 +29,7 @@ def create_app():
     
     region = os.environ.get("AWS_REGION", "eu-north-1")
     BUCKET_NAME = os.environ.get("S3_BUCKET")
-    s3 = boto3.client(
+    app.s3_client = boto3.client(
         "s3",
         region_name=region,
         endpoint_url=f"https://s3.{region}.amazonaws.com",

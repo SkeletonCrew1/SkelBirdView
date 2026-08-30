@@ -19,9 +19,13 @@ def get_presigned_url(filename):
     if not filename:
         return None
     try:
-        return s3.generate_presigned_url(
+        # Access the configured s3v4 client dynamically
+        return current_app.s3_client.generate_presigned_url(
             "get_object",
-            Params={"Bucket": bucket_name, "Key": filename},
+            Params={
+                "Bucket": current_app.config["S3_BUCKET"],
+                "Key": filename
+            },
             ExpiresIn=3600,
         )
     except Exception as e:
