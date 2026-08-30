@@ -82,6 +82,13 @@
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
 
+    - name: Install Gunicorn in the virtual environment
+      pip:
+        name: gunicorn
+        virtualenv: "{{ venv_path }}"
+      vars:
+        venv_path: "/home/jenkins/application/web-servers/venv"
+
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
         path: /home/jenkins/application/web-servers/run.py
