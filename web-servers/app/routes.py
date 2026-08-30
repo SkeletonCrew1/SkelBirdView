@@ -16,17 +16,17 @@ def load_user(user_id):
 
 
 def get_presigned_url(filename):
-    """Generates a temporary URL for private S3 objects."""
+    if not filename:
+        return None
     try:
-        url = s3.generate_presigned_url(
+        return s3.generate_presigned_url(
             "get_object",
-            Params={"Bucket": BUCKET_NAME, "Key": filename},
+            Params={"Bucket": bucket_name, "Key": filename},
             ExpiresIn=3600,
         )
-        return url
-    except Exception:
+    except Exception as e:
+        print(f"Presign error: {e}")
         return None
-
 
 @app.route("/")
 def index():
