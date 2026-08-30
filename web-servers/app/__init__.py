@@ -26,7 +26,9 @@ def create_app():
 
     s3 = boto3.client(
         "s3",
+        
         region_name=os.environ.get("AWS_REGION", "eu-north-1"),
+        endpoint_url=f"https://s3.{region_name}.amazonaws.com",
         aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
         aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
         config=Config(
