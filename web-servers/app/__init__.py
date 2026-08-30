@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import boto3
+from botocore.client import Config
 import os
 from dotenv import load_dotenv
 
@@ -24,11 +25,14 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "app.login"
 
+    
+    region = os.environ.get("AWS_REGION", "eu-north-1")
+    BUCKET_NAME = os.environ.get("S3_BUCKET")
+
     s3 = boto3.client(
         "s3",
-        
-        region_name=os.environ.get("AWS_REGION", "eu-north-1"),
-        endpoint_url=f"https://s3.{region_name}.amazonaws.com",
+        region_name=region,
+        endpoint_url=f"https://s3.{region}.amazonaws.com",
         aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
         aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
         config=Config(
@@ -36,7 +40,6 @@ def create_app():
             s3={"addressing_style": "virtual"}
         ),
     )
-    BUCKET_NAME = os.environ.get("S3_BUCKET")
 
     from .routes import app as app_blueprint
 
