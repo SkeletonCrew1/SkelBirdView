@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+region = os.environ.get("AWS_REGION", "eu-north-1")
 
 
 def create_app():
@@ -28,7 +29,6 @@ def create_app():
     
     region = os.environ.get("AWS_REGION", "eu-north-1")
     BUCKET_NAME = os.environ.get("S3_BUCKET")
-
     s3 = boto3.client(
         "s3",
         region_name=region,
@@ -37,7 +37,7 @@ def create_app():
         aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
         config=Config(
             signature_version="s3v4",
-            s3={"addressing_style": "virtual"}
+            s3={"addressing_style": "path"}  # Change 'virtual' to 'path'
         ),
     )
 
