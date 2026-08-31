@@ -7,7 +7,7 @@ from . import db, login_manager
 from .models import User, Post, Like, ReportedIp
 from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
 
-app = Blueprint("app", __name__)
+main_bp = Blueprint("main", __name__)
 
 
 @login_manager.user_loader

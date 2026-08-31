@@ -25,8 +25,8 @@ def create_app():
     
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "app.login"
 
+    login_manager.login_view = "main.login"
     region = os.environ.get("AWS_REGION", "eu-north-1")
     bucket_name = os.environ.get("S3_BUCKET")
 
