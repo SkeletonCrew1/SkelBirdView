@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'SKEL2-88-bring-birdwatching-to-life', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
+                git branch: 'main', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
             }
         }
 
