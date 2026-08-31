@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import boto3
-from botocore.client import Config
+from botocore.config import Config
 import os
 from dotenv import load_dotenv
 
