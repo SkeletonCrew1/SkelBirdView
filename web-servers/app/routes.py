@@ -108,7 +108,7 @@ def create_post():
             filename,
             ExtraArgs={"ContentType": file.content_type},
         )
-        image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
+        image_url = f"https://{BUCKET_NAME}.s3.eu-north-1.amazonaws.com/{filename}"
 
         new_post = Post(
             title=form.title.data,
