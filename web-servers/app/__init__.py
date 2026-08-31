@@ -6,6 +6,8 @@ from botocore.client import Config
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 region = os.environ.get("AWS_REGION", "eu-north-1")

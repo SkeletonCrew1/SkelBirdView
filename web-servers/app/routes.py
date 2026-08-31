@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+import hashlib
+from flask import (Blueprint,render_template,redirect,url_for,flash,request,current_app,)
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from . import db, s3, BUCKET_NAME, login_manager
+from . import db, login_manager
 from .models import User, Post, Like, ReportedIp
 from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
-import hashlib
 
 app = Blueprint("app", __name__)
 
@@ -19,7 +19,6 @@ def get_presigned_url(filename):
     if not filename:
         return None
     try:
-        
         s3_client = current_app.s3_client
         bucket_name = current_app.config["S3_BUCKET"]
 
@@ -34,6 +33,7 @@ def get_presigned_url(filename):
     except Exception as e:
         print(f"Presign error: {e}")
         return None
+
 
 @app.route("/")
 def index():
@@ -52,7 +52,6 @@ def register():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash("This email already registered", "danger")
-
         else:
             db.session.add(
                 User(
@@ -97,12 +96,19 @@ def create_post():
             hashed_post_pw = generate_password_hash(form.post_password.data)
 
         file = form.picture.data
-        image_url = None
         filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
-        s3.upload_fileobj(
-            file, BUCKET_NAME, filename, ExtraArgs={"ContentType": file.content_type}
+
+        
+        s3_client = current_app.s3_client
+        bucket_name = current_app.config["S3_BUCKET"]
+
+        s3_client.upload_fileobj(
+            file,
+            bucket_name,
+            filename,
+            ExtraArgs={"ContentType": file.content_type},
         )
-        image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
+        image_url = f"https://{bucket_name}.s3.amazonaws.com/{filename}"
 
         new_post = Post(
             title=form.title.data,
@@ -172,7 +178,6 @@ def hunter_report():
             flash("ip is already added", "danger")
             existing_record.is_reported = True
             return render_template("report_user.html", form=form)
-
         else:
             new_ban = ReportedIp(ip=hashed_ip, is_reported=True)
             db.session.add(new_ban)
