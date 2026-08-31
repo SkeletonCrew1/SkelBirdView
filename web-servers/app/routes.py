@@ -16,14 +16,18 @@ def load_user(user_id):
 
 
 
-
 def get_presigned_url(filename):
     if not filename:
         return None
     try:
-        test_client = boto3.client(
+        import boto3
+        import os
+        from botocore.config import Config
+        
+        # Build a totally fresh client right here, bypassing current_app entirely
+        strict_v4_client = boto3.client(
             "s3",
-            region_name="eu-north-1", 
+            region_name="eu-north-1",
             aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
             aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
             config=Config(
@@ -31,10 +35,10 @@ def get_presigned_url(filename):
                 s3={"addressing_style": "virtual"}
             )
         )
-        
+
         bucket = os.environ.get("S3_BUCKET")
 
-        url = test_client.generate_presigned_url(
+        return strict_v4_client.generate_presigned_url(
             ClientMethod="get_object",
             Params={
                 "Bucket": bucket,
@@ -42,10 +46,6 @@ def get_presigned_url(filename):
             },
             ExpiresIn=3600,
         )
-        
-        print("DEBUG GENERATED URL:", url) 
-        
-        return url
     except Exception as e:
         print(f"Presign error: {e}")
         return None
