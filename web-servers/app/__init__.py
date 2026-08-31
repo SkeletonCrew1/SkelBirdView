@@ -21,7 +21,6 @@ def create_app():
         f"@{os.environ.get('DB_HOST')}/{os.environ.get('DB_NAME')}"
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "app.login"
@@ -47,3 +46,4 @@ def create_app():
     app.register_blueprint(app_blueprint)
 
     return app
+    

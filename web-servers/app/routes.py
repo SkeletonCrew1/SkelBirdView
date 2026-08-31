@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request,current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from . import db, login_manager
+from . import db, login_manager , BUCKET_NAME
 from .models import User, Post, Like, ReportedIp
 from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
 import hashlib
@@ -15,7 +15,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-
 def get_presigned_url(filename):
     if not filename:
         return None
@@ -23,8 +22,7 @@ def get_presigned_url(filename):
         import boto3
         import os
         from botocore.config import Config
-        
-        # Build a totally fresh client right here, bypassing current_app entirely
+
         strict_v4_client = boto3.client(
             "s3",
             region_name="eu-north-1",
