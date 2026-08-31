@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request,current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from . import db, s3, BUCKET_NAME, login_manager
+from . import db, login_manager
 from .models import User, Post, Like, ReportedIp
 from forms import RegistrationForm, LoginForm, PostForm, UnlockForm, ReportIpForm
 import hashlib
@@ -15,16 +15,25 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+
+
 def get_presigned_url(filename):
-    """Generates a temporary URL for private S3 objects."""
+    if not filename:
+        return None
     try:
-        url = s3.generate_presigned_url(
-            "get_object",
-            Params={"Bucket": BUCKET_NAME, "Key": filename},
+        s3_client = current_app.s3_client
+        bucket = current_app.config["S3_BUCKET"]
+
+        return s3_client.generate_presigned_url(
+            ClientMethod="get_object",
+            Params={
+                "Bucket": bucket,
+                "Key": filename,
+            },
             ExpiresIn=3600,
         )
-        return url
-    except Exception:
+    except Exception as e:
+        print(f"Presign error: {e}")
         return None
 
 
@@ -92,8 +101,12 @@ def create_post():
         file = form.picture.data
         image_url = None
         filename = "id" + str(len(Post.query.all())) + secure_filename(file.filename)
-        s3.upload_fileobj(
-            file, BUCKET_NAME, filename, ExtraArgs={"ContentType": file.content_type}
+
+        current_app.s3_client.upload_fileobj(
+            file,
+            current_app.config["S3_BUCKET"],
+            filename,
+            ExtraArgs={"ContentType": file.content_type},
         )
         image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
 
