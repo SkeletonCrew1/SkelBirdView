@@ -1,6 +1,6 @@
 upstream birdwatch {
-        server {{ SERVER1 }};
-        server {{ SERVER2 }};
+        server {{ SERVER1 }}:8000;
+        server {{ SERVER2 }}:8000;
 }
 
 server {
@@ -14,6 +14,9 @@ server {
 
         location / {
                 proxy_pass http://birdwatch/;
+                proxy_connect_timeout 60s;
+                proxy_read_timeout 120s;
+                proxy_send_timeout 120s;
         }
 
 

@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'test-updated-app', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
+                git branch: 'main', url: 'https://github.com/SkeletonCrew1/SkelBirdView.git'
             }
         }
 
         stage('Terraform Init') {
             steps {
-                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                dir('/var/lib/jenkins/workspace/Create-EC2s dev/terraform/environments/dev/') {
                 sh 'terraform init'
                 }
             }
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                dir('/var/lib/jenkins/workspace/Create-EC2s dev/terraform/environments/dev/') {
                 sh 'terraform plan'
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('/var/lib/jenkins/workspace/Create-EC2s/terraform/environments/prod/') {
+                dir('/var/lib/jenkins/workspace/Create-EC2s dev/terraform/environments/dev/') {
                 sh 'terraform apply -auto-approve'
                 }
             }

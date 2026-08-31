@@ -1,17 +1,18 @@
 pipeline {
     agent any
     environment {
-            DB_USER = credentials('DB_USER')
-            DB_PASSWORD = credentials('DB_PASSWORD')
-            DB_NAME = credentials('DB_NAME')
-            DB_HOST = credentials('DB_HOST')
+            DB_USER = credentials('BIRDWATCHING_DB_USER')
+            DB_PASSWORD = credentials('BIRDWATCHING_DB_PASSWORD')
+            DB_NAME = credentials('BIRDWATCHING_DB_NAME')
+            DB_HOST = credentials('BIRDWATCHING_DB_HOST')
             AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
             AWS_SECRET_KEY = credentials('AWS_SECRET_KEY')
-            S3_BUCKET = credentials('S3_BUCKET')
+            S3_BUCKET = credentials('BIRDWATCHING_S3_BUCKET')
             SERVER1 = credentials('SERVER1')
             SERVER2 = credentials('SERVER2')
+            SECRET_KEY = credentials('BIRDWATCHING_SECRET_KEY')
         }
-
+// 
     stages {
         stage("Execute Ansible pipeline for DB") {
             steps {
@@ -38,6 +39,11 @@ pipeline {
                                 inventory: 'playbooks/vars/hosts.yml',
                                 playbook: 'playbooks/load-balancer.yml'
             }
+        }
+    }
+    post { 
+        always { 
+            cleanWs()
         }
     }
 }

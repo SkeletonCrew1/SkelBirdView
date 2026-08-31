@@ -19,17 +19,19 @@
         JSON_AWS_ACCESS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         JSON_AWS_SECRET_KEY: "{{ lookup('env', 'AWS_SECRET_KEY') }}"
         JSON_S3_BUCKET: "{{ lookup('env', 'S3_BUCKET') }}"
+        JSON_SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
         cacheable: true
 
     - name: Parse the database variables
       ansible.builtin.set_fact:
-        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('DB_USER') }}"
-        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('DB_NAME') }}"
-        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('DB_PASSWORD') }}"
-        DB_HOST: "{{ JSON_DB_HOST | ansible.builtin.from_json | community.general.json_query('DB_HOST') }}"
+        DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_USER') }}"
+        DB_NAME: "{{ JSON_DB_NAME | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_NAME') }}"
+        DB_PASSWORD: "{{ JSON_DB_PASSWORD | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_PASSWORD') }}"
+        DB_HOST: "{{ JSON_DB_HOST | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_HOST') }}"
         AWS_ACCESS_KEY: "{{ JSON_AWS_ACCESS_KEY | ansible.builtin.from_json | community.general.json_query('AWS_ACCESS_KEY') }}"
         AWS_SECRET_KEY: "{{ JSON_AWS_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('AWS_SECRET_KEY') }}"
-        S3_BUCKET: "{{ JSON_S3_BUCKET | ansible.builtin.from_json | community.general.json_query('S3_BUCKET') }}"
+        S3_BUCKET: "{{ JSON_S3_BUCKET | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_S3_BUCKET') }}"
+        SECRET_KEY: "{{ JSON_SECRET_KEY | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_SECRET_KEY') }}"
 
     - name: Install dependencies and update apt
       ansible.builtin.apt:
@@ -44,7 +46,7 @@
         dest: /home/jenkins/application
         force: yes
 
-    - name: Copy source code
+    - name: Copy configs
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/configs
@@ -63,6 +65,7 @@
         AWS_ACCESS_KEY: "{{ AWS_ACCESS_KEY }}"
         AWS_SECRET_KEY: "{{ AWS_SECRET_KEY }}"
         S3_BUCKET: "{{ S3_BUCKET }}"
+        SECRET_KEY: "{{ SECRET_KEY }}"
 
     - name: Manually create the initial virtualenv
       command:
@@ -79,9 +82,16 @@
       vars:
         venv_path: "/home/jenkins/application/web-servers/venv"
 
+    - name: Install Gunicorn in the virtual environment
+      pip:
+        name: gunicorn
+        virtualenv: "{{ venv_path }}"
+      vars:
+        venv_path: "/home/jenkins/application/web-servers/venv"
+
     - name: Change file ownership, group and permissions app.py
       ansible.builtin.file:
-        path: /home/jenkins/application/web-servers/app.py
+        path: /home/jenkins/application/web-servers/run.py
         owner: jenkins
         group: jenkins
         mode: '0755'
