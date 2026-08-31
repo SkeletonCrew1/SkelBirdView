@@ -46,4 +46,3 @@ def create_app():
     app.register_blueprint(app_blueprint)
 
     return app
-    
