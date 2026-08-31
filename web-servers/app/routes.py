@@ -21,10 +21,20 @@ def get_presigned_url(filename):
     if not filename:
         return None
     try:
-        s3_client = current_app.s3_client
-        bucket = current_app.config["S3_BUCKET"]
+        test_client = boto3.client(
+            "s3",
+            region_name="eu-north-1", 
+            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
+            aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
+            config=Config(
+                signature_version="s3v4",
+                s3={"addressing_style": "virtual"}
+            )
+        )
+        
+        bucket = os.environ.get("S3_BUCKET")
 
-        return s3_client.generate_presigned_url(
+        url = test_client.generate_presigned_url(
             ClientMethod="get_object",
             Params={
                 "Bucket": bucket,
@@ -32,6 +42,10 @@ def get_presigned_url(filename):
             },
             ExpiresIn=3600,
         )
+        
+        print("DEBUG GENERATED URL:", url) 
+        
+        return url
     except Exception as e:
         print(f"Presign error: {e}")
         return None
@@ -108,7 +122,7 @@ def create_post():
             filename,
             ExtraArgs={"ContentType": file.content_type},
         )
-        image_url = f"https://{BUCKET_NAME}.s3.eu-north-1.amazonaws.com/{filename}"
+        image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{filename}"
 
         new_post = Post(
             title=form.title.data,
