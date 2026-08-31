@@ -20,24 +20,16 @@ def get_presigned_url(filename):
         return None
     try:
         
-        s3_client = boto3.client(
-            "s3",
-            region_name=os.environ.get("AWS_REGION", "eu-north-1"),
-            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
-            aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
-            config=Config(
-                signature_version="s3v4",
-                s3={"addressing_style": "virtual"}
-            ),
-        )
+        s3_client = current_app.s3_client
+        bucket_name = current_app.config["S3_BUCKET"]
+
         return s3_client.generate_presigned_url(
             ClientMethod="get_object",
             Params={
-                "Bucket": os.environ.get("S3_BUCKET"),
+                "Bucket": bucket_name,
                 "Key": filename,
             },
             ExpiresIn=3600,
-            HttpMethod="GET",
         )
     except Exception as e:
         print(f"Presign error: {e}")
