@@ -44,6 +44,7 @@
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/application
+        version: SKEL2-88-bring-birdwatching-to-life
         force: yes
 
     - name: Copy configs
