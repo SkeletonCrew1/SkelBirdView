@@ -9,7 +9,7 @@ terraform {
   backend "s3" {
     bucket = "skeleton-crew-terraform-state-s3-bucket"
     key = "prod/application.tfstate"
-    region = "us-east-1"
+    region = "eu-north-1"
     encrypt = true
     use_lockfile = true
   }

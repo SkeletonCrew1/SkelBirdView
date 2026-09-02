@@ -10,8 +10,13 @@
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
 
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 
 
-        
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_USER') }}"
