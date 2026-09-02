@@ -1,5 +1,5 @@
 # Variables for VPC and networking
-region = "us-east-1"
+region = "eu-north-1"
 
 vpc_cidr = "10.2.0.0/16"
 
