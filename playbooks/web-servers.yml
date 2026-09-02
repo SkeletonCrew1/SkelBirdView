@@ -24,7 +24,7 @@
 
     - name: Print mosh version
       ansible.builtin.debug:
-        raw: {{ JSON_DB_HOST }}   
+        raw: "{{ JSON_DB_HOST }}"  
 
     - name: Parse the database variables
       ansible.builtin.set_fact:
