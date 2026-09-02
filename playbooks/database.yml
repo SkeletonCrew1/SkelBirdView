@@ -10,6 +10,16 @@
         JSON_DB_PASSWORD: "{{ lookup('env', 'DB_PASSWORD') }}"
         cacheable: true
 
+# Source - https://stackoverflow.com/a/41537418
+# Posted by Tom Manterfield, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-09-02, License - CC BY-SA 4.0
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
 
         
     - name: Parse the database variables
