@@ -22,9 +22,9 @@
         JSON_SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
         cacheable: true
 
-    - name: Print JSON_DB_HOST variable
-      ansible.builtin.debug:
-        var: JSON_DB_HOST
+    # - name: Print JSON_DB_HOST variable
+    #   ansible.builtin.debug:
+    #     var: JSON_DB_HOST
 
     - name: Parse the database variables
       ansible.builtin.set_fact:
