@@ -22,6 +22,9 @@
         JSON_SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
         cacheable: true
 
+    - name: Print mosh version
+      debug: "msg=Mosh Version: '{{ JSON_DB_HOST }}'"
+
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_USER') }}"

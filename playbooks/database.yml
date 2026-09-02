@@ -21,7 +21,6 @@
         update_cache: yes
         cache_valid_time: 86400 #One day
 
-        
     - name: Parse the database variables
       ansible.builtin.set_fact:
         DB_USER: "{{ JSON_DB_USER | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_DB_USER') }}"
