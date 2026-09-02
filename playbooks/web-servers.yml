@@ -23,7 +23,7 @@
         cacheable: true
 
     - name: Print mosh version
-      debug: "msg=Mosh Version: '{{ JSON_DB_HOST }}'"
+      debug: "{{ JSON_DB_HOST }}"
 
     - name: Parse the database variables
       ansible.builtin.set_fact:
