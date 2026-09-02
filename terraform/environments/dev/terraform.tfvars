@@ -51,7 +51,7 @@ role_name = "general-ec2-role-dev"
 role_profile_name = "general-ec2-profile-dev"
 role_policy_name = "general-ec2-policy-dev"
 
-# Jenkins secrets' names
+# Jenkins secrets
 web_server_1_private_ip_secret_name = "SERVER1"
 web_server_2_private_ip_secret_name = "SERVER2"
 database_private_ip_secret_name = "BIRDWATCHING_DB_HOST"

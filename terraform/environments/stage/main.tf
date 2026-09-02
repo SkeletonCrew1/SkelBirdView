@@ -94,3 +94,16 @@ module "application_roles" {
   role_policy_name = var.role_policy_name
 
 }
+
+module "jenkins_secrets" {
+  source = "../../modules/jenkins_secrets"
+
+  web_server_1_private_ip_secret_name = var.web_server_1_private_ip_secret_name
+  web_server_2_private_ip_secret_name = var.web_server_2_private_ip_secret_name
+  database_private_ip_secret_name = var.database_private_ip_secret_name
+
+  web_server_1_private_ip = module.application.web_private_ips[0]
+  web_server_2_private_ip = module.application.web_private_ips[1]
+  database_private_ip = module.application.database_private_ip
+  secrets_region = var.region
+}
