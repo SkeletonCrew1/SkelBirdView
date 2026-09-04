@@ -31,3 +31,8 @@ data "aws_ami" "golden-image" {
     ]
   }
 }
+
+data "aws_route53_zone" "birdwatching" {
+  name         = "birdview.pp.ua"
+  private_zone = false
+}

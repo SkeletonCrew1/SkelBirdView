@@ -7,6 +7,8 @@
       ansible.builtin.set_fact:
         SERVER1: "{{ lookup('env', 'SERVER1')  }}"
         SERVER2: "{{ lookup('env', 'SERVER2')  }}"
+        CERTBOT_CERT: "{{ lookup('env', 'BIRDWATCHING_CERTBOT_CERT') }}"
+        CERTBOT_KEY: "{{ lookup('env', 'BIRDWATCHING_CERTBOT_KEY') }}"
         cacheable: true
 
     - name: Install dependencies and update apt
@@ -24,11 +26,31 @@
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
 
-    - name: Restarn Nginx load balancer
-      ansible.builtin.systemd_service:
-        name: nginx
-        state: restarted
-        enabled: true
+    - name: Ensure target SSL directory exists
+      ansible.builtin.file:
+        path: /etc/letsencrypt/live/birdview.pp.ua
+        state: directory
+        recurse: true
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Write SSL fullchain certificate
+      ansible.builtin.copy:
+        content: "{{ CERTBOT_CERT }}"
+        dest: /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Write SSL private key
+      ansible.builtin.copy:
+        content: "{{ CERTBOT_KEY }}"
+        dest: /etc/letsencrypt/live/birdview.pp.ua/privkey.pem
+        owner: root
+        group: root
+        mode: '0600'
+      no_log: true
 
     - name: Make sure 'nginx' is started
       systemd:

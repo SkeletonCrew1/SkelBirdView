@@ -4,20 +4,23 @@ upstream birdwatch {
 }
 
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
 
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
+    server_name birdview.pp.ua;
 
-        server_name _;
+    ssl_certificate     /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/birdview.pp.ua/privkey.pem;
 
-        location / {
-                proxy_pass http://birdwatch/;
-                proxy_connect_timeout 60s;
-                proxy_read_timeout 120s;
-                proxy_send_timeout 120s;
-        }
+    # Recommended TLS settings
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
 
-
+    location / {
+        proxy_pass http://birdwatch;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }

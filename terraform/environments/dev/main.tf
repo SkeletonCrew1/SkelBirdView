@@ -107,3 +107,10 @@ module "jenkins_secrets" {
   database_private_ip = module.application.database_private_ip
   secrets_region = var.region
 }
+
+module "route_53" {
+  source = "../../modules/route_53"
+
+  load_balancer_public_ip = module.application.load_balancer_public_ip
+  hosted_zone_id = data.aws_route53_zone.birdwatching.zone_id
+}
