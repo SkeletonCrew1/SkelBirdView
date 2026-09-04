@@ -32,14 +32,16 @@
         CERTBOT_KEY: "{{ BIRDWATCHING_CERTBOT_KEY | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_CERTBOT_KEY') }}"
       no_log: true
 
-    - name: Ensure Let's Encrypt directory exists
+    - name: Ensure SSL certificate and key files exist
       ansible.builtin.file:
-        path: /etc/letsencrypt/live/birdview.pp.ua
-        state: directory
-        recurse: true
+        path: "{{ item.path }}"
+        state: touch
         owner: root
         group: root
-        mode: '0755'
+        mode: "{{ item.mode }}"
+      loop:
+        - { path: '/etc/letsencrypt/live/birdview.pp.ua/fullchain.pem', mode: '0644' }
+        - { path: '/etc/letsencrypt/live/birdview.pp.ua/privkey.pem', mode: '0600' }
 
     
     - name: Write SSL fullchain certificate
