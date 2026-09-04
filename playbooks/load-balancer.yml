@@ -7,7 +7,7 @@
       ansible.builtin.set_fact:
         SERVER1: "{{ lookup('env', 'SERVER1')  }}"
         SERVER2: "{{ lookup('env', 'SERVER2')  }}"
-        JSON_BIRDWATCHING_CERTBOT_CERT: "{{ lookup('env', 'DB_PASSWORD') }}"
+        JSON_BIRDWATCHING_CERTBOT_CERT: "{{ lookup('env', 'BIRDWATCHING_CERTBOT_CERT') }}"
         BIRDWATCHING_CERTBOT_KEY: "{{ lookup('env', 'BIRDWATCHING_CERTBOT_KEY') }}"
         cacheable: true
 
@@ -47,8 +47,8 @@
         group: root
         mode: '0755'
       loop:
-        - /etc/ssl/certs
-        - /etc/ssl/private
+        - /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem
+        - /etc/letsencrypt/live/birdview.pp.ua/privkey.pem
 
     - name: Write SSL fullchain certificate
       become: true
