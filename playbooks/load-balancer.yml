@@ -50,36 +50,13 @@
         group: root
         mode: '0644'
 
-    - name: Ensure target SSL directories exist
-      become: true
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-        owner: root
-        group: root
-        mode: '0755'
-      loop:
-        - /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem
-        - /etc/letsencrypt/live/birdview.pp.ua/privkey.pem
-
-    - name: Write SSL fullchain certificate
-      become: true
+    - name: Write SSL fullchain key
       ansible.builtin.copy:
-        content: "{{ CERTBOT_CERT }}"
-        dest: "/etc/letsencrypt/live/birdview.pp.ua/fullchain.pem"
+        content: "{{ CERTBOT_KEY }}"
+        dest: /etc/letsencrypt/live/birdview.pp.ua/privkey.pem
         owner: root
         group: root
         mode: '0644'
-
-    - name: Write SSL private key
-      become: true
-      ansible.builtin.copy:
-        content: "{{ CERTBOT_KEY }}"
-        dest: "/etc/letsencrypt/live/birdview.pp.ua/privkey.pem"
-        owner: root
-        group: root
-        mode: '0600'
-      no_log: true    
 
     - name: Make sure 'nginx' is started
       systemd:
