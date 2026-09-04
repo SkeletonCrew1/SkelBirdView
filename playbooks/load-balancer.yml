@@ -26,17 +26,29 @@
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
 
-    - name: Load SSL secret from environment
-      ansible.builtin.set_fact:
-        JSON_SSL_SECRETS: "{{ lookup('env', 'SSL_CERT_SECRET') }}"
-        cacheable: true
-      no_log: true
-
     - name: Parse SSL certificate and private key
       ansible.builtin.set_fact:
         CERTBOT_CERT: "{{ JSON_BIRDWATCHING_CERTBOT_CERT | ansible.builtin.from_json | community.general.json_query('JSON_BIRDWATCHING_CERTBOT_CERT') }}"
         CERTBOT_KEY: "{{ BIRDWATCHING_CERTBOT_KEY | ansible.builtin.from_json | community.general.json_query('BIRDWATCHING_CERTBOT_KEY') }}"
       no_log: true
+
+    - name: Ensure Let's Encrypt directory exists
+      ansible.builtin.file:
+        path: /etc/letsencrypt/live/birdview.pp.ua
+        state: directory
+        recurse: true
+        owner: root
+        group: root
+        mode: '0755'
+
+    
+    - name: Write SSL fullchain certificate
+      ansible.builtin.copy:
+        content: "{{ CERTBOT_CERT }}"
+        dest: /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Ensure target SSL directories exist
       become: true
