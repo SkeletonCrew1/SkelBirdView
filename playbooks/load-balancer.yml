@@ -26,14 +26,6 @@
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
 
-    - name: Remove accidentally created directories with file names
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - /etc/letsencrypt/live/birdview.pp.ua/fullchain.pem
-        - /etc/letsencrypt/live/birdview.pp.ua/privkey.pem
-
     - name: Ensure target SSL directory exists
       ansible.builtin.file:
         path: /etc/letsencrypt/live/birdview.pp.ua
