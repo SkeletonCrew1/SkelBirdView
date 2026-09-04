@@ -26,12 +26,6 @@
         SERVER1: "{{ SERVER1 }}"
         SERVER2: "{{ SERVER2 }}"
 
-    - name: Restarn Nginx load balancer
-      ansible.builtin.systemd_service:
-        name: nginx
-        state: restarted
-        enabled: true
-
     - name: Load SSL secret from environment
       ansible.builtin.set_fact:
         JSON_SSL_SECRETS: "{{ lookup('env', 'SSL_CERT_SECRET') }}"
