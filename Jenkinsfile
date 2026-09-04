@@ -11,6 +11,8 @@ pipeline {
             SERVER1 = credentials('SERVER1')
             SERVER2 = credentials('SERVER2')
             SECRET_KEY = credentials('BIRDWATCHING_SECRET_KEY')
+            BIRDWATCHING_CERTBOT_CERT = credentials('BIRDWATCHING_CERTBOT_CERT')
+            BIRDWATCHING_CERTBOT_KEY = credentials('BIRDWATCHING_CERTBOT_KEY')
         }
 // 
     stages {
