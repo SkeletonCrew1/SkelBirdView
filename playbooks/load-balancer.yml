@@ -52,6 +52,11 @@
         mode: '0600'
       no_log: true
 
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
     - name: Make sure 'nginx' is started
       systemd:
         name: nginx
