@@ -43,7 +43,7 @@
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/application
-        version: Changed-hosts
+        version: SKEL2-101-report-hunter-feature-fix
         force: yes
 
     - name: Copy configs
