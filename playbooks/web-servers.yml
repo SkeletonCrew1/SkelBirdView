@@ -43,6 +43,7 @@
       ansible.builtin.git:
         repo: "https://github.com/SkeletonCrew1/SkelBirdView.git"
         dest: /home/jenkins/application
+        version: Changed-hosts
         force: yes
 
     - name: Copy configs
@@ -119,7 +120,7 @@
         recurse: true
         mode: u=rwX,g=rX,o=rX
 
-    - name: Make sure service that starts app.py is started and enabled
+    - name: Make sure service that starts run.py is started and enabled
       systemd:
         name: SkelBirdView.service
         state: restarted
