@@ -176,28 +176,38 @@ def like_post(post_id):
     return redirect(url_for("app.post_detail", post_id=post_id))
 
 
+def get_client_ip():
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+    return request.remote_addr
+
+
+def hash_ip(ip_address):
+    return hashlib.sha256(ip_address.encode("utf-8")).hexdigest()
+
+
 @app.route("/hunter/report", methods=["GET", "POST"])
 @login_required
 def hunter_report():
     form = ReportIpForm()
     if form.validate_on_submit():
-        target_ip = form.ip_address.data
+        target_ip = form.ip_address.data.strip()
         protected_ip = ("0.0.0.0", "127.0.0.1")
         if target_ip in protected_ip:
             flash("Incorrect ip", "danger")
             return render_template("report_user.html", form=form)
 
-        hashed_ip = hashlib.sha256(target_ip.encode("utf-8")).hexdigest()
+        hashed_ip = hash_ip(target_ip)
 
         existing_record = ReportedIp.query.filter_by(ip=hashed_ip).first()
         if existing_record:
             flash("ip is already added", "danger")
             existing_record.is_reported = True
-            return render_template("report_user.html", form=form)
-
         else:
-            new_ban = ReportedIp(ip=hashed_ip, is_reported=True)
-            db.session.add(new_ban)
+            db.session.add(ReportedIp(ip=hashed_ip, is_reported=True))
+            flash("ip has been reported", "success")
+
         db.session.commit()
         return redirect(url_for("app.index"))
 
@@ -206,8 +216,12 @@ def hunter_report():
 
 @app.before_request
 def block_reported_ips():
-    visitor_ip = request.remote_addr
-    ip_record = ReportedIp.query.filter_by(ip=visitor_ip).first()
+    visitor_ip = get_client_ip()
+    if not visitor_ip:
+        return None
+
+    hashed_visitor_ip = hash_ip(visitor_ip)
+    ip_record = ReportedIp.query.filter_by(ip=hashed_visitor_ip).first()
 
     if ip_record and ip_record.is_reported:
         return redirect("https://zakon.rada.gov.ua/laws/show/3325-17")
