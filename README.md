@@ -14,8 +14,7 @@
 
 
 ## Generate SSL certificate 
-Follow this doc to create ssl certificate: 
-https://certbot.eff.org/instructions?ws=other&os=ubuntufocal
+Follow this [doc](https://certbot.eff.org/instructions?ws=other&os=ubuntufocal) to create ssl certificate 
 
 After succefully creating the certifacte , you shoud get two the context from 2 files:
 1. `/etc/letsencrypt/live/<your-domain-name>/fullchain.pem` - certificate 
