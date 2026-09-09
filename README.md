@@ -13,7 +13,6 @@
 4. Run `packer build .`
 
 
-
 ## Generate SSL certificate 
 Follow this doc to create ssl certificate: 
 https://certbot.eff.org/instructions?ws=other&os=ubuntufocal
@@ -40,6 +39,8 @@ Add following secrets with tag key `jenkins:credentials:type` and value `string`
 - `BIRDWATCHING_DB_USER`
 - `BIRDWATCHING_JENKINS_USER` 
 - `BIRDWATCHING_JENKINS_PASS` 
+
+
 SERVER1,SERVER2 and BIRDWATCHING_DB_HOST will be created via terraform with appropriate tags
 
 Add `BIRDWATCHING_ANSIBE_SSH_PASS` (ssh private key used by jenkins to connect to other machines) without any tags
